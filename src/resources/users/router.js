@@ -38,9 +38,7 @@ router.post("/", (req, res) => {
 
   userToCreate.id = users.length + 1;
 
-  const updatedUsers = [...users, userToCreate];
-
-  console.log("Check updatedUsers: ", updatedUsers);
+  users.push(userToCreate);
 
   res.json({ user: userToCreate });
 });
