@@ -4,7 +4,12 @@ const { films } = require('../../data.js')
 let filmId = films.length
 
 router.get("/", (req, res) => {
-  res.json({ films })
+  const director = req.query.director
+  if (director) {
+    res.json(films.filter(film => film.director === director))
+  } else {
+    res.json({ films });
+  }
 });
 
 router.get("/:id", (req, res) => {
