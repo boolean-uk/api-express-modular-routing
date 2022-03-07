@@ -1,29 +1,22 @@
 const express = require("express");
+const app = express();
+const port = 3030;
+
 const cors = require("cors");
 const morgan = require("morgan");
 
-const usersRouter = require("./resources/users/router");
-
-const app = express();
-
-/* SETUP MIDDLEWARE */
-
+// SETUP MIDDLEWARE
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-/* SETUP ROUTES */
+// REQUIRE ROUTERS
+const usersRouter = require("./src/routers/users");
 
+// ADD ROUTERS TO APP
 app.use("/users", usersRouter);
 
-app.get("*", (req, res) => {
-  res.json({ ok: true });
-});
-
 /* START SERVER */
-
-const port = 3030;
-
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}/`);
 });
