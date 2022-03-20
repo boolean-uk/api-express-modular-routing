@@ -2,26 +2,35 @@
 
 In this exercise, you are going to practice building an API to a specification. The API can handle GET and POST requests to different endpoints.
 
-NB: For this exercise, the API spec does not include error responses.
+## Learning Objectives
+- Use Express.Router to encapsulate routing behavior for different resources
+- Explain and build a CRUD RESTful JSON API including PUT and DELETE
 
 ## Setup
-
 1. Fork this repository
 2. Clone the forked repository onto your local machines
 3. In the root directory, type `npm install`, which installs dependencies for the project
 4. Finally, type `npm start`, which starts a development server that will reload whenever you make any changes to source files
 
-## Standard Criteria
+## Demo
+Your instructor will demonstrate how to encapsulate route parameters for the `/users` endpoints using [express.Router](https://expressjs.com/en/guide/routing.html) and also implement the `PUT` and `DELETE` endpoints for user.
 
-- [ ] Implement the `films` and `books` endpoints for this API according to the [API spec](#api-spec)
+## Standard Criteria
+- Implement the `films` and `books` endpoints for this API according to the [API spec](#api-spec)
 
 ## Extended Criteria
-
-- [ ] Use [req.query](https://expressjs.com/en/4x/api.html#req.query) to implement [this update](./docs/extension.md) to the API spec
+- Implement a `PATCH` method on `books` and `films` so that the client can update a subset of fields, rather than all of them.
+- Implement the following validation rules:
+  - The client should not be able to get, delete, or update a film that doesn't exist
+  - The client should not be able to add a film or book if one with the same title already exists
+  - When making a POST request, the client must specify a value for all required fields
+- When any of these checks fail, have your API return an appropriate HTTP response code and error message. 
+- Use the express documentation to find out how to return different HTTP response codes.
 
 # API spec
 
 ## Users endpoint
+
 ### GET /users
 
 Example Request
@@ -29,7 +38,7 @@ Example Request
 curl localhost:3030/users
 ```
 Example Response
-```
+```json
 {
   "users": [
     {
@@ -54,7 +63,7 @@ Example Request
 curl localhost:3030/users/2
 ```
 Example Response
-```
+```json
 {
   "user": {
     "id": 2,
@@ -74,7 +83,7 @@ curl -X POST localhost:3030/users \
 ```
 
 Example Response
-```
+```json
 {
   "user": {
     "email": "test@test.com",
@@ -82,6 +91,43 @@ Example Response
   }
 }
 ```
+
+
+### DELETE /users/:id
+Example Request
+```sh
+curl -X DELETE localhost:3030/users/4
+```
+
+Example Response
+```json
+{
+  "user": {
+    "email": "test@test.com",
+    "id": 4
+  }
+}
+```
+
+
+### PUT /users/:id
+Example Request
+```sh
+curl -X PUT localhost:3030/users/4 \
+-H 'Content-Type: application/json' \
+-d '{"email":"test@test.com"}'
+```
+
+Example Response
+```json
+{
+  "user": {
+    "email": "test@test.com",
+    "id": 4
+  }
+}
+```
+
 
 ## Films endpoint
 
@@ -92,7 +138,7 @@ Example Request
 curl localhost:3030/films
 ```
 Example Response
-```
+```json
 {
   "films": [
     {
@@ -125,7 +171,7 @@ Example Request
 curl localhost:3030/films/3
 ```
 Example Response
-```
+```json
 {
   "film": {
     "id": 3,
@@ -146,7 +192,7 @@ curl -X POST localhost:3030/films \
 ```
 
 Example Response
-```
+```json
 {
   "film": {
     "id": 5,
@@ -155,6 +201,45 @@ Example Response
   }
 }
 ```
+
+
+### DELETE /films/:id
+Example Request
+```sh
+curl -X DELETE localhost:3030/films/5
+```
+
+Example Response
+```json
+{
+  "film": {
+    "id": 5,
+    "title": "Maleficent",
+    "director": "Robert Stromberg"
+  }
+}
+```
+
+### PUT /films/:id
+
+Example Request
+```sh
+curl -X PUT localhost:3030/films/5 \
+-H 'Content-Type: application/json' \
+-d '{"title":"Maleficent","director":"Robert Stromberg"}'
+```
+
+Example Response
+```json
+{
+  "film": {
+    "id": 5,
+    "title": "Maleficent",
+    "director": "Robert Stromberg"
+  }
+}
+```
+
 
 ## Books endpoint
 
@@ -165,7 +250,7 @@ Example Request
 curl localhost:3030/books
 ```
 Example Response
-```
+```json
 {
   "users": [
     {
@@ -202,7 +287,7 @@ Example Request
 curl localhost:3030/books/1
 ```
 Example Response
-```
+```json
 {
   "book": {
     "id": 1,
@@ -224,7 +309,46 @@ curl -X POST localhost:3030/books \
 ```
 
 Example Response
+```json
+{
+  "book": {
+    "id": 4,
+    "title": "The Name Of The Wind",
+    "type": "fantasy",
+    "author": "Patrick Rothfuss"
+  }
+}
 ```
+
+### DELETE /books/:id
+Example Request
+```sh
+curl -X DELETE localhost:3030/books/4
+```
+
+Example Response
+```json
+{
+  "book": {
+    "id": 4,
+    "title": "The Name Of The Wind",
+    "type": "fantasy",
+    "author": "Patrick Rothfuss"
+  }
+}
+```
+
+### PUT /books/:id
+
+Example Request
+```sh
+curl -X PUT localhost:3030/books/4 \
+-H 'Content-Type: application/json' \
+-d '{"title":"The Name Of The Wind","type":"fantasy", "author":"Patrick Rothfuss"}'
+```
+
+Example Response
+```json
 {
   "book": {
     "id": 4,
