@@ -1,6 +1,6 @@
 # Express Modular Routing
 
-In this exercise, you are going to practice building an API to a specification. The API can handle GET and POST requests to different endpoints.
+In this exercise, you are going to extend the REST APIs you have been building to handle DELETE and PUT requests. You will also learn how to make your route handling more modular in express using express.Router.
 
 ## Learning Objectives
 - Use Express.Router to encapsulate routing behavior for different resources
