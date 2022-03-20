@@ -1,4 +1,4 @@
-# Express Router
+# Express Modular Routing
 
 In this exercise, you are going to practice building an API to a specification. The API can handle GET and POST requests to different endpoints.
 
