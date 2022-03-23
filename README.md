@@ -17,6 +17,7 @@ Your instructor will demonstrate how to encapsulate route parameters for the `/u
 
 ## Standard Criteria
 - Implement the `films` and `books` endpoints for this API according to the [API spec](#api-spec)
+- Move `films` and `books` routes in to their own routes files
 
 ## Extended Criteria
 - Implement a `PATCH` method on `books` and `films` so that the client can update a subset of fields, rather than all of them.
