@@ -88,7 +88,7 @@ Example Response
 Returns a [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) status code
 ```json
 {
-  "error": "film id: 4 does not exist"
+  "error": "film id: 10 does not exist"
 }
 ```
 
