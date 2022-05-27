@@ -15,18 +15,14 @@ In this exercise, you are going to extend the REST APIs you have been building t
 ## Demo
 Your instructor will demonstrate how to encapsulate route parameters for the `/users` endpoints using [express.Router](https://expressjs.com/en/guide/routing.html) and also implement the `PUT` and `DELETE` endpoints for user.
 
+
 ## Standard Criteria
-- Implement the `films` and `books` endpoints for this API according to the [API spec](#api-spec)
-- Move `films` and `books` routes in to their own routes files
+
+- [ ] Implement the `users`, `films` and `books` endpoints for this API according to the [API spec](#api-spec)
 
 ## Extended Criteria
-- Implement a `PATCH` method on `books` and `films` so that the client can update a subset of fields, rather than all of them.
-- Implement the following validation rules:
-  - The client should not be able to get, delete, or update a film that doesn't exist
-  - The client should not be able to add a film or book if one with the same title already exists
-  - When making a POST request, the client must specify a value for all required fields
-- When any of these checks fail, have your API return an appropriate HTTP response code and error message. 
-- Use the express documentation to find out how to return different HTTP response codes.
+
+- [ ] Implement [these updates](./docs/extension.md) to the API spec
 
 # API spec
 
