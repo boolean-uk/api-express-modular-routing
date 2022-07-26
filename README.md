@@ -19,8 +19,8 @@ Your instructor will demonstrate how to encapsulate route parameters for the `/u
 
 ## Standard Criteria
 
-- [ ] Implement the `users`, `films` and `books` endpoints for this API according to the [API spec](./api-spec.html)
+- [ ] Implement the `users`, `films` and `books` endpoints for this API according to the [API spec](https://boolean-uk.github.io/api-express-modular-routing/)
 
 ## Extended Criteria
 
-- [ ] Implement the `EXTENSION` criteria as highlighted in the API spec
+- [ ] Implement the `EXTENSION` criteria as highlighted in the [API spec](https://boolean-uk.github.io/api-express-modular-routing/)
