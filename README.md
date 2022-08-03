@@ -14,7 +14,7 @@ In this exercise, you are going to extend the REST APIs you have been building t
 4. Finally, type `npm start`, which starts a development server that will reload whenever you make any changes to source files
 
 ## Demo
-Your instructor will demonstrate how to encapsulate route parameters for the `/users` endpoints using [express.Router](https://expressjs.com/en/guide/routing.html) and also implement the `PUT` and `DELETE` endpoints for user.
+Your instructor will demonstrate how to encapsulate route parameters for the `/users` endpoints using [express.Router](https://expressjs.com/en/guide/routing.html).
 
 
 ## Standard Criteria
