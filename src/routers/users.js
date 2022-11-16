@@ -9,18 +9,19 @@ const {
 
 // GET
 
-router.get("", (req, res) => {
+router.get("/", (req, res) => {
   // Gets all users
   res.json({ users });
 });
 
 router.get("/:id", (req, res) => {
+  // Gets user by id
   res.json({ user: findById(users, Number(req.params.id)) });
 });
 
 // POST
 
-router.post("", (req, res) => {
+router.post("/", (req, res) => {
   checkForMissingFields(users, req.body);
   checkForExistingEntry(users, req.body);
   const newUser = { id: users.length + 1, ...req.body };

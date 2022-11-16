@@ -10,7 +10,7 @@ const {
 
 // GET
 
-router.get("", (req, res) => {
+router.get("/", (req, res) => {
   // Gets all films or filtered by director if given in query params
   if (req.query.director) {
     const filteredFilmsByDirector = films.filter((film) =>
@@ -30,7 +30,7 @@ router.get("/:id", (req, res) => {
 
 // POST
 
-router.post("", (req, res) => {
+router.post("/", (req, res) => {
   checkForMissingFields(films, req.body);
   checkForExistingEntry(films, req.body);
   const newfilm = { id: films.length + 1, ...req.body };

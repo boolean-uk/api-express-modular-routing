@@ -9,7 +9,7 @@ const {
 
 // GET
 
-router.get("", (req, res) => {
+router.get("/", (req, res) => {
   // Gets all books
   res.json({ books });
 });
@@ -20,12 +20,12 @@ router.get("/:id", (req, res) => {
 
 // POST
 
-router.post("", (req, res) => {
+router.post("/", (req, res) => {
   checkForMissingFields(books, req.body);
   checkForExistingEntry(books, req.body);
   const newBook = { id: books.length + 1, ...req.body };
   books.push(newBook);
-  res.status(201).json({ Book: newBook });
+  res.status(201).json({ book: newBook });
 });
 
 // DELETE
