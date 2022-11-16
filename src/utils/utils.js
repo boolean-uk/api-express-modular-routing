@@ -13,6 +13,11 @@ class IdError extends Error {
   message = "Provided ID not found";
 }
 
+class notFoundError extends Error {
+    statusCode = 404
+    message = "Not found";
+}
+
 const checkForMissingFields = (database, inputBody) => {
   const databaseCopy = { ...database[0] };
   delete databaseCopy["id"];
@@ -48,11 +53,10 @@ const checkForExistingEntry = (database, inputBody) => {
 
 const findById = (database, id) => {
     const foundEntry = database.find((item) => item.id === id)
-    console.log(database, foundEntry);
     if (!foundEntry) {
         throw new IdError()
     }
     return foundEntry
 }
 
-module.exports = { checkForMissingFields, checkForExistingEntry, findById };
+module.exports = { checkForMissingFields, checkForExistingEntry, findById, notFoundError };

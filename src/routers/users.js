@@ -1,4 +1,3 @@
-const { json } = require("express");
 const express = require("express");
 const router = express.Router();
 const { users } = require("../../data");
@@ -26,28 +25,27 @@ router.post("", (req, res) => {
   checkForExistingEntry(users, req.body);
   const newUser = { id: users.length + 1, ...req.body };
   users.push(newUser);
-  console.log(newUser, users);
   res.status(201).json({ user: newUser });
 });
 
 // DELETE
 
 router.delete("/:id", (req, res) => {
-    const foundUser = findById(users, Number(req.params.id))
-    const indexOfFoundUser = users.indexOf(foundUser)
-    users.splice(indexOfFoundUser, 1)
-    res.json({user: foundUser})
+  const foundUser = findById(users, Number(req.params.id));
+  const indexOfFoundUser = users.indexOf(foundUser);
+  users.splice(indexOfFoundUser, 1);
+  res.json({ user: foundUser });
 });
 
 // PUT
 
 router.put("/:id", (req, res) => {
-    checkForExistingEntry(users, req.body);
-    const foundUser = findById(users, Number(req.params.id)) 
-    const indexOfFoundUser = users.indexOf(foundUser)
-    const updatedUser = req.body
-    users[indexOfFoundUser] = {...foundUser, ...updatedUser}
-    res.json({user: users[indexOfFoundUser]})
-})
+  const foundUser = findById(users, Number(req.params.id));
+  checkForExistingEntry(users, req.body);
+  const indexOfFoundUser = users.indexOf(foundUser);
+  const updatedUser = req.body;
+  users[indexOfFoundUser] = { ...foundUser, ...updatedUser };
+  res.json({ user: users[indexOfFoundUser] });
+});
 
 module.exports = router;

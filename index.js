@@ -18,8 +18,8 @@ const booksRouter = require("./src/routers/books");
 // ADD ROUTERS TO APP
 
 app.use("/users", usersRouter);
-// app.use("/films", filmsRouter);
-// app.use("/books", booksRouter);
+app.use("/films", filmsRouter);
+app.use("/books", booksRouter);
 
 // ERROR HANDLING
 app.use((error, req, res, next) => {
