@@ -33,7 +33,21 @@ router.post("", (req, res) => {
 // DELETE
 
 router.delete("/:id", (req, res) => {
-    
+    const foundUser = findById(users, Number(req.params.id))
+    const indexOfFoundUser = users.indexOf(foundUser)
+    users.splice(indexOfFoundUser, 1)
+    res.json({user: foundUser})
 });
+
+// PUT
+
+router.put("/:id", (req, res) => {
+    checkForExistingEntry(users, req.body);
+    const foundUser = findById(users, Number(req.params.id)) 
+    const indexOfFoundUser = users.indexOf(foundUser)
+    const updatedUser = req.body
+    users[indexOfFoundUser] = {...foundUser, ...updatedUser}
+    res.json({user: users[indexOfFoundUser]})
+})
 
 module.exports = router;

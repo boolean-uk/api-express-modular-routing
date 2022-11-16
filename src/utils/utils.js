@@ -48,7 +48,7 @@ const checkForExistingEntry = (database, inputBody) => {
 
 const findById = (database, id) => {
     const foundEntry = database.find((item) => item.id === id)
-    console.log(database)
+    console.log(database, foundEntry);
     if (!foundEntry) {
         throw new IdError()
     }
