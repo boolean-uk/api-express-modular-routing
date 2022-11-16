@@ -12,9 +12,23 @@ app.use(morgan("dev"));
 
 // REQUIRE ROUTERS
 const usersRouter = require("./src/routers/users");
+const filmsRouter = require("./src/routers/films");
+const booksRouter = require("./src/routers/books");
 
 // ADD ROUTERS TO APP
 
+app.use("/users", usersRouter);
+app.use("/films", filmsRouter);
+app.use("/books", booksRouter);
+
+// ERROR HANDLING
+app.use((error, req, res, next) => {
+  if (error.statusCode) {
+      return res.status(error.statusCode).json({ message: error.message })
+  }
+  
+  res.status(500).json({ message: 'Oops, sorry!' })
+})
 
 /* START SERVER */
 app.listen(port, () => {
