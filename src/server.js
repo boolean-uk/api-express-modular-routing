@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 3030;
 
 const cors = require("cors");
 const morgan = require("morgan");
@@ -11,20 +10,14 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // REQUIRE ROUTERS
-const usersRouter = require("./src/routers/users");
-const filmsRouter = require("./src/routers/films");
-const booksRouter = require("./src/routers/books");
+const usersRouter = require("./routers/users");
+const filmsRouter = require("./routers/films");
+const booksRouter = require("./routers/books");
 
 // ADD ROUTERS TO APP
-<<<<<<< HEAD
 
-=======
 app.use("/users", usersRouter);
 app.use("/films", filmsRouter);
 app.use("/books", booksRouter);
->>>>>>> 1bd8f45 (solution)
 
-/* START SERVER */
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}/`);
-});
+module.exports = app

@@ -1,0 +1,620 @@
+openapi: 3.0.0
+info:
+  title: Modular Routing API
+  version: 0.0.1
+servers:
+  - url: http://localhost:3030
+basePath: /
+schemes:
+  - http
+paths:
+  /users:
+    get:
+      summary: Retrieve a list of users
+      tags:
+        - users
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+    post:
+      summary: Create a user
+      tags:
+        - users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPost"
+      responses:
+        201:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    $ref: "#/components/schemas/User"
+        400:
+          description: ERROR (EXTENSION) - Missing fields in request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A user with the provided email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - users
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    $ref: "#/components/schemas/User"
+        404:
+          description: ERROR (EXTENSION) - A user with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    delete:
+      summary: Delete a user by ID
+      tags:
+        - users
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    $ref: "#/components/schemas/User"
+        404:
+          description: ERROR (EXTENSION) - A user with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    put:
+      summary: Update a user by ID
+      tags:
+        - users
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPost"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    $ref: "#/components/schemas/User"
+        404:
+          description: ERROR (EXTENSION) - A user with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A user with the provided email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /films:
+    get:
+      summary: Retrieve a list of films
+      tags:
+        - films
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  films:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Film'
+    post:
+      summary: Create a film
+      tags:
+        - films
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilmPost"
+      responses:
+        201:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  film:
+                    type: object
+                    $ref: "#/components/schemas/Film"
+        400:
+          description: ERROR (EXTENSION) - Missing fields in request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A film with the provided title already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /films/{id}:
+    get:
+      summary: Get a film by ID
+      tags:
+        - films
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  film:
+                    type: object
+                    $ref: "#/components/schemas/Film"
+        404:
+          description: ERROR (EXTENSION) - A film with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    delete:
+      summary: Delete a film by ID
+      tags:
+        - films
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  film:
+                    type: object
+                    $ref: "#/components/schemas/Film"
+        404:
+          description: ERROR (EXTENSION) - A film with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    put:
+      summary: Update a film by ID
+      tags:
+        - films
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilmPost"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  film:
+                    type: object
+                    $ref: "#/components/schemas/Film"
+        404:
+          description: ERROR (EXTENSION) - A film with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A film with the provided title already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    patch:
+      summary: EXTENSION Update a film by ID
+      description: Every field in the request body is optional, only the fields that are provided in the request body should be updated on the film
+      tags:
+        - films
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilmPost"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  film:
+                    type: object
+                    $ref: "#/components/schemas/Film"
+        404:
+          description: ERROR (EXTENSION) - A film with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A film with the provided title already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /films?director={name}:
+    get:
+      summary: EXTENSION Retrieve a list of films
+      description: Filter by a given director
+      tags:
+        - films
+      parameters:
+        - name: director
+          in: query
+          description: The case sensitive name of a director
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  films:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Film'
+  /books:
+    get:
+      summary: Retrieve a list of books
+      tags:
+        - books
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Book'
+    post:
+      summary: Create a book
+      tags:
+        - books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookPost"
+      responses:
+        201:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  book:
+                    type: object
+                    $ref: "#/components/schemas/Book"
+        400:
+          description: ERROR (EXTENSION) - Missing fields in the request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A book with the provided title already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /books/{id}:
+    get:
+      summary: Get a book by ID
+      tags:
+        - books
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  book:
+                    type: object
+                    $ref: "#/components/schemas/Book"
+        404:
+          description: ERROR (EXTENSION) - A book with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    delete:
+      summary: Delete a book by ID
+      tags:
+        - books
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  book:
+                    type: object
+                    $ref: "#/components/schemas/Book"
+        404:
+          description: ERROR (EXTENSION) - A book with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    put:
+      summary: Update a book by ID
+      tags:
+        - books
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookPost"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  book:
+                    type: object
+                    $ref: "#/components/schemas/Book"
+        404:
+          description: ERROR (EXTENSION) - A book with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A book with the provided title already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    patch:
+      summary: EXTENSION Update a book by ID
+      description: Every field in the request body is optional, only the fields that are provided in the request body should be updated on the book
+      tags:
+        - books
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookPost"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  book:
+                    type: object
+                    $ref: "#/components/schemas/Book"
+        404:
+          description: ERROR (EXTENSION) - A book with the provided ID does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        409:
+          description: ERROR (EXTENSION) - A book with the provided title already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+
+components:
+  schemas:
+    User: 
+      type: object
+      properties:
+        id: 
+          type: integer
+        email:
+          type: string
+    UserPost: 
+      type: object
+      properties:
+        email:
+          type: string
+    Film: 
+      type: object
+      properties:
+        id: 
+          type: integer
+        title:
+          type: string
+        director:
+          type: string
+    FilmPost: 
+      type: object
+      properties:
+        title:
+          type: string
+        director:
+          type: string
+    Book: 
+      type: object
+      properties:
+        id: 
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        author:
+          type: string
+    BookPost: 
+      type: object
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+        author:
+          type: string

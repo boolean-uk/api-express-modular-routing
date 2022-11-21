@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { films } = require('../../data.js')
+const { films } = require('../../data')
 let filmId = films.length
 
 router.get("/", (req, res) => {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { books } = require('../../data.js')
+const { books } = require('../../data')
 let bookId = books.length
 
 router.get("/", (req, res) => {
