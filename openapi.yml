@@ -140,6 +140,15 @@ paths:
                   user:
                     type: object
                     $ref: "#/components/schemas/User"
+        400:
+          description: ERROR (EXTENSION) - Missing fields in the request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
         404:
           description: ERROR (EXTENSION) - A user with the provided ID does not exist
           content:
@@ -332,6 +341,15 @@ paths:
                   film:
                     type: object
                     $ref: "#/components/schemas/Film"
+        400:
+          description: ERROR (EXTENSION) - Missing fields in the request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
         404:
           description: ERROR (EXTENSION) - A film with the provided ID does not exist
           content:
@@ -506,6 +524,15 @@ paths:
                   book:
                     type: object
                     $ref: "#/components/schemas/Book"
+        400:
+          description: ERROR (EXTENSION) - Missing fields in the request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
         404:
           description: ERROR (EXTENSION) - A book with the provided ID does not exist
           content:
