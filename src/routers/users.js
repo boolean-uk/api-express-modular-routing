@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { users } = require("../../data")
+let { users } = require("../../data")
 let userId = users.length
 
 router.get("/", (req, res) => {
@@ -65,8 +65,9 @@ router.delete("/:id", (req, res) => {
   if (!user) {
     return res.status(404).json({ error: "user not found" })
   }
-  const index = users.indexOf(user)
-  users.splice(index, 1)
+  console.log(users)
+  users = users.filter((existing) => user.id !== existing.id)
+  console.log(users)
 
   res.status(201).json({ user: user })
 })

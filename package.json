@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon src/index.js",
-    "test": "npx jest -i test/api/routes --forceExit",
+    "test": "npx jest -i test/api/routes --forceExit --runInBand",
     "test-extensions": "npx jest -i test/api/extensions  --forceExit"
   },
   "dependencies": {
