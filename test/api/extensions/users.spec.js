@@ -17,7 +17,7 @@ describe("Users extension endpoints", () => {
       expect(response.status).toEqual(400)
       expect(response.body.error).not.toEqual(undefined)
     })
-    it("will return 409 when creating a user with a already in-use email", async () => {
+    it("will return 409 when creating a user with an already in-use email", async () => {
       const response = await supertest(app)
         .post("/users")
         .send({ email: "edward@mail.com" })
