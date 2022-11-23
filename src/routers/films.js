@@ -29,6 +29,27 @@ router.post("/", (req, res) => {
 
   films.push(film);
 
+  res.status(201).json({ film: film });
+});
+
+router.put("/:id", (req, res) => {
+  const filmId = Number(req.params.id);
+  let user = films.find(film => film.id === filmId);
+
+  film = {
+    ...user,
+    ...req.body
+  };
+
+  res.status(200).json({ film: film });
+});
+
+router.delete("/:id", (req, res) => {
+  const filmId = Number(req.params.id);
+  const film = films.find(film => film.id === filmId);
+  const index = films.indexOf(film)
+  films.splice(index, 1)
+
   res.json({ film: film });
 });
 
