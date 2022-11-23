@@ -1,51 +1,74 @@
-const express = require("express");
-const router = express.Router();
-const { users } = require('../../data')
+const express = require("express")
+const router = express.Router()
+const { users } = require("../../data")
 let userId = users.length
 
 router.get("/", (req, res) => {
-  res.json({ users });
-});
+  res.json({ users })
+})
 
 router.get("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const user = users.find(user => user.id === id);
+  const id = Number(req.params.id)
+  const user = users.find((user) => user.id === id)
+  if (!user) {
+    return res.status(404).json({ error: "user not found" })
+  }
 
-  res.json({ user });
-});
+  res.json({ user })
+})
 
 router.post("/", (req, res) => {
   userId++
 
   const user = {
     ...req.body,
-    id: userId
-  };
+    id: userId,
+  }
+  if (!user.email) {
+    return res.status(400).json({ error: "user email is required" })
+  }
 
-  users.push(user);
+  const userWithEmail = users.find((existing) => existing.email === user.email)
+  if (userWithEmail) {
+    return res
+      .status(409)
+      .json({ error: "a user with that email address already exists" })
+  }
 
-  res.status(201).json({ user: user });
-});
+  users.push(user)
+
+  res.status(201).json({ user: user })
+})
 
 router.put("/:id", (req, res) => {
-  const userId = Number(req.params.id);
-  let user = users.find(user => user.id === userId);
+  const userId = Number(req.params.id)
+  let user = users.find((user) => user.id === userId)
+  if (!user) {
+    return res.status(404).json({ error: "user not found" })
+  }
 
   user = {
     ...user,
-    ...req.body
-  };
+    ...req.body,
+  }
+  const userWithEmail = users.find((existing) => existing.email === user.email)
+  if (userWithEmail) {
+    return res.status(409).json({ error: "a user with that email address already exists" })
+  }
 
-  res.status(201).json({ user: user });
-});
+  res.status(201).json({ user: user })
+})
 
 router.delete("/:id", (req, res) => {
-  const userId = Number(req.params.id);
-  const user = users.find(user => user.id === userId);
+  const userId = Number(req.params.id)
+  const user = users.find((user) => user.id === userId)
+  if (!user) {
+    return res.status(404).json({ error: "user not found" })
+  }
   const index = users.indexOf(user)
   users.splice(index, 1)
 
-  res.status(201).json({ user: user });
-});
+  res.status(201).json({ user: user })
+})
 
-module.exports = router;
+module.exports = router
