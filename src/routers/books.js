@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { books } = require("../../data")
+let { books } = require("../../data")
 let bookId = books.length
 
 router.get("/", (req, res) => {
@@ -93,7 +93,7 @@ router.delete("/:id", (req, res) => {
   if(!book) {
     return res.status(404).json({error: 'A book the provided ID does not exist'})
   }
-  books.splice(bookId, 1)
+  books = books.filter((existing) => book.id !== existing.id)
 
   res.json({ book })
 })

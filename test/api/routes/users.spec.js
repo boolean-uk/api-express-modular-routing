@@ -60,10 +60,14 @@ describe("Users Endpoint", () => {
 
     it("will remove the user", async () => {
       const responseBefore = await supertest(app).get("/users")
-      await supertest(app).delete("/users/1")
-      const responseAfter = await supertest(app).get("/users")
-
+      expect(responseBefore.status).toEqual(200)
+      console.log('resBefore', responseBefore.body)
       expect(responseBefore.body.users.length).toEqual(3)
+      // await supertest(app).delete("/users/1")
+      const responseAfter = await supertest(app).get("/users")
+      
+      expect(responseAfter.status).toEqual(200)
+      console.log('resAfter', responseAfter.body)
       expect(responseAfter.body.users.length).toEqual(2)
     })
   })

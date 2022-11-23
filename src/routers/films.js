@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { films } = require("../../data")
+let { films } = require("../../data")
 let filmId = films.length
 
 router.get("/", (req, res) => {
@@ -83,8 +83,7 @@ router.delete("/:id", (req, res) => {
   if (!film) {
     return res.status(404).json({ error: "A film with provided ID does not exist" })
   }
-  const index = films.indexOf(film)
-  films.splice(index, 1)
+  films = films.filter((existing) => film.id !== existing.id)
 
   res.json({ film: film })
 })
@@ -101,7 +100,7 @@ router.patch("/:id", (req, res) => {
     ...req.body,
   }
   const foundFilmWithTitle = films.find(
-    (existing) => existing.title === film.title
+    (existing) => existing.title == film.title
   )
   if (foundFilmWithTitle) {
     return res
