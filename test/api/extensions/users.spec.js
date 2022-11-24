@@ -1,8 +1,11 @@
 const supertest = require("supertest")
-const app = require("../../../src/server.js")
+let app
 const { user1 } = require("../../fixtures/userData.js")
 
 describe("Users extension endpoints", () => {
+  beforeEach(() => {
+    app = require("../../../src/server.js")
+  })
   describe("GET /users", () => {
     it("will return 404 when getting a user that does not exist", async () => {
       const response = await supertest(app).get("/users/999")

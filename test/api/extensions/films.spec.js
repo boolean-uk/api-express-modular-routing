@@ -1,8 +1,11 @@
 const supertest = require("supertest")
-const app = require("../../../src/server.js")
+let app
 const { book1 } = require("../../fixtures/bookData.js")
 
 describe("Films extension endpoints", () => {
+  beforeEach(() => {
+    app = require("../../../src/server.js")
+  })
   describe("GET /films", () => {
     it("will return 404 when getting a film that does not exist", async () => {
       const response = await supertest(app).get("/films/999")

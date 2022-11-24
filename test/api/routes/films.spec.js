@@ -1,8 +1,11 @@
 const supertest = require("supertest")
-const app = require("../../../src/server.js")
+let app
 const { film1, film2 } = require("../../fixtures/filmData.js")
 
 describe("Films Endpoint", () => {
+  beforeEach(() => {
+    app = require("../../../src/server.js")
+  })
   describe("GET /films", () => {
     it("will list all films", async () => {
       const response = await supertest(app).get("/films")

@@ -1,8 +1,11 @@
 const supertest = require("supertest")
-const app = require("../../../src/server.js")
+let app
 const { book1, book2, book3 } = require("../../fixtures/bookData.js")
 
 describe("Books Endpoint", () => {
+  beforeEach(() => {
+    app = require("../../../src/server.js")
+  })
   describe("GET /books", () => {
     it("will list all books", async () => {
       const response = await supertest(app).get("/books")
@@ -44,7 +47,9 @@ describe("Books Endpoint", () => {
       expect(response.status).toEqual(200)
       expect(response.body.book).not.toEqual(undefined)
       expect(response.body.book.id).toEqual(1)
-      expect(response.body.book.pages).toEqual(book3.pages)
+      for (prop in book3) {
+        expect(response.body.book[prop]).toEqual(book3[prop])
+      }
     })
   })
 
@@ -55,7 +60,6 @@ describe("Books Endpoint", () => {
       expect(response.status).toEqual(200)
       expect(response.body.book).not.toEqual(undefined)
       expect(response.body.book.id).toEqual(1)
-      expect(response.body.book.pages).toEqual(book3.pages)
     })
 
     it("will remove the book", async () => {

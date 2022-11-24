@@ -1,8 +1,11 @@
 const supertest = require("supertest")
-const app = require("../../../src/server.js")
+let app
 const { user1, user2 } = require("../../fixtures/userData.js")
 
 describe("Users Endpoint", () => {
+  beforeEach(() => {
+    app = require("../../../src/server.js")
+  })
   describe("GET /users", () => {
     it("will list all users", async () => {
       const response = await supertest(app).get("/users")
@@ -60,14 +63,10 @@ describe("Users Endpoint", () => {
 
     it("will remove the user", async () => {
       const responseBefore = await supertest(app).get("/users")
-      expect(responseBefore.status).toEqual(200)
-      console.log('resBefore', responseBefore.body)
-      expect(responseBefore.body.users.length).toEqual(3)
-      // await supertest(app).delete("/users/1")
+      await supertest(app).delete("/users/1")
       const responseAfter = await supertest(app).get("/users")
-      
-      expect(responseAfter.status).toEqual(200)
-      console.log('resAfter', responseAfter.body)
+
+      expect(responseBefore.body.users.length).toEqual(3)
       expect(responseAfter.body.users.length).toEqual(2)
     })
   })
