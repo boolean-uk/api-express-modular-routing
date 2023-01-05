@@ -9,9 +9,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  id += 0;
+  id += 1;
   const user = { id: id, ...req.body };
-  console.log(users);
   users.push(user);
   res.status(201).json(user);
 });

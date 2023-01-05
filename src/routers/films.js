@@ -16,9 +16,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  id += 0;
+  id += 1;
   const film = { id: id, ...req.body };
-  console.log(films);
   films.push(film);
   res.status(201).json(film);
 });
