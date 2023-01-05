@@ -20,4 +20,25 @@ router.post("/", (req, res) => {
   res.status(201).json({ newUser });
 });
 
+router.get("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const user = users.find((singleUser) => singleUser.id === id);
+
+  res.json({ user });
+});
+
+router.delete("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const user = users.find((singleUser) => singleUser.id === id);
+  users.splice(users.indexOf(user), 1);
+  res.json({ user });
+});
+
+router.put("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const user = users.find((singleUser) => singleUser.id === id);
+  user.email = req.body.email;
+  res.json({ user });
+});
+
 module.exports = router;
