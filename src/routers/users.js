@@ -5,7 +5,7 @@ const { users } = require("../../data/index.js");
 let id = 0;
 
 router.get("/", (req, res) => {
-  res.json(users);
+  res.json({users});
 });
 
 router.post("/", (req, res) => {
