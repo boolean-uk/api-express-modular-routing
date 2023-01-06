@@ -12,7 +12,7 @@ router.get("/:id", (req, res) => {
 	const id = Number(req.params.id);
 	const book = books.find((book) => id === book.id);
 	if (!book) {
-		res.status(404).json("A book with provided ID does not exist");
+		res.status(404).json("A book with the provided ID does not exist");
 	}
 	res.json({ book });
 });
