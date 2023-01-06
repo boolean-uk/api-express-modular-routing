@@ -3,9 +3,9 @@ const router = express.Router();
 const { books } = require("../../data/index.js");
 
 // 1. GET: Get all books
-// router.get("/", (req, res) => {
-//   res.json({ books });
-// });
+router.get("/", (req, res) => {
+  res.json({ books });
+});
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
   const book = books.find((book) => book.id === id);
@@ -17,7 +17,7 @@ router.get("/:id", (req, res) => {
 
 // 2. POST : Create a book with error message
 router.post("/", (req, res, err) => {
-  if (!req.body.title) {
+  if (!req.body.title || !req.body.author || !req.body.type) {
     res.status(400).json({ error: "Missing fields in request body" });
   }
 
@@ -35,7 +35,7 @@ router.post("/", (req, res, err) => {
 
   books.push(book);
 
-  res.json({ book: book });
+  res.status(201).json({ book: book });
 });
 
 // 3. GET : Get a book by its ID with error message
@@ -65,7 +65,7 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const book = books.find((book) => book.id === id);
-  if (!req.body.title) {
+  if (!req.body.title || !req.body.author || !req.body.type) {
     res.status(400).json({ error: "Missing fields in request body" });
   }
   if (!book) {
@@ -80,8 +80,10 @@ router.put("/:id", (req, res) => {
   }
   Object.keys(req.body).forEach((prop) => {
     book[prop] = req.body[prop];
+    book.author = req.body.author;
+    book.type = req.body.type;
   });
-  res.status(201).json({ book });
+  res.json({ book });
 });
 
 router.patch("/:id", (req, res) => {
