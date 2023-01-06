@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
     return;
   }
 
-  res.json(books);
+  res.json({books});
 });
 
 router.post("/", (req, res) => {
@@ -34,7 +34,7 @@ router.post("/", (req, res) => {
   id += 1;
   const book = { id: id, ...req.body };
   books.push(book);
-  res.status(201).json(book);
+  res.status(201).json({book});
 });
 
 router.get("/:id", (req, res) => {
@@ -45,7 +45,7 @@ router.get("/:id", (req, res) => {
       error: "A book with the provided ID does not exist",
     });
   }
-  res.json(book);
+  res.json({book});
 });
 
 router.delete("/:id", (req, res) => {
@@ -57,14 +57,14 @@ router.delete("/:id", (req, res) => {
       error: "A book with the provided ID does not exist",
     });
 
-  const deletedbook = books.splice(bookIndex, 1)[0];
-  res.json(deletedbook);
+  const book = books.splice(bookIndex, 1)[0];
+  res.json({book});
 });
 
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const title = req.body.title;
-  const newData = { id: id, ...req.body };
+  const book = { id: id, ...req.body };
   const bookIndex = books.findIndex((book) => book.id === id);
 
   if (title === undefined)
@@ -83,8 +83,8 @@ router.put("/:id", (req, res) => {
       error: "A book with the provided title already exists",
     });
 
-  books[bookIndex] = newData;
-  res.json(newData);
+  books[bookIndex] = book;
+  res.json({book});
 });
 
 router.patch("/:id", (req, res) => {
@@ -111,7 +111,7 @@ router.patch("/:id", (req, res) => {
   }
 
   Object.assign(book, req.body);
-  res.json(book);
+  res.json({book});
 });
 
 module.exports = router;

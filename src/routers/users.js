@@ -12,13 +12,13 @@ router.post("/", (req, res) => {
   id += 1;
   const user = { id: id, ...req.body };
   users.push(user);
-  res.status(201).json(user);
+  res.status(201).json({user});
 });
 
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
   const user = users.find((user) => user.id === id);
-  res.json(user);
+  res.json({user});
 });
 
 router.delete("/:id", (req, res) => {
@@ -30,14 +30,14 @@ router.delete("/:id", (req, res) => {
       error: "A user with the provided ID does not exist",
     });
 
-  const deletedUser = users.splice(userIndex, 1)[0];
-  res.json(deletedUser);
+  const user = users.splice(userIndex, 1)[0];
+  res.json({user});
 });
 
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const email = req.body.email;
-  const newData = { id: id, ...req.body };
+  const user = { id: id, ...req.body };
   const userIndex = users.findIndex((user) => user.id === id);
 
   if (email === undefined)
@@ -56,8 +56,8 @@ router.put("/:id", (req, res) => {
       error: "A user with the provided email already exists",
     });
 
-  users[userIndex] = newData;
-  res.json(newData);
+  users[userIndex] = user;
+  res.json({user});
 });
 
 module.exports = router;

@@ -12,14 +12,14 @@ router.get("/", (req, res) => {
     return;
   }
 
-  res.json({films: films});
+  res.json({films});
 });
 
 router.post("/", (req, res) => {
   id += 1;
   const film = { id: id, ...req.body };
   films.push(film);
-  res.status(201).json(film);
+  res.status(201).json({film});
 });
 
 router.get("/:id", (req, res) => {
@@ -30,7 +30,7 @@ router.get("/:id", (req, res) => {
       error: "A film with the provided ID does not exist",
     });
   }
-  res.json(film);
+  res.json({film});
 });
 
 router.delete("/:id", (req, res) => {
@@ -42,14 +42,14 @@ router.delete("/:id", (req, res) => {
       error: "A film with the provided ID does not exist",
     });
 
-  const deletedFilm = films.splice(filmIndex, 1)[0];
-  res.json(deletedFilm);
+  const film = films.splice(filmIndex, 1)[0];
+  res.json({film});
 });
 
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const title = req.body.title;
-  const newData = { id: id, ...req.body };
+  const film = { id: id, ...req.body };
   const filmIndex = films.findIndex((film) => film.id === id);
 
   if (title === undefined)
@@ -68,8 +68,8 @@ router.put("/:id", (req, res) => {
       error: "A film with the provided email already exists",
     });
 
-  films[filmIndex] = newData;
-  res.json(newData);
+  films[filmIndex] = film;
+  res.json({film});
 });
 
 router.patch("/:id", (req, res) => {
@@ -95,7 +95,7 @@ router.patch("/:id", (req, res) => {
       });
   }
 
-  res.json(film);
+  res.json({film});
 });
 
 module.exports = router;
