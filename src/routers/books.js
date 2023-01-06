@@ -16,7 +16,14 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const lastIndex = books.length - 1;
   const id = books[lastIndex].id + 1;
-  const requiredData = ["title", "type", "author", "pages"];
+  const requiredData = [
+    "title",
+    "type",
+    "author",
+    "topic",
+    "publicationDate",
+    "pages",
+  ];
   const foundData = Object.keys(req.body).find(
     (key) => !requiredData.includes(key)
   );
