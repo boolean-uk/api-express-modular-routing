@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { books } = require("../../data/index.js");
 
-let id = 0;
-
 router.get("/", (req, res) => {
   const author = req.query.author;
   const authorBooks = books.filter((book) => book.author === author);
@@ -12,13 +10,15 @@ router.get("/", (req, res) => {
     return;
   }
 
-  res.json({books});
+  res.json({ books });
 });
 
 router.post("/", (req, res) => {
+  const lastIndex = films.length - 1;
+  const id = films[lastIndex].id + 1;
   const requiredData = ["title", "type", "author", "pages"];
-  const foundData = Object.keys(req.body).find((key) =>
-    !requiredData.includes(key)
+  const foundData = Object.keys(req.body).find(
+    (key) => !requiredData.includes(key)
   );
   if (foundData)
     return res.status(400).json({
@@ -34,7 +34,7 @@ router.post("/", (req, res) => {
   id += 1;
   const book = { id: id, ...req.body };
   books.push(book);
-  res.status(201).json({book});
+  res.status(201).json({ book });
 });
 
 router.get("/:id", (req, res) => {
@@ -45,7 +45,7 @@ router.get("/:id", (req, res) => {
       error: "A book with the provided ID does not exist",
     });
   }
-  res.json({book});
+  res.json({ book });
 });
 
 router.delete("/:id", (req, res) => {
@@ -58,7 +58,7 @@ router.delete("/:id", (req, res) => {
     });
 
   const book = books.splice(bookIndex, 1)[0];
-  res.json({book});
+  res.json({ book });
 });
 
 router.put("/:id", (req, res) => {
@@ -84,7 +84,7 @@ router.put("/:id", (req, res) => {
     });
 
   books[bookIndex] = book;
-  res.json({book});
+  res.json({ book });
 });
 
 router.patch("/:id", (req, res) => {
@@ -111,7 +111,7 @@ router.patch("/:id", (req, res) => {
   }
 
   Object.assign(book, req.body);
-  res.json({book});
+  res.json({ book });
 });
 
 module.exports = router;

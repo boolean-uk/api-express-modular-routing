@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { films } = require("../../data/index.js");
 
-let id = 0;
-
 router.get("/", (req, res) => {
   const director = req.query.director;
   const directorFilms = films.filter((film) => film.director === director);
@@ -12,14 +10,15 @@ router.get("/", (req, res) => {
     return;
   }
 
-  res.json({films});
+  res.json({ films });
 });
 
 router.post("/", (req, res) => {
-  id += 1;
+  const lastIndex = films.length - 1;
+  const id = films[lastIndex].id + 1;
   const film = { id: id, ...req.body };
   films.push(film);
-  res.status(201).json({film});
+  res.status(201).json({ film });
 });
 
 router.get("/:id", (req, res) => {
@@ -30,7 +29,7 @@ router.get("/:id", (req, res) => {
       error: "A film with the provided ID does not exist",
     });
   }
-  res.json({film});
+  res.json({ film });
 });
 
 router.delete("/:id", (req, res) => {
@@ -43,7 +42,7 @@ router.delete("/:id", (req, res) => {
     });
 
   const film = films.splice(filmIndex, 1)[0];
-  res.json({film});
+  res.json({ film });
 });
 
 router.put("/:id", (req, res) => {
@@ -69,7 +68,7 @@ router.put("/:id", (req, res) => {
     });
 
   films[filmIndex] = film;
-  res.json({film});
+  res.json({ film });
 });
 
 router.patch("/:id", (req, res) => {
@@ -95,7 +94,7 @@ router.patch("/:id", (req, res) => {
       });
   }
 
-  res.json({film});
+  res.json({ film });
 });
 
 module.exports = router;

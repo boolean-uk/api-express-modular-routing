@@ -2,23 +2,22 @@ const express = require("express");
 const router = express.Router();
 const { users } = require("../../data/index.js");
 
-let id = 0;
-
 router.get("/", (req, res) => {
-  res.json({users});
+  res.json({ users });
 });
 
 router.post("/", (req, res) => {
-  id += 1;
+  const lastIndex = films.length - 1;
+  const id = films[lastIndex].id + 1;
   const user = { id: id, ...req.body };
   users.push(user);
-  res.status(201).json({user});
+  res.status(201).json({ user });
 });
 
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
   const user = users.find((user) => user.id === id);
-  res.json({user});
+  res.json({ user });
 });
 
 router.delete("/:id", (req, res) => {
@@ -31,7 +30,7 @@ router.delete("/:id", (req, res) => {
     });
 
   const user = users.splice(userIndex, 1)[0];
-  res.json({user});
+  res.json({ user });
 });
 
 router.put("/:id", (req, res) => {
@@ -57,7 +56,7 @@ router.put("/:id", (req, res) => {
     });
 
   users[userIndex] = user;
-  res.json({user});
+  res.json({ user });
 });
 
 module.exports = router;
