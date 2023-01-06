@@ -16,6 +16,21 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const lastIndex = films.length - 1;
   const id = films[lastIndex].id + 1;
+  const requiredData = ["title", "director"];
+  const foundMissing = requiredData.find(
+    (key) => !Object.keys(req.body).includes(key)
+  );
+  if (foundMissing)
+    return res.status(400).json({
+      error: "Missing fields in request body",
+    });
+
+  const foundTitle = films.find((film) => film.title === req.body.title);
+  if (foundTitle !== undefined)
+    return res.status(409).json({
+      error: "A film with the provided title already exists",
+    });
+
   const film = { id: id, ...req.body };
   films.push(film);
   res.status(201).json({ film });
@@ -26,7 +41,7 @@ router.get("/:id", (req, res) => {
   const film = films.find((film) => film.id === id);
   if (film === undefined) {
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
   }
   res.json({ film });

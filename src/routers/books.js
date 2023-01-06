@@ -78,8 +78,10 @@ router.put("/:id", (req, res) => {
     "publicationDate",
     "pages",
   ];
-  const test = requiredData.find((key) => !Object.keys(req.body).includes(key));
-  if (test)
+  const foundMissing = requiredData.find(
+    (key) => !Object.keys(req.body).includes(key)
+  );
+  if (foundMissing)
     return res.status(400).json({
       error: "Missing fields in request body",
     });
