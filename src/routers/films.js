@@ -24,7 +24,7 @@ router.delete("/:id", (req, res) => {
   const film = films.find((item) => item.id === Number(req.params.id));
   const index = films.indexOf(film);
   films.splice(index, 1);
-  res.json(film);
+  res.json({ film: film });
 });
 // update a film
 router.put("/:id", (req, res) => {

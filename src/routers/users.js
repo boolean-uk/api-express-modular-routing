@@ -4,7 +4,7 @@ const data = require("../../data/index.js");
 const users = data.users;
 //get all users
 router.get("/", (req, res) => {
-  res.json({ user: users });
+  res.json({ users: users });
 });
 //get user by id
 router.get("/:id", (req, res) => {
@@ -22,7 +22,7 @@ router.delete("/:id", (req, res) => {
   const user = users.find((item) => item.id === Number(req.params.id));
   const index = users.indexOf(user);
   users.splice(index, 1);
-  res.json(user);
+  res.status(201).json({ user: user });
 });
 // update a user
 router.put("/:id", (req, res) => {

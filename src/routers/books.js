@@ -24,7 +24,7 @@ router.delete("/:id", (req, res) => {
   const book = books.find((item) => item.id === Number(req.params.id));
   const index = books.indexOf(book);
   books.splice(index, 1);
-  res.json(book);
+  res.json({ book: book });
 });
 // update a book
 router.put("/:id", (req, res) => {
