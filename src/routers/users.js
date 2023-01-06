@@ -36,9 +36,9 @@ router.get('/:id', (req, res) => {
   const id = Number(req.params.id)
   const user = users.find((singleUser) => singleUser.id === id)
 
-  if (!user) {
-    res.status(404).send('A user with the provided ID does not exist')
-  }
+  return res
+    .status(404)
+    .json({ error: 'A user with the provided ID does not exist' })
 
   res.json({ user: user })
 })
