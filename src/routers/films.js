@@ -31,6 +31,7 @@ router.put("/:id", (req, res) => {
 	const film = films.find((film) => id === film.id);
 	Object.keys(req.body).forEach((prop) => {
 		film[prop] = req.body[prop];
+		film.director = req.body.director;
 		res.json({ film });
 	});
 });
