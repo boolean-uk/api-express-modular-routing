@@ -22,6 +22,11 @@ router.get("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
 	const id = Number(req.params.id);
 	const film = films.find((film) => id === film.id);
+
+	if (!film) {
+		res.status(404).send("A film with the provided ID does not exist");
+	}
+
 	films.splice(films.indexOf(film), 1);
 	res.json({ film });
 });
@@ -37,7 +42,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	if (!req.body.title) {
+	if (!req.body.title || !req.body.director) {
 		res.status(400).json("Missing fields in request body");
 	}
 
