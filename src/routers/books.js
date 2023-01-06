@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const requiredData = ["title", "type", "author", "pages"];
   const foundData = Object.keys(req.body).find((key) =>
-    requiredData.includes(key)
+    !requiredData.includes(key)
   );
   if (foundData)
     return res.status(400).json({
