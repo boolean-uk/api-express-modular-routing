@@ -14,8 +14,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const lastIndex = films.length - 1;
-  const id = films[lastIndex].id + 1;
+  const lastIndex = books.length - 1;
+  const id = books[lastIndex].id + 1;
   const requiredData = ["title", "type", "author", "pages"];
   const foundData = Object.keys(req.body).find(
     (key) => !requiredData.includes(key)
@@ -31,7 +31,6 @@ router.post("/", (req, res) => {
       error: "A book with the provided title already exists",
     });
 
-  id += 1;
   const book = { id: id, ...req.body };
   books.push(book);
   res.status(201).json({ book });

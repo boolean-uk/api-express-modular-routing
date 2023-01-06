@@ -7,8 +7,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const lastIndex = films.length - 1;
-  const id = films[lastIndex].id + 1;
+  const lastIndex = users.length - 1;
+  const id = users[lastIndex].id + 1;
   const user = { id: id, ...req.body };
   users.push(user);
   res.status(201).json({ user });
@@ -30,7 +30,7 @@ router.delete("/:id", (req, res) => {
     });
 
   const user = users.splice(userIndex, 1)[0];
-  res.json({ user });
+  res.status(201).json({ user });
 });
 
 router.put("/:id", (req, res) => {
@@ -56,7 +56,7 @@ router.put("/:id", (req, res) => {
     });
 
   users[userIndex] = user;
-  res.json({ user });
+  res.status(201).json({ user });
 });
 
 module.exports = router;
