@@ -38,7 +38,7 @@ router.delete("/:id", (req, res) => {
 
   if (filmIndex === -1)
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
 
   const film = films.splice(filmIndex, 1)[0];
@@ -58,13 +58,13 @@ router.put("/:id", (req, res) => {
 
   if (filmIndex === -1)
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
 
   const found = films.find((film) => film.title === title);
   if (found !== undefined)
     return res.status(409).json({
-      error: "A film with the provided email already exists",
+      error: "A film with the provided title already exists",
     });
 
   films[filmIndex] = film;

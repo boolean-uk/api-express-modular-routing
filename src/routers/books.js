@@ -24,12 +24,10 @@ router.post("/", (req, res) => {
     "publicationDate",
     "pages",
   ];
-  const foundData = Object.keys(req.body).find(
-    (key) => !requiredData.includes(key)
-  );
-  if (foundData)
+  const test = requiredData.find((key) => !Object.keys(req.body).includes(key));
+  if (test)
     return res.status(400).json({
-      error: "Missing fields in the requested body",
+      error: "Missing fields in request body",
     });
 
   const foundTitle = books.find((book) => book.title === req.body.title);
@@ -48,7 +46,7 @@ router.get("/:id", (req, res) => {
   const book = books.find((book) => book.id === id);
   if (book === undefined) {
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
   }
   res.json({ book });
@@ -60,7 +58,7 @@ router.delete("/:id", (req, res) => {
 
   if (bookIndex === -1)
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
 
   const book = books.splice(bookIndex, 1)[0];
@@ -72,6 +70,19 @@ router.put("/:id", (req, res) => {
   const title = req.body.title;
   const book = { id: id, ...req.body };
   const bookIndex = books.findIndex((book) => book.id === id);
+  const requiredData = [
+    "title",
+    "type",
+    "author",
+    "topic",
+    "publicationDate",
+    "pages",
+  ];
+  const test = requiredData.find((key) => !Object.keys(req.body).includes(key));
+  if (test)
+    return res.status(400).json({
+      error: "Missing fields in request body",
+    });
 
   if (title === undefined)
     return res.status(400).json({
@@ -80,7 +91,7 @@ router.put("/:id", (req, res) => {
 
   if (bookIndex === -1)
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
 
   const found = books.find((book) => book.title === title);
@@ -104,7 +115,7 @@ router.patch("/:id", (req, res) => {
 
   if (book === undefined)
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
 
   if (req.body.title !== undefined) {
