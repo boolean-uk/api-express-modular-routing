@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
     return;
   }
 
-  res.json(films);
+  res.json({films: films});
 });
 
 router.post("/", (req, res) => {
