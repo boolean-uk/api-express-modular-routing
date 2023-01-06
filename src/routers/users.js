@@ -21,13 +21,15 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res, err) => {
 	if (!req.body.email) {
-		res.status(400).send("Missing fields in request body");
+		res.status(400).json({ error: "Missing fields in request body" });
 	}
 
 	const email = req.body.email;
 	const userEmail = users.find((user) => user.email === email);
 	if (userEmail) {
-		res.status(409).send("A user with the provided email already exists");
+		res
+			.status(409)
+			.json({ error: "A user with the provided email already exists" });
 	}
 
 	let userId = users.length;
@@ -44,7 +46,9 @@ router.delete("/:id", (req, res) => {
 	const user = users.find((user) => user.id === id);
 
 	if (!user) {
-		res.status(404).send("A user with the provided ID does not exist");
+		res
+			.status(404)
+			.json({ error: "A user with the provided ID does not exist" });
 	}
 
 	users.splice(users.indexOf(user), 1);
@@ -56,17 +60,21 @@ router.put("/:id", (req, res) => {
 	const user = users.find((user) => user.id === id);
 
 	if (!user) {
-		res.status(404).send("A user with the provided ID does not exist");
+		res
+			.status(404)
+			.json({ error: "A user with the provided ID does not exist" });
 	}
 
 	const email = req.body.email;
 	const userEmail = users.find((user) => user.email === email);
 	if (userEmail) {
-		res.status(409).send("A user with the provided email already exists");
+		res
+			.status(409)
+			.json({ error: "A user with the provided email already exists" });
 	}
 
 	if (!req.body.email) {
-		res.status(400).send("Missing fields in request body");
+		res.status(400).json({ error: "Missing fields in request body" });
 	}
 
 	Object.keys(req.body).forEach((prop) => {

@@ -12,7 +12,7 @@ router.get("/:id", (req, res) => {
 	const id = Number(req.params.id);
 	const book = books.find((book) => id === book.id);
 	if (!book) {
-		res.status(404).json("A book with the provided ID does not exist");
+		res.status(404).json({ error: "A book the provided ID does not exist" });
 	}
 	res.json({ book });
 });
@@ -22,7 +22,7 @@ router.delete("/:id", (req, res) => {
 	const book = books.find((book) => id === book.id);
 
 	if (!book) {
-		res.status(404).send("A book with the provided ID does not exist");
+		res.status(404).json({ error: "A book the provided ID does not exist" });
 	}
 
 	books.splice(books.indexOf(book), 1);
@@ -31,13 +31,15 @@ router.delete("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
 	if (!req.body.title || !req.body.type || !req.body.author) {
-		res.status(400).json("Missing fields in request body");
+		res.status(400).json({ error: "Missing fields in request body" });
 	}
 
 	const title = req.body.title;
 	const bookTitle = books.find((book) => book.title === title);
 	if (bookTitle) {
-		res.status(409).json("A book with the provided title already exist");
+		res
+			.status(409)
+			.json({ error: "A book with the provided title already exists" });
 	}
 
 	let id = books.length;
@@ -51,18 +53,20 @@ router.put("/:id", (req, res) => {
 	const id = Number(req.params.id);
 	const book = books.find((book) => book.id === id);
 
+	if (!req.body.title || !req.body.type || !req.body.author) {
+		res.status(400).json({ error: "Missing fields in request body" });
+	}
+
 	if (!book) {
-		res.status(404).send("A book with the provided ID does not exist");
+		res.status(404).json({ error: "A book the provided ID does not exist" });
 	}
 
 	const title = req.body.title;
 	const booktitle = books.find((book) => book.title === title);
 	if (booktitle) {
-		res.status(409).send("A book with the provided title already exists");
-	}
-
-	if (!req.body.title || !req.body.type || !req.body.author) {
-		res.status(400).send("Missing fields in request body");
+		res
+			.status(409)
+			.json({ error: "A book with the provided title already exists" });
 	}
 
 	Object.keys(req.body).forEach((prop) => {
