@@ -3,7 +3,6 @@ const router = express.Router();
 const { users } = require("../../data/index.js");
 
 router.get("/", (req, res) => {
-	console.log({ users });
 	res.json({ users });
 });
 
@@ -15,7 +14,6 @@ router.get("/:id", (req, res) => {
 		res.status(404).send("A user with the provided ID does not exist");
 	}
 
-	console.log({ user });
 	res.json({ user });
 });
 
@@ -48,7 +46,7 @@ router.delete("/:id", (req, res) => {
 	}
 
 	users.splice(users.indexOf(user), 1);
-	res.json({ user });
+	res.status(201).json({ user });
 });
 
 router.put("/:id", (req, res) => {
@@ -72,7 +70,7 @@ router.put("/:id", (req, res) => {
 	Object.keys(req.body).forEach((prop) => {
 		user[prop] = req.body[prop];
 	});
-	res.json({ user });
+	res.status(201).json({ user });
 });
 
 module.exports = router;
