@@ -55,7 +55,9 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const user = users.find((user) => user.id === id);
-
+  if (!req.body.email) {
+    res.status(400).json({ error: "Missing fields in request body" });
+  }
   if (!user) {
     res
       .status(404)
@@ -68,10 +70,6 @@ router.put("/:id", (req, res) => {
     res
       .status(409)
       .json({ error: "A user with the provided email already exists" });
-  }
-
-  if (!req.body.email) {
-    res.status(400).json({ error: "Missing fields in request body" });
   }
 
   Object.keys(req.body).forEach((prop) => {

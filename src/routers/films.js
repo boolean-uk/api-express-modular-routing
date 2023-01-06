@@ -4,7 +4,7 @@ const { films } = require("../../data/index.js");
 
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const film = films.find((film) => id === film.id);
+  const film = films.find((film) => film.id === id);
   if (!film) {
     res.status(404).json({ error: "A film with provided ID does not exist" });
   }
@@ -13,7 +13,10 @@ router.get("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const film = films.find((film) => id === film.id);
+  const film = films.find((film) => film.id === id);
+  if (!film) {
+    res.status(404).json({ error: "A film with provided ID does not exist" });
+  }
   films.splice(films.indexOf(film), 1);
   res.json({ film });
 });
@@ -23,9 +26,7 @@ router.put("/:id", (req, res) => {
   const film = films.find((film) => film.id === id);
 
   if (!film) {
-    res
-      .status(404)
-      .json({ error: "A film with the provided ID does not exist" });
+    res.status(404).json({ error: "A film with provided ID does not exist" });
   }
   const title = req.body.title;
   const filmTitle = films.find((film) => film.title === title);
@@ -51,7 +52,7 @@ router.post("/", (req, res) => {
   if (filmTitle) {
     res
       .status(409)
-      .json({ error: "A film with the provided title already exist" });
+      .json({ error: "A film with the provided title already exists" });
   }
 
   let id = films.length;
@@ -67,5 +68,24 @@ router.get("/", (req, res) => {
     const getFilms = films.filter((film) => film.director === director);
     res.json(getFilms);
   } else res.json({ films });
+});
+
+router.patch("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const film = films.find((film) => film.id === id);
+  if (!film) {
+    res.status(404).json({ error: "A film with provided ID does not exist" });
+  }
+  const title = req.body.title;
+  const filmTitle = films.find((film) => film.title === title);
+  if (filmTitle) {
+    res
+      .status(409)
+      .json({ error: "A film with the provided title already exists" });
+  }
+  Object.keys(req.body).forEach((prop) => {
+    film[prop] = req.body[prop];
+  });
+  res.status(201).json({ film });
 });
 module.exports = router;
