@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   if (Object.keys(req.body).toString() !== "title,type,author,topic,publicationDate,pages" )
     return res.status(400).json({
-      error: "Missing fields in the requested body",
+      error: "Missing fields in request body",
     });
 
   const foundTitle = books.find((book) => book.title === req.body.title);
