@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { books } = require("../../data/index.js");
 
-let id = 0;
+// let id = 0;
 
 router.get("/", (req, res) => {
   const author = req.query.author;
@@ -16,22 +16,23 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const requiredData = ["title", "type", "author", "pages"];
-  const foundData = Object.keys(req.body).find((key) =>
-    !requiredData.includes(key)
-  );
-  if (foundData)
-    return res.status(400).json({
-      error: "Missing fields in the requested body",
-    });
+  // const requiredData = ["title", "type", "author", "pages"];
+  // const foundData = Object.keys(req.body).find((key) =>
+  //   !requiredData.includes(key)
+  // );
+  // if (foundData)
+  //   return res.status(400).json({
+  //     error: "Missing fields in the requested body",
+  //   });
 
-  const foundTitle = books.find((book) => book.title === req.body.title);
-  if (foundTitle !== undefined)
-    return res.status(409).json({
-      error: "A book with the provided title already exists",
-    });
+  // const foundTitle = books.find((book) => book.title === req.body.title);
+  // if (foundTitle !== undefined)
+  //   return res.status(409).json({
+  //     error: "A book with the provided title already exists",
+  //   });
 
-  id += 1;
+  // id += 1;
+  const id = books[books.length-1].id + 1
   const book = { id: id, ...req.body };
   books.push(book);
   res.status(201).json({book});

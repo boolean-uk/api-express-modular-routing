@@ -28,7 +28,7 @@ router.delete("/:id", (req, res) => {
       error: "A user with the provided ID does not exist",
     });
   users.splice(index, 1)
-  res.json({user});
+  res.status(201).json({user});
 });
 
 router.put("/:id", (req, res) => {
@@ -54,7 +54,7 @@ router.put("/:id", (req, res) => {
     });
 
   users[userIndex] = user;
-  res.status(201).res.json({user});
+  res.status(201).json({user});
 });
 
 module.exports = router;
