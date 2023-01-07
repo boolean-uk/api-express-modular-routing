@@ -7,6 +7,15 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  if (Object.keys(req.body).toString() !== "email")
+    return res.status(400).json({
+      error: "Missing fields in request body"
+    })
+  const foundEmail = users.find(user => user.email === req.body.email)
+  if (foundEmail !== undefined)
+    return res.status(409).json({
+      error: "A user with the provided email already exists"
+    })
   const id = users[users.length-1].id + 1
   const user = { id: id, ...req.body };
   users.push(user);
@@ -16,6 +25,10 @@ router.post("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
   const user = users.find((user) => user.id === id);
+  if (user === undefined)
+    return res.status(404).json({
+      error: "A user with the provided ID does not exist",
+    });
   res.json({user});
 });
 

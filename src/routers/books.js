@@ -16,22 +16,17 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  // const requiredData = ["title", "type", "author", "pages"];
-  // const foundData = Object.keys(req.body).find((key) =>
-  //   !requiredData.includes(key)
-  // );
-  // if (foundData)
-  //   return res.status(400).json({
-  //     error: "Missing fields in the requested body",
-  //   });
+  if (Object.keys(req.body).toString() !== "title,type,author,pages" )
+    return res.status(400).json({
+      error: "Missing fields in the requested body",
+    });
 
-  // const foundTitle = books.find((book) => book.title === req.body.title);
-  // if (foundTitle !== undefined)
-  //   return res.status(409).json({
-  //     error: "A book with the provided title already exists",
-  //   });
+  const foundTitle = books.find((book) => book.title === req.body.title);
+  if (foundTitle !== undefined)
+    return res.status(409).json({
+      error: "A book with the provided title already exists",
+    });
 
-  // id += 1;
   const id = books[books.length-1].id + 1
   const book = { id: id, ...req.body };
   books.push(book);
@@ -43,7 +38,7 @@ router.get("/:id", (req, res) => {
   const book = books.find((book) => book.id === id);
   if (book === undefined) {
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
   }
   res.json({book});
@@ -55,7 +50,7 @@ router.delete("/:id", (req, res) => {
 
   if (bookIndex === -1)
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
 
   const book = books.splice(bookIndex, 1)[0];
@@ -68,14 +63,14 @@ router.put("/:id", (req, res) => {
   const book = { id: id, ...req.body };
   const bookIndex = books.findIndex((book) => book.id === id);
 
-  if (title === undefined)
+  if (Object.keys(req.body).toString() !== "title,type,author,pages" )
     return res.status(400).json({
-      error: "Missing fields in the request body",
+      error: "Missing fields in request body",
     });
 
   if (bookIndex === -1)
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
 
   const found = books.find((book) => book.title === title);
@@ -99,12 +94,11 @@ router.patch("/:id", (req, res) => {
 
   if (book === undefined)
     return res.status(404).json({
-      error: "A book with the provided ID does not exist",
+      error: "A book the provided ID does not exist",
     });
 
   if (req.body.title !== undefined) {
     const found = books.find((book) => book.title === req.body.title);
-    console.log(found);
     if (found !== undefined)
       return res.status(409).json({
         error: "A book with the provided title already exists",

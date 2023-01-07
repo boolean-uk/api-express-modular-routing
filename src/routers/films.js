@@ -12,14 +12,23 @@ router.get("/", (req, res) => {
     return;
   }
 
-  res.json({films});
+  res.json({ films });
 });
 
 router.post("/", (req, res) => {
-  const id = (films[films.length-1].id + 1)
+  if (Object.keys(req.body).toString() !== "title,director")
+    return res.status(400).json({
+      error: "Missing fields in request body",
+    });
+  const foundTitle = films.find((film) => film.title === req.body.title);
+  if (foundTitle !== undefined)
+    return res.status(409).json({
+      error: "A film with the provided title already exists",
+    });
+  const id = films[films.length - 1].id + 1;
   const film = { id: id, ...req.body };
   films.push(film);
-  res.status(201).json({film});
+  res.status(201).json({ film });
 });
 
 router.get("/:id", (req, res) => {
@@ -27,10 +36,10 @@ router.get("/:id", (req, res) => {
   const film = films.find((film) => film.id === id);
   if (film === undefined) {
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
   }
-  res.json({film});
+  res.json({ film });
 });
 
 router.delete("/:id", (req, res) => {
@@ -39,11 +48,11 @@ router.delete("/:id", (req, res) => {
 
   if (filmIndex === -1)
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
 
   const film = films.splice(filmIndex, 1)[0];
-  res.json({film});
+  res.json({ film });
 });
 
 router.put("/:id", (req, res) => {
@@ -59,17 +68,17 @@ router.put("/:id", (req, res) => {
 
   if (filmIndex === -1)
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
 
   const found = films.find((film) => film.title === title);
   if (found !== undefined)
     return res.status(409).json({
-      error: "A film with the provided email already exists",
+      error: "A film with the provided title already exists",
     });
 
   films[filmIndex] = film;
-  res.json({film});
+  res.json({ film });
 });
 
 router.patch("/:id", (req, res) => {
@@ -84,7 +93,7 @@ router.patch("/:id", (req, res) => {
 
   if (film === undefined)
     return res.status(404).json({
-      error: "A film with the provided ID does not exist",
+      error: "A film with provided ID does not exist",
     });
 
   if (req.body.title !== undefined) {
@@ -95,7 +104,7 @@ router.patch("/:id", (req, res) => {
       });
   }
 
-  res.json({film});
+  res.json({ film });
 });
 
 module.exports = router;
