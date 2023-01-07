@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { films } = require("../../data/index.js");
 
-let id = 0;
+// let id = 0;
 
 router.get("/", (req, res) => {
   const director = req.query.director;
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  id += 1;
+  const id = (films[films.length-1].id + 1)
   const film = { id: id, ...req.body };
   films.push(film);
   res.status(201).json({film});

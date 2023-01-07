@@ -2,14 +2,12 @@ const express = require("express");
 const router = express.Router();
 const { users } = require("../../data/index.js");
 
-let id = 0;
-
 router.get("/", (req, res) => {
   res.json({users});
 });
 
 router.post("/", (req, res) => {
-  id += 1;
+  const id = users[users.length-1].id + 1
   const user = { id: id, ...req.body };
   users.push(user);
   res.status(201).json({user});
@@ -23,14 +21,13 @@ router.get("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const userIndex = users.findIndex((user) => user.id === id);
-
-  if (userIndex === -1)
+  const user = users.find((user) => user.id === id);
+  const index = users.indexOf(user)
+  if (user === undefined)
     return res.status(404).json({
       error: "A user with the provided ID does not exist",
     });
-
-  const user = users.splice(userIndex, 1)[0];
+  users.splice(index, 1)
   res.json({user});
 });
 
@@ -57,7 +54,7 @@ router.put("/:id", (req, res) => {
     });
 
   users[userIndex] = user;
-  res.json({user});
+  res.status(201).res.json({user});
 });
 
 module.exports = router;
