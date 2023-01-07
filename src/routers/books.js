@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  if (Object.keys(req.body).toString() !== "title,type,author,pages" )
+  if (Object.keys(req.body).toString() !== "title,type,author,topic,publicationDate,pages" )
     return res.status(400).json({
       error: "Missing fields in the requested body",
     });
@@ -63,7 +63,7 @@ router.put("/:id", (req, res) => {
   const book = { id: id, ...req.body };
   const bookIndex = books.findIndex((book) => book.id === id);
 
-  if (Object.keys(req.body).toString() !== "title,type,author,pages" )
+  if (Object.keys(req.body).toString() !== "title,type,author,topic,publicationDate,pages" )
     return res.status(400).json({
       error: "Missing fields in request body",
     });
