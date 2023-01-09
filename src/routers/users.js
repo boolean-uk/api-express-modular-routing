@@ -57,7 +57,6 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const user = users.find((singleUser) => singleUser.id === id);
-  console.log(user);
   if (!user) {
     res.status(404).json({ error: "A user with the provided ID does not exist" });
   }

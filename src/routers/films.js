@@ -5,7 +5,7 @@ const { films } = require("../../data/index.js");
 
 // get all films
 router.get("/", (req, res) => {
-  res.json(films);
+  res.json({ films: films });
 });
 
 // create films
@@ -41,7 +41,7 @@ router.get("/:id", (req, res) => {
   res.json({ film: film });
 });
 
-// delete user by id
+// delete film by id
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
   const film = films.find((film) => film.id === id);
@@ -53,7 +53,7 @@ router.delete("/:id", (req, res) => {
   }
 
   films.splice(films.indexOf(film), 1);
-  res.status(201).json({ film: film });
+  res.json({ film: film });
   //   console.log("hello",)
 });
 // edit user by id

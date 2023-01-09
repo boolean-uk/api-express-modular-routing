@@ -3,21 +3,20 @@
 const express = require("express");
 const router = express.Router();
 
-const { users } = require("../../data/index.js");
+const { books } = require("../../data/index.js");
 
 // get all user
 router.get("/", (req, res) => {
-  res.json({ users: users });
+  res.json({ books: books });
 });
-
 // create user
 router.post("/", (req, res) => {
-  if (!req.body.email) {
+  if (!req.body.title || !req.body.type || !req.body.author) {
     res.status(400).json({ error: "Missing fields in request body" });
     return;
   }
 
-  const alreadyExists = users.find((user) => user.email === req.body.email);
+  const alreadyExists = books.find((book) => book.title === req.body.title);
   if (alreadyExists) {
     res
       .status(409)
@@ -25,52 +24,51 @@ router.post("/", (req, res) => {
     return;
   }
 
-  const newUser = { ...req.body, id: users.length + 1 };
-  users.push(newUser);
-  res.status(201).json({ user: newUser });
+  const book = { ...req.body, id: books.length + 1 };
+  books.push(book);
+  res.status(201).json({ book: book });
 });
 
 // get user by id
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const user = users.find((singleUser) => singleUser.id === id);
+  const book = books.find((book) => book.id === id);
 
-  if (!user) {
+  if (!book) {
     res
       .status(404)
       .json({ error: "A user with the provided ID does not exist" });
   }
 
-  res.json({ user: user });
+  res.json({ book: book });
 });
 
 // delete user by id
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const user = users.find((singleUser) => singleUser.id === id);
+  const book = books.find((book) => book.id === id);
 
-  if (!user) {
+  if (!book) {
     res
       .status(404)
       .json({ error: "A user with the provided ID does not exist" });
   }
 
-  users.splice(users.indexOf(user), 1);
-  res.status(201).json({ user: user });
+  books.splice(books.indexOf(book), 1);
+  res.status(200).json({ book: book });
   //   console.log("hello",)
 });
 // edit user by id
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const user = users.find((singleUser) => singleUser.id === id);
-  console.log(user);
-  if (!user) {
-    res
+  const book = books.find((book) => book.id === id);
+  if (!book) {
+    return res
       .status(404)
       .json({ error: "A user with the provided ID does not exist" });
   }
 
-  const alreadyExists = users.find((user) => user.email === req.body.email);
+  const alreadyExists = books.find((book) => book.title === req.body.title);
 
   if (alreadyExists) {
     res
@@ -78,8 +76,8 @@ router.put("/:id", (req, res) => {
       .json({ error: "A user with the provided email already exists" });
     return;
   }
-  Object.keys(req.body).forEach((prop) => (user[prop] = req.body[prop]));
-  res.status(201).json({ user: user });
+  Object.keys(req.body).forEach((prop) => (book[prop] = req.body[prop]));
+  res.json({ book: book });
 });
 
 module.exports = router;
