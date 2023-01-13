@@ -49,7 +49,6 @@ router.delete("/:id", (req, res) => {
     const user = users.find(item => item.id === id)
     let index = users.indexOf(user);
     users.splice(index, 1)
-    // 4. send it back in the response
     res.json(users)
   })
 
