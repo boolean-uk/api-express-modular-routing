@@ -13,16 +13,25 @@ router.get("/:id", (req, res) => {
   //   ... code
   const id = Number(req.params.id);
   const book = books.find((book) => book.id === id);
+
+  // if (!book) {
+  //   res.status(404).json("A book the provided ID does not exist");
+  // } else {
   res.json({ book });
+  // }
 });
 
 router.post("/", (req, res) => {
+  // if missing fields: res(400)({"missing fields in req body"})
+  if (!req.body) {
+    // res.status(400).json({ book });
+  }
+
+  // if already exists: res(409)({"book already exists"})
+
   id++;
   const book = { ...req.body, id };
   books.push(book);
-
-  // if missing fields: res(400)({"missing fields in req body"})
-  // if already exists: res(409)({"book already exists"})
 
   res.status(201).json({ book });
 });
