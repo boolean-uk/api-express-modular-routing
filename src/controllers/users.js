@@ -21,27 +21,20 @@ const createUser = (req, res) => {
 const deleteUser = (userID) => {
   const index = users.findIndex((person) => person.id === userID);
   const user = users.splice(index, 1)[0];
-  console.log("users length after delete should be 1:", user);
   return user;
 };
 
-const updateUserDetails = (res, req) => {
-  const foundUser = users.find((user) => user.id === Number(req.params.id));
-
-  const user = { ...foundUser, ...req.body };
-  console.log("user:", user);
-  users[users.indexOf(foundUser)] = user;
-
-  // if missing fields: res(400)({"missing fields in req body"})
-  // if doesn't exist: res(404)({"user doesn't exist"})
-  // if already exists: res(409)({"user already exists"})
-  res.status(201).json({ user });
-};
+// const updateUserDetails = (userID) => {
+//   const foundUser = users.find((user) => user.id === userID);
+//   const user = { ...foundUser, ...req.body };
+//   users[users.indexOf(foundUser)] = user;
+//   return user;
+// };
 
 module.exports = {
   getAll,
   getByID,
   createUser,
   deleteUser,
-  updateUserDetails,
+  //   updateUserDetails,
 };
