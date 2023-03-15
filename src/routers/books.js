@@ -17,10 +17,11 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   const keys = ["title", "type", "author", "topic", "publicationDate", "pages"];
   const cantFind = keys.find((item) => !Object.keys(req.body).includes(item));
+  const alreadyExists = books.find((book) => book.title === req.body.title);
 
   if (cantFind) {
     res.status(400).json({ error: "Missing fields in request body" });
-  } else if (books.filter((book) => book === req.body.title)) {
+  } else if (alreadyExists !== undefined) {
     res
       .status(409)
       .json({ error: "A book with the provided title already exists" });
@@ -47,15 +48,15 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const book = books.find((book) => book.id === Number(req.params.id));
-
   const keys = ["title", "type", "author", "topic", "publicationDate", "pages"];
   const cantFind = keys.find((item) => !Object.keys(req.body).includes(item));
+  const alreadyExists = books.find((book) => book.title === req.body.title);
 
   if (cantFind) {
     res.status(400).json({ error: "Missing fields in request body" });
   } else if (book === undefined) {
     res.status(404).json({ error: "A book the provided ID does not exist" });
-  } else if (books.filter((book) => book === req.body.title)) {
+  } else if (alreadyExists !== undefined) {
     res
       .status(409)
       .json({ error: "A book with the provided title already exists" });

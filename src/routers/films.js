@@ -15,14 +15,16 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  let id = films[films.length - 1].id + 1;
+  const alreadyExists = films.find((film) => film.title === req.body.title);
+
   if (req.body.title === undefined) {
     res.status(400).json({ error: "Missing fields in request body" });
-  } else if (films.filter((film) => film === req.body.title)) {
+  } else if (alreadyExists !== undefined) {
     res
       .status(409)
       .json({ error: "A film with the provided title already exists" });
   } else {
+    let id = films[films.length - 1].id + 1;
     const film = { ...req.body, id };
     films.push(film);
 
@@ -44,10 +46,11 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const film = films.find((film) => film.id === Number(req.params.id));
+  const alreadyExists = films.find((film) => film.title === req.body.title);
 
   if (film === undefined) {
     res.status(404).json({ error: "A film with provided ID does not exist" });
-  } else if (films.filter((film) => film === req.body.title)) {
+  } else if (alreadyExists !== undefined) {
     res
       .status(409)
       .json({ error: "A film with the provided title already exists" });

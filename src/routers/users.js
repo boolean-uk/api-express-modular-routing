@@ -17,9 +17,11 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const alreadyExists = users.find((user) => user.email === req.body.email);
+
   if (req.body.email === undefined) {
     res.status(400).json({ error: "Missing fields in request body" });
-  } else if (users.filter((user) => user === req.body.email)) {
+  } else if (alreadyExists !== undefined) {
     res
       .status(409)
       .json({ error: "A user with the provided email already exists" });
@@ -28,7 +30,7 @@ router.post("/", (req, res) => {
     const user = { ...req.body, id };
     users.push(user);
 
-    res.status(201).json({ user: user });
+    res.status(201).json({ user });
   }
 });
 
@@ -46,14 +48,16 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
+  const alreadyExists = users.find((user) => user.email === req.body.email);
   const user = users.find((user) => user.id === Number(req.params.id));
+
   if (req.body.email === undefined) {
     res.status(400).json({ error: "Missing fields in request body" });
   } else if (user === undefined) {
     res
       .status(404)
       .json({ error: "A user with the provided ID does not exist" });
-  } else if (users.filter((user) => user === req.body.email)) {
+  } else if (alreadyExists !== undefined) {
     res
       .status(409)
       .json({ error: "A user with the provided email already exists" });
