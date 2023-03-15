@@ -6,11 +6,8 @@ const getAll = (req, res) => {
   res.status(200).json({ users });
 };
 
-const getByID = (res, req) => {
-  //   const id = Number(req.params.id);
-  const user = users.find((user) => user.id === Number(req.params.id));
-  console.log("---------user----------");
-  res.status(200).json({ user });
+const getByID = (userID) => {
+  return users.find((user) => user.id === userID);
 };
 
 const createUser = (req, res) => {
@@ -21,12 +18,11 @@ const createUser = (req, res) => {
   res.status(201).json({ user });
 };
 
-const deleteUser = (res, req) => {
-  const id = Number(req.params.id);
-  const index = users.findIndex((person) => person.id === id);
+const deleteUser = (userID) => {
+  const index = users.findIndex((person) => person.id === userID);
   const user = users.splice(index, 1)[0];
-  console.log("users length after delete should be 2:", user);
-  res.status(201).json({ user });
+  console.log("users length after delete should be 1:", user);
+  return user;
 };
 
 const updateUserDetails = (res, req) => {
