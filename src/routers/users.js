@@ -32,14 +32,14 @@ router.put('/:id', (req, res) => {
     const found = users.find((user) => user.id === id)
     const updatedUser = { ...found, ...req.body }
     users[users.indexOf(found)] = updatedUser
-    res.status(201).json({ user: updatedUser })
+    res.status(200).json({ user: updatedUser })
 })
 
 router.delete('/:id', (req, res) => {
     const id = Number(req.params.id)
     const index = users.findIndex((user) => user.id === id)
-    const user = users.splice(index, 1)[0]
-    res.status(201).json({ user })
+    const deletedUser = users.splice(index, 1)[0]
+    res.status(200).json({ user : deletedUser})
 
 })
 
