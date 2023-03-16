@@ -28,7 +28,7 @@ router.delete("/:id", (req, res) => {
   const userIndex = users.findIndex((user) => user.id === id);
   users.splice(userIndex, 1);
 
-  res.status(201).json({user});
+  res.status(200).json({user});
 })
 
 router.put("/:id", (req, res) => {
@@ -38,7 +38,7 @@ router.put("/:id", (req, res) => {
   user.id = users[userIndex].id;
   users[userIndex] = user;
 
-  res.status(201).json({user})
+  res.status(200).json({user})
 })
 
 module.exports = router;
