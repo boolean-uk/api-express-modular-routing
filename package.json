@@ -6,7 +6,13 @@
   "scripts": {
     "start": "npx nodemon src/index.js",
     "test": "npx jest -i test/api/routes --forceExit --runInBand",
-    "test-extensions": "npx jest -i test/api/extensions  --forceExit"
+    "test-users": "npx jest -i test/api/routes/users.spec.js --forceExit",
+    "test-films": "npx jest -i test/api/routes/films.spec.js --forceExit",
+    "test-books": "npx jest -i test/api/routes/books.spec.js --forceExit",
+    "test-extensions": "npx jest -i test/api/extensions  --forceExit",
+    "test-extensions-users": "npx jest -i test/api/extensions/users.spec.js --forceExit",
+    "test-extensions-films": "npx jest -i test/api/extensions/films.spec.js --forceExit",
+    "test-extensions-books": "npx jest -i test/api/extensions/books.spec.js --forceExit"
   },
   "dependencies": {
     "cors": "^2.8.5",
