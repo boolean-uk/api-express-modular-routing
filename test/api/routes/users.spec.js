@@ -44,7 +44,7 @@ describe("Users Endpoint", () => {
     it("will update a users", async () => {
       const response = await supertest(app).put("/users/1").send(user2)
 
-      expect(response.status).toEqual(201)
+      expect(response.status).toEqual(200)
       expect(response.body.user).not.toEqual(undefined)
       expect(response.body.user.id).toEqual(1)
       expect(response.body.user.email).toEqual("updateaddress@mail.com")
@@ -55,7 +55,7 @@ describe("Users Endpoint", () => {
     it("will return the deleted the user", async () => {
       const response = await supertest(app).delete("/users/1")
 
-      expect(response.status).toEqual(201)
+      expect(response.status).toEqual(200)
       expect(response.body.user).not.toEqual(undefined)
       expect(response.body.user.id).toEqual(1)
       expect(response.body.user.email).toEqual("edward@mail.com")

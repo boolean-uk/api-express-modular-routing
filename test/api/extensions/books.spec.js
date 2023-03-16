@@ -91,7 +91,7 @@ describe("Books Extension Endpoint", () => {
         expect(response.status).toEqual(404)
         expect(response.body.error).toEqual('A book the provided ID does not exist')
     })
-    it("will return 404 when updating a book with title that already exists", async () => {
+    it("will return 409 when updating a book with title that already exists", async () => {
         const response = await supertest(app).put("/books/1").send({
             title: "1984",
             type: "test1",
