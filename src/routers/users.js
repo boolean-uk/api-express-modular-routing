@@ -26,13 +26,13 @@ router.put("/:id", (req, res) => {
   const user = findUser(req.params.id);
   const updatedUser = { id: user.id, ...req.body };
   users[users.indexOf(user)] = updatedUser;
-  res.status(201).json({ user: updatedUser });
+  res.json({ user: updatedUser });
 });
 
 router.delete("/:id", (req, res) => {
   const user = findUser(req.params.id);
   users.splice(users.indexOf(user), 1);
-  res.status(201).json({ user });
+  res.json({ user });
 });
 
 function findUser(id) {
