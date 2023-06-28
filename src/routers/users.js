@@ -1,6 +1,7 @@
+// Import data here...
 const { users } = require("../../data");
 const router = require("express").Router();
-
+// Write routes here...
 router.get("/", (req, res) => {
   res.json({ users });
 });
