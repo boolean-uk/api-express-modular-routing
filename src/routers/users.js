@@ -56,8 +56,22 @@ usersRouter.delete('/:id', (req, res) => {
   }
 })
 
-
 // 5 - PUT - Update a user by ID
+usersRouter.put('/:id', (req, res) => {
+  const { id } = req.params
+  const user = findUserByID(Number(id))
+  const body = req.body.email
 
+  const userIdx = users.findIndex((item) => {
+    return item === user
+  })
+
+  if (user) {
+    users[userIdx].email = body
+    return res.send({user})
+  } else {
+    return res.status(404).send('A user with the provided ID does not exist')
+  }
+})
 
 module.exports = usersRouter
