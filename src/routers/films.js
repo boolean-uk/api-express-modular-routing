@@ -79,4 +79,22 @@ filmsRouter.put("/:id", (req, res) => {
   }
 });
 
+// 6 - PATCH - EXTENSION - Update a film by ID
+filmsRouter.patch("/:id", (req, res) => {
+  const { id } = req.params;
+  const film = findFilmByID(Number(id));
+  const title = req.body.title;
+
+  const filmIdx = films.findIndex((item) => {
+    return item === film;
+  });
+
+  if (film) {
+    films[filmIdx].title = title;
+    return res.send({ film });
+  } else {
+    return res.status(404).send("A film with the provided ID does not exist");
+  }
+});
+
 module.exports = filmsRouter;
