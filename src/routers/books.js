@@ -59,40 +59,54 @@ router.delete("/:id", (req, res) => {
   }
 });
 
+function bookIsBook(checkBook) {
+  if (
+    checkBook.hasOwnProperty('title') && 
+    checkBook.hasOwnProperty('author') && 
+    checkBook.hasOwnProperty('type')
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function bookIsMissingFields(checkBook) {
+  if (typeof checkBook !== 'object') {
+    return null
+  }
+  if (
+    !checkBook.hasOwnProperty('title') ||
+    !checkBook.hasOwnProperty('author') || 
+    !checkBook.hasOwnProperty('type')
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const updatedBooks = req.body;
   const booksToUpdate = books.find((book) => book.id === id);
-  const book = books.find((book) => book.id === id);
 
-  if (booksToUpdate) {
-    Object.assign(booksToUpdate, updatedBooks);
-    const title = books.find((book) => book.title === updatedBooks.title);
+  const bookTitleExistsInBooks = books.find((book) => book.title === updatedBooks.title)
 
-    if (title) {
-      return res
-        .status(409)
-        .send({ error: "A book with the provided title already exists" });
-    }
-    if (
-      updatedBooks.title === "" ||
-      updatedBooks.title === undefined ||
-      updatedBooks.author === "" ||
-      updatedBooks.author === undefined ||
-	  updatedBooks.type === "" ||
-      updatedBooks.type === undefined
-    ) {
-		return res.status(400).send({ error: "Missing fields in request body" });
+  if(bookIsMissingFields(updatedBooks) && bookIsMissingFields(updatedBooks) !==null) {
+    return res.status(400).send({ error: "Missing fields in request body" })
 
-    } else {
-		const newBook = books.find((book) => book.id === id);
-		return res.send({ book: newBook });
-    }
-  }
-  if (!book) {
-    return res
-      .status(404)
-      .send({ error: "A book the provided ID does not exist" });
+  } else if(!booksToUpdate) {
+    return res.status(404).send({ error: "A book the provided ID does not exist" })
+
+  } else if (bookTitleExistsInBooks) {
+    return res.status(409).send({ error: "A book with the provided title already exists" });
+
+  } else if (bookIsBook(updatedBooks)) {
+    newId++
+    Object.assign(booksToUpdate, {...updatedBooks, id: newId})
+    const updatedEntry = books.find((book) => book.id === id);
+    return res.status(200).send({book: updatedEntry})
   }
 });
 
