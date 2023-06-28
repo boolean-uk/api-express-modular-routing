@@ -4,8 +4,6 @@ const router = express.Router()
 const data = require('../../data/index.js')
 const books = require('../../data/index.js').books
 
-// Write routes here...
-
 // GET all books
 router.get('/', (req, res) => {
   res.status(200).json({ books })
@@ -77,15 +75,5 @@ router.put('/:id', (req, res) => {
   books[bookIndex] = updatedBook
   res.status(200).json({ book: updatedBook })
 })
-
-
-
-// {
-//   id: 1,
-//   title: "1984",
-//   type: "fiction",
-//   author: "George Orwell",
-//   pages: 5
-// }
 
 module.exports = router;
