@@ -29,12 +29,13 @@ describe("Books Endpoint", () => {
 
     it("will create a new book", async () => {
       const response = await supertest(app).post("/books").send(book1)
-
+      console.log(response.body)
       expect(response.status).toEqual(201)
       expect(response.body.book).not.toEqual(undefined)
       expect(response.body.book.pages).toEqual(book1.pages)
 
       for (prop in book1) {
+        console.log(prop)
         expect(response.body.book[prop]).toEqual(book1[prop])
       }
     })
