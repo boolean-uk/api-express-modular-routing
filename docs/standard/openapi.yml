@@ -47,7 +47,7 @@ paths:
                     type: object
                     $ref: "#/components/schemas/User"
         400:
-          description: ERROR (EXTENSION) - Missing fields in request body
+          description: ERROR (EXTENSION) - Missing fields in the request body
           content:
             application/json:
               schema:
@@ -197,7 +197,7 @@ paths:
                     type: object
                     $ref: "#/components/schemas/Film"
         400:
-          description: ERROR (EXTENSION) - Missing fields in request body
+          description: ERROR (EXTENSION) - Missing fields in the request body
           content:
             application/json:
               schema:

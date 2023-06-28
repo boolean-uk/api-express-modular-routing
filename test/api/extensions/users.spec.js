@@ -18,7 +18,7 @@ describe("Users extension endpoints", () => {
     it("will return 400 when trying to create a user with missing fields", async () => {
       const response = await supertest(app).post("/users").send({})
       expect(response.status).toEqual(400)
-      expect(response.body.error).toEqual('Missing fields in request body')
+      expect(response.body.error).toEqual('Missing fields in the request body')
     })
     it("will return 409 when creating a user with an already in-use email", async () => {
       const response = await supertest(app)
