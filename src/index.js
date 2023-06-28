@@ -8,6 +8,7 @@ const port = 3030;
 
 // ROUTES
 const usersRouter = require("./routers/users.js")
+const filmsRouter = require("./routers/films.js")
 
 // SETUP MIDDLEWARE
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(morgan("dev"))
 
 app.use('/users', usersRouter)
+app.use('/films', filmsRouter)
 
 /* START SERVER */
 app.listen(port, () => {
