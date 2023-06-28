@@ -10,10 +10,6 @@ const findFilmById = (id) => {
 
 // 1. Retrieve all films & 7. EXTENSION Retrieve a list of films
 router.get("/", (req, res) => {
-  res.json({ films });
-});
-
-router.get("/", (req, res) => {
   if (!req.query.director) {
     res.json({ films });
   } else {
