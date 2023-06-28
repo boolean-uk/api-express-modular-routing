@@ -36,35 +36,63 @@ const books = [
   const findById = (id) => {
     return books.find((book) => book.id === id)
   }
-  router.get('/', (req, res) => {
-    res.send({books})
-  })
 
-  router.post('/', (req, res) =>{
-    const body = req.body
-    body.id = id++
-    books.push(body)
-    res.status(201).send({book: body})
+  router.get('/', (req, res) => {
+    res.send({ books })
   })
-  router.get('/:id', (req, res) =>{
+  
+  router.post('/', (req, res) => {
+    const body = req.body
+    const titleFinder = books.find(book => book.title === body.title)
+    if(!Object.keys(body)[0]){
+        res.status(400).send({error: "Missing fields in request body"})
+      }
+      else if (titleFinder){
+        res.status(409).send({error: "A book with the provided title already exists"})
+      }
+      else{
+        body.id = id++
+        books.push(body)
+        res.status(201).send({ book: body })
+    }
+  })
+  
+  router.get('/:id', (req, res) => {
     const idNum = Number(req.params.id)
     const book = findById(idNum)
-    res.send({book})
+    if(!book){
+      res.status(404).send({error: "A book the provided ID does not exist"})
+    }else res.send({ book })
   })
+  
   router.delete('/:id', (req, res) => {
     const idNum = Number(req.params.id)
     const bookIndex = books.findIndex((book) => book.id === idNum)
     const book = findById(idNum)
-    books.splice(bookIndex, 1)
-    res.send({book})
+    if(!book){
+      res.status(404).send({error: "A book the provided ID does not exist"})
+    }else {
+        books.splice(bookIndex, 1)
+        res.send({ book })
+    }
   })
-  router.put('/:id', (req, res) =>{
+  
+  router.put('/:id', (req, res) => {
     const idNum = Number(req.params.id)
     const body = req.body
     const bookIndex = books.findIndex((book) => book.id === idNum)
     const book = findById(idNum)
-    books[bookIndex] = body
-    books[bookIndex].id = book.id 
-    res.send({ book: books[bookIndex]})
+    const titleFinder = books.find(book => book.title === body.title)
+    if(!Object.keys(body)[0]){
+      res.status(400).send({error: "Missing fields in request body"})
+    } else if (!book){
+      res.status(404).send({error: "A book the provided ID does not exist"})
+    }else if (titleFinder){
+      res.status(409).send({error: "A book with the provided title already exists"})
+    }else {
+        books[bookIndex] = body
+        books[bookIndex].id = book.id
+        res.send({ book: books[bookIndex] })
+    }
   })
 module.exports = router
