@@ -103,8 +103,7 @@ router.put("/:id", (req, res) => {
     return res.status(409).send({ error: "A book with the provided title already exists" });
 
   } else if (bookIsBook(updatedBooks)) {
-    newId++
-    Object.assign(booksToUpdate, {...updatedBooks, id: newId})
+    Object.assign(booksToUpdate, {...updatedBooks})
     const updatedEntry = books.find((book) => book.id === id);
     return res.status(200).send({book: updatedEntry})
   }
