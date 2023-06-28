@@ -83,14 +83,14 @@ filmsRouter.put("/:id", (req, res) => {
 filmsRouter.patch("/:id", (req, res) => {
   const { id } = req.params;
   const film = findFilmByID(Number(id));
-  const title = req.body.title;
+  const director = req.body.director;
 
   const filmIdx = films.findIndex((item) => {
     return item === film;
   });
 
   if (film) {
-    films[filmIdx].title = title;
+    films[filmIdx].director = director;
     return res.send({ film });
   } else {
     return res.status(404).send("A film with the provided ID does not exist");

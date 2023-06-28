@@ -32,7 +32,6 @@ booksRouter.post("/", (req, res) => {
     pages: pages
   };
   books.push(book);
-  console.log(book)
   return res.status(201).send({ book });
 });
 
