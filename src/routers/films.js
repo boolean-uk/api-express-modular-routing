@@ -42,7 +42,7 @@ router.delete('/:id', (req, res) => {
 
     if (film) {
         films.splice(filmIndex, 1)
-        return res.send(film)
+        return res.send({ film })
     } else {
         return res.status(404).send({error: "string"})
     }

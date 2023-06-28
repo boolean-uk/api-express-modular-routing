@@ -42,7 +42,7 @@ router.delete('/:id', (req, res) => {
 
     if (user) {
         users.splice(userIndex, 1)
-        return res.send(user)
+        return res.send({ user })
     } else {
         return res.status(404).send({error: "string"})
     }
