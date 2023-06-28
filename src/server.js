@@ -12,24 +12,21 @@ app.use(morgan("dev"));
 
 // REQUIRE ROUTERS
 const usersRouter = require("./routers/users");
+const filmsRouter = require("./routers/films");
+const booksRouter = require("./routers/books")
 
 // ADD ROUTERS TO APP
 
 // *** USERS ***
 
-// 1 - GET - Retrieve a list of users
 app.use('/users', usersRouter)
 
-// 2 - POST - Create a user
+// *** FILMS ***
 
-// 3 - Get a user by ID
+app.use('/films', filmsRouter)
 
-// 4 - DEL - Delete a user by ID
+// *** FILMS ***
 
-// 5 - PUT - Update a user by ID
-
-// app.listen(port, () => {
-//   console.log(`server is running on http://localhost:${port}`)
-// })
+app.use('/books', booksRouter)
 
 module.exports = app
