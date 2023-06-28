@@ -79,7 +79,7 @@ router.put("/:id", (req, res) => {
   } else {
     users[userIndex] = body;
     users[userIndex].id = user.id;
-    res.send({ user: users[userIndex] });
+    res.json({ user: users[userIndex] });
   }
 });
 
