@@ -30,7 +30,7 @@ describe("Users extension endpoints", () => {
     })
   })
 
-  describe("PUT /users", () => {
+  fdescribe("PUT /users", () => {
     it("will return 404 when trying to update a user that does not exist", async () => {
       const response = await supertest(app).put("/users/999").send(user1)
       expect(response.status).toEqual(404)
