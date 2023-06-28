@@ -33,6 +33,7 @@ router.post("/", (req, res) => {
   }
 });
 
+// 3. Get a user by ID
 router.get("/:id", (req, res) => {
   const userId = Number(req.params.id);
   const user = findUserById(userId);
@@ -43,6 +44,7 @@ router.get("/:id", (req, res) => {
   } else res.json({ user: user });
 });
 
+// 4. Delete a user by ID
 router.delete("/:id", (req, res) => {
   const userId = Number(req.params.id);
   const userIndex = users.findIndex((user) => user.id === userId);
@@ -57,6 +59,7 @@ router.delete("/:id", (req, res) => {
   }
 });
 
+// 5. Update a user by ID
 router.put("/:id", (req, res) => {
   const userId = Number(req.params.id);
   const body = req.body;
