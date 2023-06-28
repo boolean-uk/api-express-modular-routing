@@ -56,18 +56,21 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
+  const updatedUser = req.body
   const userToUpdate = users.find((user) => user.id === id);
 
   if (userToUpdate) {
-    userToUpdate.email = req.body.email;
-    const email = users.find((user) => user.email === userToUpdate.email);
+
+    const email = users.find((user) => user.email === updatedUser.email);
 
     if (email) {
       return res
         .status(409)
         .send({ error: "A user with the provided email already exists" });
     }
-    return res.send({ user: userToUpdate });
+    Object.assign(userToUpdate, updatedUser)
+    const newUser = users.find((user) => user.id === id)
+    return res.send({ user: newUser });
   } else {
     return res
       .status(404)

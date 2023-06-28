@@ -65,7 +65,7 @@ router.put('/:id', (req, res) => {
   const updatedFilm = req.body
   const filmToUpdate = films.find((film) => film.id === id)
   if(filmToUpdate) {
-    Object.assign(filmToUpdate, updatedFilm)
+
     const title = films.find((film) => film.title === updatedFilm.title);
 
     if(title) {
@@ -73,6 +73,7 @@ router.put('/:id', (req, res) => {
       .status(409)
       .send({ error: "A film with the provided title already exists" });
     }
+    Object.assign(filmToUpdate, updatedFilm)
     const newFilm = films.find((film) => film.id === id)
     return res.send({film: newFilm})
   }
