@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
   }
 
   books.push(book)
-  res.status(201).json(book)
+  res.status(201).json({book})
 })
 
 router.get('/:id', (req, res) => {
@@ -78,7 +78,7 @@ router.get('/:id', (req, res) => {
     return
   }
 
-  res.json(book)
+  res.json({book})
 })
 
 router.delete('/:id', (req, res) => {
@@ -95,7 +95,7 @@ router.delete('/:id', (req, res) => {
     return
   }
   books.splice(books.indexOf(book), 1)
-  res.json(book)
+  res.json({book})
 })
 
 router.put('/:id', (req, res) => {
@@ -129,7 +129,7 @@ router.put('/:id', (req, res) => {
   }
 
   books.splice(books.indexOf(book), 1, {...book, title, type, author})
-  res.json({...book, title, type, author})
+  res.json({book: {...book, title, type, author}})
 })
 
 router.patch('/:id', (req, res) => {

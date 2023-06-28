@@ -57,6 +57,7 @@ router.get('/:id', (req, res) => {
     
 })
 
+// DELETE by id
 router.delete('/:id', (req, res) => {
     const id = req.params.id
     const user = users.find((item) => item.id === Number(id))
@@ -70,6 +71,8 @@ router.delete('/:id', (req, res) => {
 
 })
 
+
+// PUT by id
 router.put('/:id', (req, res) => {
     if(req.body.email === undefined){
         res.status(400).json({error: "Missing fields in the request body"})

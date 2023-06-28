@@ -62,5 +62,64 @@ router.post('/', (req, res) => {
 
 })
 
+// GET by id
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+
+    const film = films.find((item) => item.id === Number(id))
+
+    if(!film) {
+        res.status(404).json({error: "A film with the provided id doesn't exist"})
+    }
+
+    res.json({film})
+})
+
+// DELETE by id
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+    const film = films.find((item) => item.id === Number(id))
+    films.splice(films.indexOf(film), 1)
+
+    if(!film) {
+        res.status(404).json({error: "A film with the provided id doesn't exist"})
+    }
+
+    res.json({film})
+
+})
+
+// PUT by id
+router.put('/:id', (req, res) => {
+
+    const id = req.params.id
+    const film = films.find((item) => item.id === Number(id))
+    if(!film) {
+        res.status(404).json({error: "A film with the provided id doesn't exist"})
+        return
+    }
+
+   let duplicate
+   films.forEach((obj) => {
+    if(obj.title === req.body.title){
+        res.status(409).json({error: "A film with the provided title already exists"})
+        duplicate = true
+    }
+   })
+   if(duplicate) {
+    return
+    }
+
+    
+    const updatedFilm = film
+    updatedFilm.title = req.body.title
+    updatedFilm.director = req.body.director
+    films.splice(films.indexOf(film), 1, updatedFilm)
+
+    res.json({film: updatedFilm})
+})
+
+
+
 
 module.exports = router
