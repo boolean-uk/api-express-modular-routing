@@ -30,7 +30,7 @@ usersRouter.post('/', (req, res) => {
 // 3 - Get a user by ID
 usersRouter.get('/:id', (req, res) => {
   const { id } = req.params
-  const user = findUserByID(id)
+  const user = findUserByID(Number(id))
 
   if (user) {
     return res.send({user})
@@ -40,9 +40,24 @@ usersRouter.get('/:id', (req, res) => {
 })
 
 // 4 - DEL - Delete a user by ID
+usersRouter.delete('/:id', (req, res) => {
+  const { id } = req.params
+  const user = findUserByID(Number(id))
 
+  const userIdx = users.findIndex((item) => {
+    return item === user
+  })
+
+  if (user) {
+    const user = users.splice(userIdx, 1)[0]
+    return res.send({user})
+  } else {
+    return res.status(404).send('A user with the provided ID does not exist')
+  }
+})
 
 
 // 5 - PUT - Update a user by ID
+
 
 module.exports = usersRouter
