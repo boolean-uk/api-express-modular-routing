@@ -59,54 +59,40 @@ router.delete("/:id", (req, res) => {
   }
 });
 
-function bookIsBook(checkBook) {
-  if (
-    checkBook.hasOwnProperty('title') && 
-    checkBook.hasOwnProperty('author') && 
-    checkBook.hasOwnProperty('type')
-  ) {
-    return true
-  } else {
-    return false
-  }
-}
-
-function bookIsMissingFields(checkBook) {
-  if (typeof checkBook !== 'object') {
-    return null
-  }
-  if (
-    !checkBook.hasOwnProperty('title') ||
-    !checkBook.hasOwnProperty('author') || 
-    !checkBook.hasOwnProperty('type')
-  ) {
-    return true
-  } else {
-    return false
-  }
-}
-
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const updatedBooks = req.body;
   const booksToUpdate = books.find((book) => book.id === id);
+  const title = books.find((book) => book.title === updatedBooks.title);
 
-  const bookTitleExistsInBooks = books.find((book) => book.title === updatedBooks.title)
-
-  if(bookIsMissingFields(updatedBooks) && bookIsMissingFields(updatedBooks) !==null) {
-    return res.status(400).send({ error: "Missing fields in request body" })
-
-  } else if(!booksToUpdate) {
-    return res.status(404).send({ error: "A book the provided ID does not exist" })
-
-  } else if (bookTitleExistsInBooks) {
-    return res.status(409).send({ error: "A book with the provided title already exists" });
-
-  } else if (bookIsBook(updatedBooks)) {
-    Object.assign(booksToUpdate, {...updatedBooks})
-    const updatedEntry = books.find((book) => book.id === id);
-    return res.status(200).send({book: updatedEntry})
+  if (
+    updatedBooks.title !== "" &&
+    updatedBooks.title !== undefined &&
+    updatedBooks.author !== "" &&
+    updatedBooks.author !== undefined &&
+    booksToUpdate
+  ) {
+    if (title) {
+      return res
+        .status(409)
+        .send({ error: "A book with the provided title already exists" });
+    }
+    Object.assign(booksToUpdate, updatedBooks);
+    const newBook = books.find((book) => book.id === id);
+    return res.send({ book: newBook });
+  } else if (
+    updatedBooks.title === "" ||
+    updatedBooks.title === undefined ||
+    updatedBooks.author === "" ||
+    updatedBooks.author === undefined ||
+    booksToUpdate
+  ) {
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
+
+  return res
+    .status(404)
+    .send({ error: "A book the provided ID does not exist" });
 });
 
 module.exports = router;
