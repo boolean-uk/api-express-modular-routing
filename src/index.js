@@ -3,7 +3,7 @@
 // const morgan = require("morgan");
 // const express = require("express");
 
-const app = express()
+const app = require('./server.js')
 const port = 3030;
 
 // // ROUTES
