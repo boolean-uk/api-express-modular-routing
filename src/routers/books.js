@@ -65,13 +65,13 @@ router.put("/:id", (req, res) => {
   const booksToUpdate = books.find((book) => book.id === id);
   const title = books.find((book) => book.title === updatedBooks.title);
 
-  if (
+  const noMissingFields =
     updatedBooks.title !== "" &&
     updatedBooks.title !== undefined &&
     updatedBooks.author !== "" &&
-    updatedBooks.author !== undefined &&
-    booksToUpdate
-  ) {
+    updatedBooks.author !== undefined;
+
+  if (noMissingFields && booksToUpdate) {
     if (title) {
       return res
         .status(409)
@@ -80,13 +80,7 @@ router.put("/:id", (req, res) => {
     Object.assign(booksToUpdate, updatedBooks);
     const newBook = books.find((book) => book.id === id);
     return res.send({ book: newBook });
-  } else if (
-    updatedBooks.title === "" ||
-    updatedBooks.title === undefined ||
-    updatedBooks.author === "" ||
-    updatedBooks.author === undefined ||
-    booksToUpdate
-  ) {
+  } else if (!noMissingFields || booksToUpdate) {
     return res.status(400).send({ error: "Missing fields in request body" });
   }
 
