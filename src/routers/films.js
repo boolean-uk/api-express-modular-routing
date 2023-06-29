@@ -13,18 +13,10 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     const body = req.body
     const newFilm = {id: id, ...body}
-    const checkFilm = films.find((film) => film.title = body.title)
-    
-    if (checkFilm) {
-        return res.status(409).send({ error: "A film with the provided title already exists"})
-    }
-    if (body.title.length !== 0 || body.director.length !== 0) {
-        films.push(newFilm)
-        id++
-        return res.status(201).send( {film: newFilm})
-    } else {
-        return res.status(400).send({ error: "Missing fields in request body"})
-    }
+    films.push(newFilm)
+    id++
+
+    return res.status(201).send( {film: newFilm})
 })
 
 // Get film by id
@@ -64,22 +56,34 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
     const id = Number(req.params.id)
     const body = req.body
-    const checkId = films.find((film) => film.id === id)
-    const checkFilm = films.find((film) => film.title = body.title)
 
-    if(!checkId) {
-        return res.status(404).send({ error: "A film with provided ID does not exist"})
+    let updatedFilm = films.find((film) => film.id === id)
+    Object.assign(updatedFilm, body)
+    return res.send({film: updatedFilm})
+})
+
+// PATCH Update a film by ID
+router.patch('/:id', (req, res) => {
+    const id = Number(req.params.id)
+    const body = req.body
+    const checkId = films.find((film) => film.id === id)
+    const checkTitle = films.find((film) => film.title === body.title)
+
+    if (body.title.length === 0 && body.director.length === 0) {
+        return res.status(400).send({ error: "Missing fields in the request body"})
     }
-    if (checkFilm) {
+    if (!checkId) {
+        return res.status(404).send({ error: "A film with the provided ID does not exist"})
+    }
+    if (checkTitle) {
         return res.status(409).send({ error: "A film with the provided title already exists"})
     }
-    if (body.title.length !== 0 && body.director.length !== 0) {
-        let updatedFilm = films.find((film) => film.id === id)
-        Object.assign(updatedFilm, body)
-        return res.send({film: updatedFilm})
-    } else {
-        return res.status(400).send({ error: "Missing fields in the request"})
+    if (body.title.length !== 0 || body.director.length !== 0) {
+        if (body.title.length !== 0) {
+            
+        }
     }
+
 })
 
 module.exports = router
