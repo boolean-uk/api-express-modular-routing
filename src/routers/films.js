@@ -1,8 +1,8 @@
 const express = require('express');
-const { films } = require('../../data/index')
+const { films } = require('../../data/index');
 
 const router = express.Router();
-let id = getRandomId();
+let id = films.length + 1;
 
 // Retrieve a list of films
 router.get('/', (req, res) => {
@@ -54,10 +54,5 @@ router.put('/:id', (req, res) => {
     res.status(404).end();
   }
 });
-
-// Generate a random ID
-function getRandomId() {
-  return Math.floor(Math.random() * 1000) + 1;
-}
 
 module.exports = router;
