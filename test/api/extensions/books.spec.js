@@ -30,9 +30,6 @@ describe("Books Extension Endpoint", () => {
             title: "1984",
             type: "test1",
             author: "test1",
-            topic: "test1",
-            publicationDate: "2020-11-16T00:00:00.000Z",
-            pages: 1
           })
 
         expect(response.status).toEqual(409)
@@ -53,10 +50,7 @@ describe("Books Extension Endpoint", () => {
         const response = await supertest(app).put("/books/999").send({
             title: "test1",
             type: "test1",
-            author: "test1",
-            topic: "test1",
-            publicationDate: "2020-11-16T00:00:00.000Z",
-            pages: 1
+            author: "test1"
           })
 
         expect(response.status).toEqual(404)
@@ -67,9 +61,6 @@ describe("Books Extension Endpoint", () => {
             title: "1984",
             type: "test1",
             author: "test1",
-            topic: "test1",
-            publicationDate: "2020-11-16T00:00:00.000Z",
-            pages: 1
           })
 
         expect(response.status).toEqual(409)
@@ -83,9 +74,6 @@ describe("Books Extension Endpoint", () => {
             title: "test1",
             type: "test1",
             author: "test1",
-            topic: "test1",
-            publicationDate: "2020-11-16T00:00:00.000Z",
-            pages: 1
           })
 
         expect(response.status).toEqual(404)
@@ -96,9 +84,6 @@ describe("Books Extension Endpoint", () => {
             title: "1984",
             type: "test1",
             author: "test1",
-            topic: "test1",
-            publicationDate: "2020-11-16T00:00:00.000Z",
-            pages: 1
           })
 
         expect(response.status).toEqual(409)
