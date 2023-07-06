@@ -1,5 +1,5 @@
 /* REQUIRE APP */
-const app = require('./server.js')
+const app = require("./server.js");
 const port = 3030;
 
 /* START SERVER */
