@@ -10,7 +10,7 @@ describe("Films extension endpoints", () => {
     it("will return 404 when getting a film that does not exist", async () => {
       const response = await supertest(app).get("/films/999")
       expect(response.status).toEqual(404)
-      expect(response.body.error).toEqual('A film with provided ID does not exist')
+      expect(response.body.error).toEqual('A film with the provided ID does not exist')
     })
   })
 
@@ -18,7 +18,7 @@ describe("Films extension endpoints", () => {
     it("will return 400 when trying to create a film with missing fields", async () => {
       const response = await supertest(app).post("/films").send({})
       expect(response.status).toEqual(400)
-      expect(response.body.error).toEqual('Missing fields in request body')
+      expect(response.body.error).toEqual('Missing fields in the request body')
     })
     it("will return 409 when creating a film with an already in-use title", async () => {
       const response = await supertest(app)
@@ -34,7 +34,7 @@ describe("Films extension endpoints", () => {
     it("will return 404 when trying to update a film that does not exist", async () => {
       const response = await supertest(app).put("/films/999").send(book1)
       expect(response.status).toEqual(404)
-      expect(response.body.error).toEqual('A film with provided ID does not exist')
+      expect(response.body.error).toEqual('A film with the provided ID does not exist')
     })
 
     it("will return 409 when trying to update a films title to a title already in use", async () => {
@@ -51,7 +51,7 @@ describe("Films extension endpoints", () => {
     it("will return 404 when trying to update a film that does not exist", async () => {
       const response = await supertest(app).put("/films/999").send(book1)
       expect(response.status).toEqual(404)
-      expect(response.body.error).toEqual('A film with provided ID does not exist')
+      expect(response.body.error).toEqual('A film with the provided ID does not exist')
     })
 
     it("will return 409 when trying to update a films title to a title already in use", async () => {
@@ -68,7 +68,7 @@ describe("Films extension endpoints", () => {
     it("will return 404 when trying to delete a film that does not exist", async () => {
       const response = await supertest(app).delete("/films/999")
       expect(response.status).toEqual(404)
-      expect(response.body.error).toEqual('A film with provided ID does not exist')
+      expect(response.body.error).toEqual('A film with the provided ID does not exist')
     })
   })
 
