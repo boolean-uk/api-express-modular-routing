@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const body = req.body;
-  console.log('bodddddy',);
   const titleFinder = books.find((book) => book.title === body.title);
   if (
     !Object.hasOwn(body, "author") ||
@@ -66,7 +65,6 @@ router.put("/:id", (req, res) => {
   ) {
     res.status(400).send({ error: "Missing fields in request body" });
   } else if (!book) {
-    console.log(Object.keys(body));
     res.status(404).send({ error: "A book the provided ID does not exist" });
   } else if (titleFinder) {
     res
