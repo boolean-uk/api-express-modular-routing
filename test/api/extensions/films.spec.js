@@ -71,4 +71,11 @@ describe("Films extension endpoints", () => {
       expect(response.body.error).toEqual('A film with provided ID does not exist')
     })
   })
+
+  describe("GET /films?director=", async () => {
+    const response = await supertest(app).get("/films?director=Arthur%20Penn")
+    expect(response.status).toEqual(200)
+    expect(response.body.films.length).toEqual(1)
+    expect(response.body.films[0].title).toEqual('Bonnie and Clyde')
+  })
 })
