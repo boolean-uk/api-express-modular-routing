@@ -14,12 +14,12 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const body = req.body;
+  console.log('bodddddy',);
   const titleFinder = books.find((book) => book.title === body.title);
   if (
     !Object.hasOwn(body, "author") ||
     !Object.hasOwn(body, "title") ||
-    !Object.hasOwn(body, "type") ||
-    !Object.hasOwn(body, "pages")
+    !Object.hasOwn(body, "type")
   ) {
     res.status(400).send({ error: "Missing fields in request body" });
   } else if (titleFinder) {
@@ -62,8 +62,7 @@ router.put("/:id", (req, res) => {
   if (
     !Object.hasOwn(body, "author") ||
     !Object.hasOwn(body, "title") ||
-    !Object.hasOwn(body, "type") ||
-    !Object.hasOwn(body, "pages")
+    !Object.hasOwn(body, "type")
   ) {
     res.status(400).send({ error: "Missing fields in request body" });
   } else if (!book) {
