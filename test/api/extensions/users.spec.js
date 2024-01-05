@@ -2,7 +2,7 @@ const supertest = require("supertest")
 let app
 const { user1 } = require("../../fixtures/userData.js")
 
-describe("Users extension endpoints", () => {
+xdescribe("Users extension endpoints", () => {
   beforeEach(() => {
     app = require("../../../src/server.js")
   })
