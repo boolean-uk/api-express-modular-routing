@@ -53,4 +53,13 @@ router.get('/:id', (req, res) => {
     return res.status(200).json({user: foundUser})
 })
 
+router.delete('/:id', (req, res) => {
+    const foundUser = findUserByID(req, res)
+    const foundUserindex = users.indexOf(foundUser)
+
+    users.splice(foundUserindex, 1)
+
+    return res.status(200).json({user: foundUser})
+})
+
 module.exports = router;
