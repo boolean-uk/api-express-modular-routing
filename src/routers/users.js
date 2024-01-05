@@ -38,4 +38,10 @@ router.post("/", (req, res) => {
     res.status(201).json({ user: newUser })
 })
 
+router.delete("/:id", (req, res) => {
+    const userDelete = findUser(req, res);
+    users.splice(users.indexOf(userDelete), 1);
+    res.status(200).json({ message: `User with the Id: ${userDelete.id} and email ${userDelete.email} has been deleted`,  });
+})
+
 module.exports = router;
