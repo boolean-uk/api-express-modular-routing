@@ -16,4 +16,12 @@ router.get("/:id", (req, res) => {
   return res.json({ film: foundFilm });
 });
 
+router.post("/", (req, res) => {
+  const { title, director } = req.body;
+  const newFilm = { id: nextId++, title, director };
+
+  filmData.push(newFilm);
+  return res.status(201).json({ film: newFilm });
+});
+
 module.exports = router;
