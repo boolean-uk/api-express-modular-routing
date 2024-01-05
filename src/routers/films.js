@@ -30,14 +30,14 @@ router.post("/", (req, res) => {
   const hasAllFields = checkForAllFields(expectedFields, req, res);
   if (!hasAllFields) return;
 
-  const hasUniqueFields = checkForExistingFields(
+  const hasMatchingFields = checkForExistingFields(
     uniqueField,
     req,
     res,
     data,
     itemType
   );
-  if (!hasUniqueFields) return;
+  if (hasMatchingFields) return;
 
   /**
    * @type {Object} newItem
@@ -64,14 +64,14 @@ router.put("/:id", (req, res) => {
   const foundItem = findById(data, req, res, itemType);
   if (!foundItem) return;
 
-  const hasUniqueFields = checkForExistingFields(
+  const hasMatchingFields = checkForExistingFields(
     uniqueField,
     req,
     res,
     data,
     itemType
   );
-  if (!hasUniqueFields) return;
+  if (hasMatchingFields) return;
 
   expectedFields.forEach((field) => {
     foundItem[field] = req.body[field];
