@@ -5,6 +5,7 @@ const getNewUserId = () => ++userId
 
 class User {
   constructor(email){
+    this.id = getNewUserId()
     this.email = email
   }
 }

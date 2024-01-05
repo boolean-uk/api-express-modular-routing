@@ -5,6 +5,7 @@ const getNewFilmId = () => ++filmId
 
 class Film {
   constructor(title, director){
+    this.id = getNewFilmId()
     this.title = title
     this.director = director
   }
