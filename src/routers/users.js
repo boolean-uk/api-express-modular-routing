@@ -26,4 +26,16 @@ router.get("/:id", (req, res) => {
     const foundUserById = findUser(req, res);
     res.status(200).json({ user: foundUserById });
   });
+
+router.post("/", (req, res) => {
+    const body = req.body
+
+    const newUser = {
+        id: users.length + 1,
+        email: body.email,
+    }
+    users.push(newUser)
+    res.status(201).json({ user: newUser })
+})
+
 module.exports = router;
