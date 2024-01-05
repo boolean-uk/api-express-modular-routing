@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const { films } = require("../../data/index")
 const { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm, getDirectorFilms } = require("../functions/filmFunction.js")
+const { format } = require("morgan")
 
 let currentFilmId = 4
 
@@ -42,6 +43,15 @@ router.put("/:id", (req, res) => {
     filmToUpdate.title = details.title
     filmToUpdate.director = details.director
     return res.status(200).json(formatFilm(filmToUpdate))
+})
+
+// PATCH UPDATE FILM BY ID
+router.patch("/:id", (req, res) => {
+    const film = findfilm(req, res, films)
+    const details = getNewFilmDetails(req, res, films)
+    if (details.title) film.title = details.title
+    if (details.director) film.director = details.director
+    return res.status(200).json(formatFilm(film))
 })
 
 module.exports = router

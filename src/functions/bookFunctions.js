@@ -1,5 +1,6 @@
 const getNewBookDetails = (req, res, data) => {
     const { title, type, author } = req.body
+    if (!title || !type || !author) return res.status(400).json({"error": "Missing fields in request body"})
     const isTitleExisting = data.find(book => book.title === title)
     if (isTitleExisting) return res.status(409).json({"error":"A book with the provided title already exists"})
     return { title, type, author }
