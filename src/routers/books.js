@@ -19,7 +19,7 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   const { title, type, author } = req.body;
   const newBook = { id: nextId++, title, type, author };
-  
+
   bookData.push();
   return res.status(201).json({ book: newBook });
 });
@@ -37,7 +37,7 @@ router.put("/:id", (req, res) => {
   foundBook.title = req.body.title;
   foundBook.type = req.body.type;
   foundBook.author = req.body.author;
-  
+
   return res.json({ book: foundBook });
 });
 
