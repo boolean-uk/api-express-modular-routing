@@ -39,8 +39,14 @@ router.post("/", (req, res) => {
   );
   if (!hasUniqueFields) return;
 
-  const { email } = req.body;
-  const newItem = { id: nextId++, email };
+  /**
+   * @type {Object} newItem
+   */
+  const newItem = {};
+  expectedFields.forEach((field) => {
+    newItem[field] = req.body[field];
+  });
+  newItem.id = nextId++;
 
   data.push(newItem);
   res.status(201).json({ user: newItem });
