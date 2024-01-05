@@ -5,7 +5,10 @@ const router = express.Router();
 
 const id = users.length + 1;
 
-const findUserBy = (id) => {(users.find((user) => user.id === id))}
+const findUserBy = (id) => {
+    const idNum = parseInt(id)
+    return users.find((user) => user.id === idNum)
+}
 
 router.get("/", (req, res) => {
   return res.json({ users: users });
