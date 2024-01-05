@@ -1,4 +1,23 @@
 /**
+ * @param {string[]} expectedFields
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {boolean}
+ */
+function checkForAllFields(expectedFields, req, res) {
+  const inputFields = Object.keys(req.body);
+
+  const allFields = expectedFields.every((/** @type {string} */ field) =>
+    inputFields.includes(field)
+  );
+
+  if (!allFields) {
+    res.status(400).json({ error: "Missing fields in request body" });
+  }
+
+  return allFields;
+}
+/**
  *
  * @param { Object[] } dataArray
  * @param { import("express").Request } req
@@ -18,6 +37,7 @@ function findNextId(dataArray) {
 }
 
 module.exports = {
+  checkForAllFields,
   findById,
   findNextId,
 };
