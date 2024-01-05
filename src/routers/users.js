@@ -21,5 +21,13 @@ router.get("/:id", (req, res) => {
     }
 })
 
+// Post request to create new user
+router.post("/", (req, res) => {
+    const newUser = req.body;
+    newUser.id = users.length + 1;
+    users.push(newUser);
+    return res.status(201).json({user: newUser})
+})
+
 // Write routes here...
 module.exports = router
