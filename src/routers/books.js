@@ -10,4 +10,10 @@ router.get("/", (req, res) => {
   return res.json({ books: bookData });
 });
 
-module.exports = router
+router.get("/:id", (req, res) => {
+  const foundBook = findById(bookData, req);
+
+  return res.json({ book: foundBook });
+});
+
+module.exports = router;
