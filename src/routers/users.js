@@ -24,4 +24,11 @@ router.post("/", (req, res) => {
   return res.status(201).json({ user: newUser });
 });
 
+router.delete("/:id", (req, res) => {
+  const foundUser = findById(userData, req);
+
+  userData.splice(userData.indexOf(foundUser), 1);
+  return res.json({ user: foundUser });
+});
+
 module.exports = router;
