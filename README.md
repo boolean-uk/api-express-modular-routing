@@ -18,8 +18,11 @@ In this exercise, you are going to extend the REST APIs you have been building t
 
 ## Standard Criteria
 - Implement the `users`, `films` and `books` endpoints for this API according to the [API spec](https://boolean-uk.github.io/api-express-modular-routing/)
+- You should IGNORE error handling, this is only required for the extension
 - Make sure all tests are passing -- you can run them yourself using `npm run test`
 
 ## Extended Criteria
-- Implement the 3 `EXTENSION` criteria as highlighted in the [API spec](https://boolean-uk.github.io/api-express-modular-routing/) -- they are the last few endpoints for the `films` and `books` resources
+- Implement the `EXTENSION` criteria as highlighted in the [API spec](https://boolean-uk.github.io/api-express-modular-routing/)
+  - You need to implement error handling for all existing endpoints
+  - There are also a few new endpoints for the `films` and `books` APIs
 - Make sure all tests are passing -- you can run them yourself using `npm run test-extensions`
