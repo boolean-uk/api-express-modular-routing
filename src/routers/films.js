@@ -90,7 +90,6 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const foundFilm = findFilmById(req, res);
   const { title, director } = req.body;
 
   const titleExists = films.some((film) => film.title === title);
@@ -100,6 +99,8 @@ router.put("/:id", (req, res) => {
       .status(409)
       .send({ error: "A film with the provided title already exists" });
   }
+
+  const foundFilm = findFilmById(req, res);
 
   if (foundFilm) {
     const filmIndex = films.indexOf(foundFilm);
@@ -119,10 +120,9 @@ router.put("/:id", (req, res) => {
 });
 
 router.patch("/:id", (req, res) => {
-  const foundFilm = findFilmById(req, res);
   const { title, director } = req.body;
 
-  if (!title && !body.director) {
+  if (!title && !director) {
     return res.status(400).send({ error: "Missing fields in request body" });
   }
 
@@ -133,6 +133,8 @@ router.patch("/:id", (req, res) => {
       .status(409)
       .send({ error: "A film with the provided title already exists" });
   }
+
+  const foundFilm = findFilmById(req, res);
 
   if (foundFilm) {
     const filmIndex = films.indexOf(foundFilm);

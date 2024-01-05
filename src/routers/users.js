@@ -73,7 +73,6 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const foundUser = findUserById(req, res);
   const { email } = req.body;
 
   if (!email) {
@@ -87,6 +86,8 @@ router.put("/:id", (req, res) => {
       .status(409)
       .send({ error: "A user with the provided email already exists" });
   }
+
+  const foundUser = findUserById(req, res);
 
   if (foundUser) {
     const userIndex = users.indexOf(foundUser);

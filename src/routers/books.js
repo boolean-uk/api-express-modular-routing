@@ -75,11 +75,10 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const foundBook = findBookById(req, res);
   const { title, type, author } = req.body;
 
   if (!title || !type || !author) {
-    return res.status(400).send({ error: "Missing field in request body" });
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
   const titleExists = books.some((book) => book.title === title);
@@ -89,6 +88,8 @@ router.put("/:id", (req, res) => {
       .status(409)
       .send({ error: "A book with the provided title already exists" });
   }
+
+  const foundBook = findBookById(req, res);
 
   if (foundBook) {
     const bookIndex = books.indexOf(foundBook);
@@ -109,11 +110,10 @@ router.put("/:id", (req, res) => {
 });
 
 router.patch("/:id", (req, res) => {
-  const foundBook = findBookById(req, res);
   const body = req.body;
 
   if (!body.title && !body.type && !body.author) {
-    return res.status(400).send({ error: "Missing field in request body" });
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
   const titleExists = books.some((book) => book.title === body.title);
@@ -123,6 +123,8 @@ router.patch("/:id", (req, res) => {
       .status(409)
       .send({ error: "A book with the provided title already exists" });
   }
+
+  const foundBook = findBookById(req, res);
 
   if (foundBook) {
     const bookIndex = books.indexOf(foundBook);
