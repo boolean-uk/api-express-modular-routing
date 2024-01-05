@@ -44,7 +44,6 @@ router.post('/', (req, res) => {
   }
 
   if (duplicate(title, director)) {
-    console.log(title, director)
     res.status(409).json({ "error": "A film with the provided title and director already exists" })
   }
 
@@ -80,7 +79,7 @@ router.put('/:id', (req, res) => {
     res.status(400).json({ "error": "Missing fields in the request body" })
   }
 
-  if (duplicate(title)) {
+  if (duplicate(title, director)) {
     res.status(409).json({ "error": "A film with the provided title and director already exists" })
   }
 

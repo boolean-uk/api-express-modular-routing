@@ -69,6 +69,30 @@ router.get('/:id', (req, res) => {
   }
 })
 
+router.put('/:id', (req, res) => {
+  const  { id } = req.params
+  let book = findBookById(Number(id))
+
+  if (!book) {
+    res.status(404).json({ "error": "A book with the provided ID does not exist" })
+  }
+
+  const { title, author, type } = req.body
+
+  if (!title || !author || !type) {
+    res.status(400).json({ "error": "Missing fields in the request body" })
+  }
+
+  if (duplicate(title, author, type)) {
+    res.status(409).json({ "error": "A book with the provided title, author and type already exists" })
+  }
+
+  if (book) {
+    book = { ...book, title, author, type }
+    res.json( { book })
+  }
+})
+
 router.delete('/:id', (req, res) => {
   const { id } = req.params
   const book = findBookById(Number(id))
