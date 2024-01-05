@@ -40,4 +40,12 @@ router.delete("/:id", (req, res) => {
     res.status(200).json({ message: `Film with the Id: ${filmDelete.id} and title: ${filmDelete.title}. Has been deleted`,  });
 })
 
+router.put("/:id", (req, res) => {
+    const filmUpdate = findFilm(req, res);
+    const body = req.body;
+    filmUpdate.title = body.title;
+    filmUpdate.director = body.director;
+    res.status(200).json({ film: filmUpdate });
+})
+
 module.exports = router;
