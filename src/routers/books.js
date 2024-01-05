@@ -69,12 +69,14 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const id = req.params.id;
-  const foundBook = findById(id, res);
   const updatedBook = req.body;
   const { title, type, author } = updatedBook;
+
+  hasAllFields(updatedBook, res);
+  
+  const foundBook = findById(id, res);
   
   doesTitleExist(title, res);
-  hasAllFields(updatedBook, res);
 
   foundBook.title = title;
   foundBook.type = type;

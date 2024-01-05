@@ -37,7 +37,7 @@ describe("Books Extension Endpoint", () => {
     })
   })
 
-  fdescribe("PUT /books", () => {
+  describe("PUT /books", () => {
     it("will return 400 when updating a book with missing body fields", async () => {
         const response = await supertest(app).put("/books/999").send({
             title: "test1",
