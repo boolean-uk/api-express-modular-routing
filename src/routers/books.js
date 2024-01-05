@@ -88,5 +88,29 @@ router.put("/:id", (req, res) => {
     return res.status(200).json({ book: foundBook });
 });
 
+router.patch("/:id", (req, res) => {
+    const foundBook = findBookByID(req, res);
+    const { title, type, author, pages } = req.body;
+
+    if (title === "" || type === "" || author === "" || !req.body) {
+        return res
+            .status(400)
+            .json({ ERROR: "Missing fields in request body" });
+    }
+
+    if (bookMatch(req.body)) {
+        return res
+            .status(409)
+            .json({ ERROR: "A book with the provided title already exists" });
+    }
+
+    foundBook.title = title ? title : foundBook.title;
+    foundBook.type = type ? type : foundBook.type;
+    foundBook.author = author ? author : foundBook.author;
+    foundBook.pages = pages ? pages : foundBook.pages;
+
+    return res.status(200).json({ book: foundBook });
+});
+
 
 module.exports = router
