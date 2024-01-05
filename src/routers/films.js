@@ -10,4 +10,4 @@ router.get("/", (req, res) => {
   return res.json({ films: filmData });
 });
 
-module.exports = router
+module.exports = router;
