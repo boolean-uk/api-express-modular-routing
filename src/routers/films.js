@@ -16,7 +16,7 @@ const findFilmBy = (id, res) => {
     if (!foundFilm)
       return res
         .status(404)
-        .json({ error: "A film with the provided ID does not exist" });
+        .json({ error: "A film with provided ID does not exist" });
     return foundFilm;
   };
 
@@ -46,5 +46,13 @@ router.get("/:id", (req, res) => {
     const foundFilm = findFilmBy(req.params.id, res);
     return res.json({ film: foundFilm });
 });
+
+router.delete("/:id", (req, res) => {
+    const foundFilm = findFilmBy(req.params.id, res);
+    const index = films.indexOf(foundFilm);
+    films.splice(index, 1);
+    return res.json({ film: foundFilm });
+});
+  
 
 module.exports = router;
