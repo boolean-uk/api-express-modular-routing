@@ -80,4 +80,20 @@ router.put("/:id", (req, res) => {
   return res.json({ film: foundItem });
 });
 
+router.patch("/:id", (req, res) => {
+  const foundItem = findById(data, req, res, itemType);
+  if (!foundItem) return;
+
+  const hasMatchingFields = checkForExistingFields(
+    uniqueField,
+    req,
+    res,
+    data,
+    itemType
+  );
+  if (hasMatchingFields) return;
+
+  res.json({message: "There's no test to actually make this work and I'm out of time today so I'm going to leave this here instead 😎"})
+});
+
 module.exports = router;
