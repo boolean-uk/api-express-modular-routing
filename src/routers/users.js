@@ -1,6 +1,17 @@
 const { users } = require('../../data/index')
 
 let userId = 0
+
+const initUserId = () => {
+  users.forEach((user) => {
+    if (user.id > userId) {
+      userId = user.id
+    }
+  })
+}
+
+initUserId()
+
 const getNewUserId = () => ++userId
 
 const duplicate = (email) => !!users.find((user) => user.email === email)
@@ -33,6 +44,16 @@ router.post('/', (req, res) => {
   if (user) {
     users.push(user)
     res.status(201).json({ user })
+  }
+})
+
+router.get('/:id', (req, res) => {
+  const { id } = req.query
+  const user = findUserById(Number(id))
+  if (user) {
+    res.json({ user })
+  } else {
+    res.status(404).json({ "error": "A user with the provided ID does not exist" })
   }
 })
 
