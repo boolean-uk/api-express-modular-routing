@@ -59,6 +59,30 @@ router.get('/:id', (req, res) => {
   }
 })
 
+router.put('/:id', (req, res) => {
+  const  { id } = req.params
+  let user = findUserById(Number(id))
+
+  if (!user) {
+    res.status(404).json({ "error": "A user with the provided ID does not exist" })
+  }
+
+  const { email } = req.body
+
+  if (!email) {
+    res.status(400).json({ "error": "Missing fields in the request body" })
+  }
+
+  if (duplicate(email)) {
+    res.status(409).json({ "error": "A user with the provided email already exists" })
+  }
+
+  if (user) {
+    user = { ...user, email }
+    res.json( { user })
+  }
+})
+
 router.delete('/:id', (req, res) => {
   const { id } = req.params
   const user = findUserById(Number(id))
