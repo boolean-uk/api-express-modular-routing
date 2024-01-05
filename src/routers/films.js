@@ -15,11 +15,20 @@ router.get("/:id", (req, res) => {
     const film = films.find((film) => film.id === id)
 
     if(film){
-        res.status(200).json({film: film})
+       return res.status(200).json({film: film})
     } else {
-        res.status(404).json({error: "No such film with this id"})
+         return res.status(404).json({error: "No such film with this id"})
     }
 })
+
+// Post request to create new film
+router.post("/", (req, res) => {
+    const newFilm = req.body;
+    newFilm.id = films.length + 1;
+    films.push(newFilm);
+    return res.status(201).json({film: newFilm})
+})
+
 
 // Write routes here...
 module.exports = router
