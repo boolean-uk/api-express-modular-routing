@@ -78,7 +78,6 @@ router.put("/:id", (req, res) => {
   const { title, director } = updatedFilm;
 
   doesTitleExist(title, res);
-
   // not in the requirements
   if (!title || title.length === 0 || !director || director.length === 0) {
     return res.status(400).json({ error: "Missing fields in request body" });
