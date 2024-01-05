@@ -10,9 +10,14 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // REQUIRE ROUTERS
-const usersRouter = require("./routers/users");
+const usersRouter = require("./routers/users.js");
+const filmsRouter = require('./routers/films.js')
+const booksRouter = require('./routers/books.js')
 
 // ADD ROUTERS TO APP
 
+app.use(usersRouter)
+app.use(filmsRouter)
+app.use(booksRouter)
 
 module.exports = app
