@@ -24,4 +24,11 @@ router.post("/", (req, res) => {
   return res.status(201).json({ film: newFilm });
 });
 
+router.delete("/:id", (req, res) => {
+  const foundFilm = findById(filmData, req);
+
+  filmData.splice(filmData.indexOf(foundFilm), 1);
+  return res.json({ film: foundFilm });
+});
+
 module.exports = router;
