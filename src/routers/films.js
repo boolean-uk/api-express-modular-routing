@@ -10,4 +10,10 @@ router.get("/", (req, res) => {
   return res.json({ films: filmData });
 });
 
+router.get("/:id", (req, res) => {
+  const foundFilm = findById(filmData, req);
+
+  return res.json({ film: foundFilm });
+});
+
 module.exports = router;
