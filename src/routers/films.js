@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
     const filmDelete = findFilm(req, res);
     films.splice(films.indexOf(filmDelete), 1);
-    res.status(200).json({ message: `Film with the Id: ${filmDelete.id} and title: ${filmDelete.title}. Has been deleted`,  });
+    return res.status(200).json({ film: filmDelete });
 })
 
 router.put("/:id", (req, res) => {

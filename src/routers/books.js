@@ -41,7 +41,18 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
     const bookDelete = findBook(req, res);
     books.splice(books.indexOf(bookDelete), 1);
-    res.status(200).json({ message: `Book with the Id: ${bookDelete.id} and title: ${bookDelete.title}. Has been deleted`,  });
+    res.status(200).json({ book: bookDelete });
 })
+
+router.put('/:id', (req, res) => {
+    const bookUpdate = findBook(req, res);
+    const body = req.body;
+    bookUpdate.title = body.title;
+    bookUpdate.type = body.type;
+    bookUpdate.author = body.author;
+    bookUpdate.pages = body.pages;
+    res.status(200).json({ book: bookUpdate });
+})
+
 
 module.exports = router;

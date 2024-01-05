@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const data = require("../../data/index.js");
-const { route } = require("./users.js");
 
 const users = data.users;
 
@@ -42,7 +41,7 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
     const userDelete = findUser(req, res);
     users.splice(users.indexOf(userDelete), 1);
-    res.status(200).json({ message: `User with the Id: ${userDelete.id} and email ${userDelete.email} has been deleted`,  });
+    res.status(200).json({user : userDelete });
 })
 
 router.put("/:id", (req, res) => {
