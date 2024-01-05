@@ -16,4 +16,12 @@ router.get("/:id", (req, res) => {
   return res.json({ book: foundBook });
 });
 
+router.post("/", (req, res) => {
+  const { title, type, author } = req.body;
+  const newBook = { id: nextId++, title, type, author };
+  
+  bookData.push();
+  return res.status(201).json({ book: newBook });
+});
+
 module.exports = router;
