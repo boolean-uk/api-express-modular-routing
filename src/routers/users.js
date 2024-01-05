@@ -4,6 +4,7 @@ let userId = 0
 const getNewUserId = () => ++userId
 
 const duplicate = (email) => !!users.find((user) => user.email === email)
+const findUserById = (id) => users.find((user) => user.id === id)
 
 class User {
   constructor(email){
