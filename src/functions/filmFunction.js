@@ -26,7 +26,7 @@ const findfilm = (req, res, data) => {
     const filmId = Number(req.params.id)
     const foundFilm = data.find(film => film.id === filmId)
     if (!foundFilm) {
-        return res.status(404).json(`Film with ID: ${filmId} does not exist`)
+        return res.status(404).json({"error": "A film with provided ID does not exist"})
     }
     return foundFilm
 }
