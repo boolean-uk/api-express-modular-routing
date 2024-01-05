@@ -10,7 +10,8 @@ router.get("/", (req, res) => {
 });
 
 function findUserByID(req, res) {
-    const foundUser = users.find((user) => user.id === users.id);
+    const userID = Number(req.params.id)
+    const foundUser = users.find((user) => user.id === userID);
 
     if (!foundUser)
         return res
@@ -45,5 +46,11 @@ router.post("/", (req, res) => {
 
     return res.status(201).json({ user: newUser });
 });
+
+router.get('/:id', (req, res) => {
+   const foundUser = findUserByID(req, res)
+
+    return res.status(200).json({user: foundUser})
+})
 
 module.exports = router;
