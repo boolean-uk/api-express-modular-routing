@@ -73,7 +73,7 @@ router.put("/:id", (req, res) => {
   const { title, type, author } = updatedBook;
 
   hasAllFields(updatedBook, res);
-  
+
   const foundBook = findById(id, res);
   
   doesTitleExist(title, res);
@@ -83,6 +83,27 @@ router.put("/:id", (req, res) => {
   foundBook.author = author;
 
   return res.json({ book: foundBook });
+});
+
+
+router.patch("/:id", (req, res) => {
+    const id = req.params.id;
+    const foundBook = findById(id, res);
+    const { title, type, author } = req.body;
+  
+    doesTitleExist(title, res);
+  
+    if (title) {
+      foundBook.title = title;
+    }
+    if (type) {
+      foundBook.type = type;
+    }
+    if (type) {
+        foundBook.author = author;
+    }
+  
+    return res.json({ book: foundBook });
 });
 
 module.exports = router;
