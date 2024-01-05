@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 
 // CREATE A FILM
 router.post("/", (req, res) => {
-    const details = getNewFilmDetails(req)
+    const details = getNewFilmDetails(req, res, films)
     const newFilm = createFilm(details, currentFilmId, films)
     return res.status(201).json(formatFilm(newFilm))
 })
@@ -32,7 +32,7 @@ router.delete("/:id", (req, res) => {
 
 // UPDATE FILM BY ID
 router.put("/:id", (req, res) => {
-    const details = getNewFilmDetails(req)
+    const details = getNewFilmDetails(req, res, films)
     const filmToUpdate = findfilm(req, res, films)
     filmToUpdate.title = details.title
     filmToUpdate.director = details.director

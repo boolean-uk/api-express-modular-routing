@@ -1,9 +1,9 @@
-const getNewFilmDetails = (req) => {
-    const details = {
-        "title": req.body.title,
-        "director": req.body.director
-    }
-    return details
+const getNewFilmDetails = (req, res, data) => {
+    const { title, director } = req.body
+    if (!title || !director) return res.status(400).json({"error": "Missing fields in request body"})
+    const isTitleExisting = data.find(film => film.title === title)
+    if (isTitleExisting) return res.status(409).json({"error":"A film with the provided title already exists"})
+    return { title, director }
 }
 
 const createFilm = (details, currentFilmId, data) => {
