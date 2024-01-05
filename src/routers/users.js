@@ -29,4 +29,12 @@ router.delete("/:id", (req, res) => {
     return res.status(200).json(formatUser(user))
 })
 
+// UPDATE USER BY ID
+router.put("/:id", (req, res) => {
+    const newEmail = getEmail(req)
+    const user = findUser(req, res, users)
+    user.email = newEmail
+    return res.status(200).json(formatUser(user))
+})
+
 module.exports = router
