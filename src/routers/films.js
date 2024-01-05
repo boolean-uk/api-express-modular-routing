@@ -53,5 +53,14 @@ router.get("/:id", (req, res) => {
     return res.status(200).json({ film: foundFilm });
 });
 
+router.delete("/:id", (req, res) => {
+    const foundFilm = findFilmByID(req, res);
+    const foundFilmIndex = films.indexOf(foundFilm);
+
+    films.splice(foundFilmIndex, 1);
+
+    return res.status(200).json({ film: foundFilm });
+});
+
 
 module.exports = router
