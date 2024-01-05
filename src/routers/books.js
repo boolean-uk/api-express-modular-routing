@@ -1,7 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const { books } = require("../../data/index")
-const { getNewBookDetails, createBook, formatBook, findBook } = require("../functions/bookFunctions.js")
+const { getNewBookDetails, createBook, formatBook, findBook, deleteBook } = require("../functions/bookFunctions.js")
+const { route } = require("./films.js")
 
 let currentBookId = 4
 
@@ -21,6 +22,13 @@ router.post("/", (req, res) => {
 router.get("/:id", (req, res) => {
     const book = findBook(req, res, books)
     return res.status(200).json(formatBook(book))
+})
+
+// DELETE BOOK BY ID
+router.delete("/:id", (req, res) => {
+    const bookToDelete = findBook(req, res, books)
+    deleteBook(bookToDelete, books)
+    return res.status(200).json(formatBook(bookToDelete))
 })
 
 module.exports = router

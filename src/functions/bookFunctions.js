@@ -32,4 +32,9 @@ const findBook = (req, res, data) => {
     return foundBook
 }
 
-module.exports = { getNewBookDetails, createBook, formatBook, findBook }
+const deleteBook = (book, data) => {
+    bookIndex = data.indexOf(book)
+    data.splice(bookIndex, 1)
+}
+
+module.exports = { getNewBookDetails, createBook, formatBook, findBook, deleteBook }
