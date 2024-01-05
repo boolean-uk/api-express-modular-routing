@@ -56,7 +56,7 @@ function findById(dataArray, req, res, itemType) {
       .status(404)
       .json({ error: `A ${itemType} with the provided ID does not exist` });
   }
-  
+
   return foundItem;
 }
 
