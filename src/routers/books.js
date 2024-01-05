@@ -24,4 +24,11 @@ router.post("/", (req, res) => {
   return res.status(201).json({ book: newBook });
 });
 
+router.delete("/:id", (req, res) => {
+  const foundBook = findById(bookData, req);
+
+  bookData.splice(bookData.indexOf(foundBook), 1);
+  return res.json({ book: foundBook });
+});
+
 module.exports = router;
