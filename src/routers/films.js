@@ -16,14 +16,14 @@ const expectedFields = ["title", "director"];
 const uniqueField = "title";
 
 router.get("/", (req, res) => {
-  return res.json({ users: data });
+  return res.json({ films: data });
 });
 
 router.get("/:id", (req, res) => {
   const foundItem = findById(data, req, res, itemType);
   if (!foundItem) return;
 
-  res.json({ user: foundItem });
+  res.json({ film: foundItem });
 });
 
 router.post("/", (req, res) => {
@@ -49,7 +49,7 @@ router.post("/", (req, res) => {
   newItem.id = nextId++;
 
   data.push(newItem);
-  res.status(201).json({ user: newItem });
+  res.status(201).json({ film: newItem });
 });
 
 router.delete("/:id", (req, res) => {
@@ -57,7 +57,7 @@ router.delete("/:id", (req, res) => {
   if (!foundItem) return;
 
   data.splice(data.indexOf(foundItem), 1);
-  return res.json({ user: foundItem });
+  return res.json({ film: foundItem });
 });
 
 router.put("/:id", (req, res) => {
@@ -77,7 +77,7 @@ router.put("/:id", (req, res) => {
     foundItem[field] = req.body[field];
   });
 
-  return res.json({ user: foundItem });
+  return res.json({ film: foundItem });
 });
 
 module.exports = router;
