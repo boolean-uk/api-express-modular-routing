@@ -1,4 +1,4 @@
-const films = require('../../data/index')
+const { films } = require('../../data/index')
 
 let filmId = 0
 const getNewFilmId = () => ++filmId

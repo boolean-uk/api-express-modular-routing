@@ -1,4 +1,4 @@
-const users = require('../../data/index')
+const { users } = require('../../data/index')
 
 let userId = 0
 const getNewUserId = () => ++userId

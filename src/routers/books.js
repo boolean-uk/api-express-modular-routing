@@ -1,4 +1,4 @@
-const books = require('../../data/index')
+const { books } = require('../../data/index')
 
 let bookId = 0
 const getNewBookId = () => ++bookId
