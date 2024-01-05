@@ -34,7 +34,7 @@ describe("Users Endpoint", () => {
       expect(response.body.user).not.toEqual(undefined)
       expect(response.body.user.id).toEqual(4)
 
-      for (prop in user1) {
+      for (const prop in user1) {
         expect(response.body.user[prop]).toEqual(user1[prop])
       }
     })
