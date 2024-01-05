@@ -32,4 +32,11 @@ const findfilm = (req, res, data) => {
     return foundFilm
 }
 
-module.exports = { getNewFilmDetails, createFilm, formatFilm, findfilm }
+
+const deleteFilm = (film, data) => {
+    filmIndex = data.indexOf(film)
+    data.splice(filmIndex, 1)
+}
+
+
+module.exports = { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm }

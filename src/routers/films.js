@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { films } = require("../../data/index")
-const { getNewFilmDetails, createFilm, formatFilm, findfilm } = require("../functions/filmFunction.js")
+const { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm } = require("../functions/filmFunction.js")
 
 let currentFilmId = 4
 
@@ -21,6 +21,13 @@ router.post("/", (req, res) => {
 router.get("/:id", (req, res) => {
     const film = findfilm(req, res, films)
     return res.status(200).json(formatFilm(film))
+})
+
+// DELETE FILM BY ID
+router.delete("/:id", (req, res) => {
+    const filmToDelete = findfilm(req, res, films)
+    deleteFilm(filmToDelete, films)
+    return res.status(200).json(formatFilm(filmToDelete))
 })
 
 module.exports = router
