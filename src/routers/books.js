@@ -1,6 +1,17 @@
 const { books } = require('../../data/index')
 
 let bookId = 0
+
+const initBookId = () => {
+  books.forEach((book) => {
+    if (book.id > bookId) {
+      bookId = book.id
+    }
+  })
+}
+
+initBookId()
+
 const getNewBookId = () => ++bookId
 
 class Book {
