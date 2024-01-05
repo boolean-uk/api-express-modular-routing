@@ -15,6 +15,14 @@ const findUserBy = (id, res) => {
   return foundUser;
 };
 
+const checkIfEmailExists = (email, res) => {
+  if (users.find((user) => user.email === email)) {
+    return res
+      .status(409)
+      .json({ error: "A user with the provided email already exists" });
+  }
+};
+
 router.get("/", (req, res) => {
   return res.json({ users: users });
 });
@@ -25,11 +33,7 @@ router.post("/", (req, res) => {
   if (!email || email.length === 0) {
     return res.status(400).json({ error: "Missing fields in request body" });
   }
-  if (users.find((user) => user.email === email)) {
-    return res
-      .status(409)
-      .json({ error: "A user with the provided email already exists" });
-  }
+  checkIfEmailExists(email, res);
 
   newUser.id = id;
   users.push(newUser);
@@ -50,11 +54,17 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-    const id = req.params.id
-    const foundUser = findUserBy(id, res);
-    const newUser = req.body
+  const id = req.params.id;
+  const foundUser = findUserBy(id, res);
+  const newUser = req.body;
+  const { email } = newUser;
 
-    foundUser.email = newUser.email
-    return res.json({ user: foundUser})
-})
+  if (!email || email.length === 0) {
+    return res.status(400).json({ error: "Missing fields in request body" });
+  }
+  checkIfEmailExists(email, res);
+
+  foundUser.email = newUser.email;
+  return res.json({ user: foundUser });
+});
 module.exports = router;
