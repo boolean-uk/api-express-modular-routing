@@ -25,5 +25,18 @@ router.get('/:id', (req, res) => {
     res.status(200).json({ book: foundBook });
 });
 
+router.post('/', (req, res) => {
+    const body = req.body;
+    const newBook = {
+        id: books.length + 1,
+        title: body.title,        
+        type: body.type,
+        author: body.author,
+        pages: body.pages,
+    };
+    books.push(newBook);
+    res.status(201).json({ book: newBook });
+});
+
 
 module.exports = router;
