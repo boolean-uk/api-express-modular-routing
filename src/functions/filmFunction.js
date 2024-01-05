@@ -1,5 +1,4 @@
 const getNewFilmDetails = (req) => {
-
     const details = {
         "title": req.body.title,
         "director": req.body.director
