@@ -26,7 +26,7 @@ const findUser = (req, res, data) => {
     const userId = Number(req.params.id)
     const foundUser = data.find(user => user.id === userId)
     if (!foundUser) {
-        return res.status(404).json(`User with ID: ${userId} does not exist`)
+        return res.status(404).json({"error": "A user with the provided ID does not exist"})
     }
     return foundUser
 }
