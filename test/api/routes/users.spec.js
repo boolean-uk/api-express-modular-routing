@@ -51,7 +51,7 @@ describe("Users Endpoint", () => {
     })
   })
 
-  fdescribe("DELETE /users", () => {
+  describe("DELETE /users", () => {
     it("will return the deleted the user", async () => {
       const response = await supertest(app).delete("/users/1")
 

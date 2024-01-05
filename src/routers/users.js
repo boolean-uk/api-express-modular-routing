@@ -48,4 +48,13 @@ router.delete("/:id", (req, res) => {
   users.splice(index, 1);
   return res.json({ user: foundUser });
 });
+
+router.put("/:id", (req, res) => {
+    const id = req.params.id
+    const foundUser = findUserBy(id, res);
+    const newUser = req.body
+
+    foundUser.email = newUser.email
+    return res.json({ user: foundUser})
+})
 module.exports = router;
