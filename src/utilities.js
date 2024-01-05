@@ -19,24 +19,25 @@ function checkForAllFields(expectedFields, req, res) {
 }
 
 /**
- * @param {string[]} uniqueFields
+ * @param {string} uniqueField
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  * @param {Object[]} data
+ * @param {string} itemType
  * @returns {boolean}
  */
-function checkForExistingFields(uniqueFields, req, res, data) {
-  const hasMatchingFields = uniqueFields.every((field) =>
-    data.some((item) => item[field] === req.body[field])
+function checkForExistingFields(uniqueField, req, res, data, itemType) {
+  const hasMatchingField = data.some(
+    (item) => item[uniqueField] === req.body[uniqueField]
   );
 
-  if (hasMatchingFields) {
-    res
-      .status(409)
-      .json({ error: "A user with the provided email already exists" });
+  if (hasMatchingField) {
+    res.status(409).json({
+      error: `A ${itemType} with the provided email already exists`,
+    });
   }
 
-  return hasMatchingFields;
+  return hasMatchingField;
 }
 
 /**

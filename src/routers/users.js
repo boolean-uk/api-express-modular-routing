@@ -11,8 +11,9 @@ const {
 const { users: data } = require("../../data/index.js");
 let nextId = findNextId(data);
 
+const itemType = "user"
 const expectedFields = ["email"];
-const uniqueFields = ["email"];
+const uniqueField = "email";
 
 router.get("/", (req, res) => {
   return res.json({ users: data });
@@ -34,7 +35,7 @@ router.post("/", (req, res) => {
   const hasAllFields = checkForAllFields(expectedFields, req, res);
   if (!hasAllFields) return;
 
-  const hasUniqueFields = checkForExistingFields(uniqueFields, req, res, data);
+  const hasUniqueFields = checkForExistingFields(uniqueField, req, res, data, itemType);
   if (!hasUniqueFields) return;
 
   const { email } = req.body;
@@ -66,7 +67,7 @@ router.put("/:id", (req, res) => {
     return;
   }
 
-  const hasUniqueFields = checkForExistingFields(uniqueFields, req, res, data);
+  const hasUniqueFields = checkForExistingFields(uniqueField, req, res, data, itemType);
   if (!hasUniqueFields) return;
 
   foundItem.email = req.body.email;
