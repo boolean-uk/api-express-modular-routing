@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
   }
 
   if (duplicate(email)) {
-    res.status(409).json({ "error": "A user with the provded email already exists" })
+    res.status(409).json({ "error": "A user with the provided email already exists" })
   }
 
   const user = new User(email)

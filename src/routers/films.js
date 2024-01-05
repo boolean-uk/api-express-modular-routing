@@ -18,6 +18,7 @@ const duplicate = (title, director) => !!films.find((film) => {
   film.title.toLowerCase() === title.toLowerCase() &&
   film.director.toLowerCase() === director.toLowerCase()
 })
+const filterByDirector = (director) => films.filter((film) => film.director.toLowerCase() === director.toLowerCase())
 const findFilmById = (id) => films.find((film) => film.id === id)
 const findFilmIndexById = (id) => films.find((film) => film.id === id)
 
@@ -32,9 +33,16 @@ class Film {
 const express = require('express')
 const router = express.Router()
 
-router.get('/', (req, res) =>
+router.get('/', (req, res) => {
+  const { director } = req.query
+
+  if (director) {
+    const films = filterByDirector(director)
+    res.json( { films })
+  }
+  
   res.json({ films })
-)
+})
 
 router.post('/', (req, res) => {
   const { title, director } = req.body
@@ -61,7 +69,7 @@ router.get('/:id', (req, res) => {
   if (film) {
     res.json({ film })
   } else {
-    res.status(404).json({ "error": "A film with the provided ID does not exist" })
+    res.status(404).json({ "error": "A film with provided ID does not exist" })
   }
 })
 
@@ -70,7 +78,7 @@ router.put('/:id', (req, res) => {
   let film = findFilmById(Number(id))
 
   if (!film) {
-    res.status(404).json({ "error": "A film with the provided ID does not exist" })
+    res.status(404).json({ "error": "A film with provided ID does not exist" })
   }
 
   const { title, director } = req.body
@@ -80,7 +88,7 @@ router.put('/:id', (req, res) => {
   }
 
   if (duplicate(title, director)) {
-    res.status(409).json({ "error": "A film with the provided title and director already exists" })
+    res.status(409).json({ "error": "A film with provided title and director already exists" })
   }
 
   if (film) {
@@ -98,7 +106,7 @@ router.delete('/:id', (req, res) => {
     films.splice(index, 1)
     res.json({ film })
   } else {
-    res.status(404).json({ "error": "A film with the provided ID does not exist" })
+    res.status(404).json({ "error": "A film with provided ID does not exist" })
   }
 })
 
