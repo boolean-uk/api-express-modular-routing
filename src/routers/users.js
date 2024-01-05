@@ -1,13 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-const { findNextId } = require("../utilities.js");
+const { findById, findNextId } = require("../utilities.js");
 
 const { users: userData } = require("../../data/index.js");
 let nextId = findNextId(userData);
 
 router.get("/", (req, res) => {
   return res.json({ users: userData });
+});
+
+router.get("/:id", (req, res) => {
+  const foundUser = findById(userData, req);
+
+  return res.json({ user: foundUser });
 });
 
 router.post("/", (req, res) => {
