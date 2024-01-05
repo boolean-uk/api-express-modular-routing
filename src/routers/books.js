@@ -4,7 +4,7 @@ const {books} = require("../../data/index")
 const router = express.Router()
 
 
-// Get request for all films 
+// Get request for all books 
 router.get("/", (req, res) => {
 res.status(200).json({books: books})
 })
@@ -19,6 +19,14 @@ router.get("/:id", (req, res) => {
     } else {
         res.status(404).json({error: "No such book with this id"})
     }
+})
+
+// Post request to create new book
+router.post("/", (req, res) => {
+    const newBook = req.body;
+    newBook.id = books.length + 1;
+    books.push(newBook);
+    return res.status(201).json({book: newBook})
 })
 
 // Write routes here...
