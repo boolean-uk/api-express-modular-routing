@@ -1,10 +1,8 @@
-const getNewBookDetails = (req) => {
-    const details = {
-        "title": req.body.title,
-        "type": req.body.type,
-        "author": req.body.author
-    }
-    return details
+const getNewBookDetails = (req, res, data) => {
+    const { title, type, author } = req.body
+    const isTitleExisting = data.find(book => book.title === title)
+    if (isTitleExisting) return res.status(409).json({"error":"A book with the provided title already exists"})
+    return { title, type, author }
 }
 
 const createBook = (details, currentBookId, data) => {

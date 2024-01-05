@@ -13,7 +13,8 @@ router.get("/", (req, res) => {
 
 // CREATE A BOOK
 router.post("/", (req, res) => {
-    const details = getNewBookDetails(req)
+    const details = getNewBookDetails(req, res, books)
+    if (!details.title || !details.type || !details.author) return res.status(400).json({"error": "Missing fields in request body"})
     const newBook = createBook(details, currentBookId, books)
     return res.status(201).json(formatBook(newBook))
 })
@@ -34,7 +35,7 @@ router.delete("/:id", (req, res) => {
 // UPDATE BOOK BY ID
 router.put("/:id", (req, res) => {
     const bookToUpdate = findBook(req, res, books)
-    const details = getNewBookDetails(req)
+    const details = getNewBookDetails(req, res, books)
     bookToUpdate.title = details.title
     bookToUpdate.type = details.type
     bookToUpdate.author = details.author
