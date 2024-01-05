@@ -24,4 +24,10 @@ router.get('/', (req, res) => {
     return res.json({books: data.books})
 })
 
+router.get('/:id', (req, res) => {
+    const book = findBook(req, res) 
+
+    return res.json({book})
+})
+
 module.exports = router
