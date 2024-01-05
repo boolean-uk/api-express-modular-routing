@@ -19,8 +19,25 @@ const findFilmBy = (id, res) => {
       .json({ error: "A film with provided ID does not exist" });
   return foundFilm;
 };
+const findFilmsByDirector = (director, res) => {
+  const foundFilmsList = films.filter((film) => film.director === director);
+  if (!foundFilmsList)
+    return res
+      .status(404)
+      .json({ error: "There are no films with the provided director" });
+  return foundFilmsList;
+};
 
-router.get("/", (req, res) => res.json({ films: films }));
+router.get("/", (req, res) => {
+  const { director } = req.query;
+
+  if (director) {
+    const foundFilmsList = findFilmsByDirector(director, res);
+    return res.json({ films: foundFilmsList });
+  }
+
+  return res.json({ films: films });
+});
 
 router.post("/", (req, res) => {
   const id = films.length + 1;
@@ -90,7 +107,5 @@ router.patch("/:id", (req, res) => {
 
   return res.json({ film: foundFilm });
 });
-
-router;
 
 module.exports = router;
