@@ -5,6 +5,14 @@ const getNewFilmDetails = (req, res, data) => {
     return { title, director }
 }
 
+const getDirectorFilms = (res, director, data) => {
+    const directorFilms = data.filter(film => film.director === director)
+    const formatted = {
+        "films": directorFilms
+    }
+    return res.status(200).json(formatted)
+}
+
 const createFilm = (details, currentFilmId, data) => {
     const newFilm = {
         id: ++currentFilmId,
@@ -35,4 +43,4 @@ const deleteFilm = (film, data) => {
     data.splice(filmIndex, 1)
 }
 
-module.exports = { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm }
+module.exports = { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm, getDirectorFilms }

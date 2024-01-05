@@ -1,12 +1,16 @@
 const express = require("express")
 const router = express.Router()
 const { films } = require("../../data/index")
-const { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm } = require("../functions/filmFunction.js")
+const { getNewFilmDetails, createFilm, formatFilm, findfilm, deleteFilm, getDirectorFilms } = require("../functions/filmFunction.js")
 
 let currentFilmId = 4
 
 // GET ALL FILMS
-router.get("/", (req, res) => {
+router.get("/?", (req, res) => {
+    const director = req.query.director
+    if (director) {
+        getDirectorFilms(res, director, films)
+    }
     return res.status(200).json({films})
 })
 
