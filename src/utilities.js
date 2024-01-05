@@ -1,6 +1,16 @@
 /**
  *
  * @param { Object[] } dataArray
+ * @param { import("express").Request } req
+ * @returns { Object }
+ */
+function findById(dataArray, req) {
+  return dataArray.find((item) => item.id === Number(req.params.id));
+}
+
+/**
+ *
+ * @param { Object[] } dataArray
  * @returns { number }
  */
 function findNextId(dataArray) {
@@ -8,5 +18,6 @@ function findNextId(dataArray) {
 }
 
 module.exports = {
+  findById,
   findNextId,
 };
