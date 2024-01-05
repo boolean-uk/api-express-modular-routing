@@ -67,7 +67,26 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const user = findUser(req, res);
 
-  user.email = user2.email;
+  user.email = "mike@mail.com";
+
+  if (user.email.length === 0) {
+    res.status(400).json({ error: "Missing fields in request body" });
+  }
+
+  if (!user) {
+    res
+      .status(404)
+      .json({ error: "A user with the provided ID does not exist" });
+  }
+
+  for (let i = 0; i < data.users.length; i++) {
+    if (user.email === data.users[i].email) {
+      res
+        .status(409)
+        .json({ error: "A user with the provided email already exists" });
+    }
+  }
+
   return res.status(200).json({ user });
 });
 
