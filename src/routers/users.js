@@ -6,6 +6,8 @@ const { findById, findNextId } = require("../utilities.js");
 const { users: data } = require("../../data/index.js");
 let nextId = findNextId(data);
 
+const expectedFields = ["email"];
+
 router.get("/", (req, res) => {
   return res.json({ users: data });
 });

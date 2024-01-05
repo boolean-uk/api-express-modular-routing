@@ -6,6 +6,8 @@ const { findById, findNextId } = require("../utilities.js");
 const { films: data } = require("../../data/index.js");
 let nextId = findNextId(data);
 
+const expectedFields = ["title", "director"];
+
 router.get("/", (req, res) => {
   return res.json({ films: data });
 });

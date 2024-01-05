@@ -6,6 +6,8 @@ const { findById, findNextId } = require("../utilities.js");
 const { books: data } = require("../../data/index.js");
 let nextId = findNextId(data);
 
+const expectedFields = ["title", "type", "author"];
+
 router.get("/", (req, res) => {
   return res.json({ books: data });
 });
