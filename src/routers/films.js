@@ -1,6 +1,17 @@
 const { films } = require('../../data/index')
 
 let filmId = 0
+
+const initFilmId = () => {
+  films.forEach((film) => {
+    if (film.id > filmId) {
+      filmId = film.id
+    }
+  })
+}
+
+initFilmId()
+
 const getNewFilmId = () => ++filmId
 
 class Film {
