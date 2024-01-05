@@ -62,4 +62,11 @@ router.delete('/:id', (req, res) => {
     return res.status(200).json({user: foundUser})
 })
 
+router.put('/:id', (req, res) => {
+    const foundUser = findUserByID(req, res)
+    foundUser.email = req.body.email
+
+    return res.status(200).json({user: foundUser})
+})
+
 module.exports = router;
