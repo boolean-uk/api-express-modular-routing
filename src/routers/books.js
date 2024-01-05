@@ -31,4 +31,14 @@ router.delete("/:id", (req, res) => {
     return res.status(200).json(formatBook(bookToDelete))
 })
 
+// UPDATE BOOK BY ID
+router.put("/:id", (req, res) => {
+    const bookToUpdate = findBook(req, res, books)
+    const details = getNewBookDetails(req)
+    bookToUpdate.title = details.title
+    bookToUpdate.type = details.type
+    bookToUpdate.author = details.author
+    return res.status(200).json(formatBook(bookToUpdate))
+})
+
 module.exports = router
