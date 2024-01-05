@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     let newBook = req.body;
 
-    if (!newBook.title) {
+    if (!newBook.title || !newBook || !newBook.author || !newBook.type) {
         return res
             .status(400)
             .json({ ERROR: "Missing fields in request body" });
