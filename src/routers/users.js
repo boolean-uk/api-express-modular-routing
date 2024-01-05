@@ -66,6 +66,9 @@ router.put("/:id", (req, res) => {
     return;
   }
 
+  const hasUniqueFields = checkForExistingFields(uniqueFields, req, res, data);
+  if (!hasUniqueFields) return;
+
   foundItem.email = req.body.email;
   return res.json({ user: foundItem });
 });
