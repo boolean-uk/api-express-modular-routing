@@ -44,10 +44,18 @@ function checkForExistingFields(uniqueField, req, res, data, itemType) {
  *
  * @param { Object[] } dataArray
  * @param { import("express").Request } req
+ * @param {import("express").Response} res
+ * @param {string} itemType
  * @returns { Object }
  */
-function findById(dataArray, req) {
-  return dataArray.find((item) => item.id === Number(req.params.id));
+function findById(dataArray, req, res, itemType) {
+  const foundItem = dataArray.find((item) => item.id === Number(req.params.id));
+
+  if (!foundItem) {
+    res
+      .status(404)
+      .json({ error: `A ${itemType} with the provided ID does not exist` });
+  }
 }
 
 /**
