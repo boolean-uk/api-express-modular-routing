@@ -3,42 +3,42 @@ const router = express.Router();
 
 const { findById, findNextId } = require("../utilities.js");
 
-const { books: bookData } = require("../../data/index.js");
-let nextId = findNextId(bookData);
+const { books: data } = require("../../data/index.js");
+let nextId = findNextId(data);
 
 router.get("/", (req, res) => {
-  return res.json({ books: bookData });
+  return res.json({ books: data });
 });
 
 router.get("/:id", (req, res) => {
-  const foundBook = findById(bookData, req);
+  const foundItem = findById(data, req);
 
-  return res.json({ book: foundBook });
+  return res.json({ book: foundItem });
 });
 
 router.post("/", (req, res) => {
   const { title, type, author } = req.body;
-  const newBook = { id: nextId++, title, type, author };
+  const newItem = { id: nextId++, title, type, author };
 
-  bookData.push();
-  return res.status(201).json({ book: newBook });
+  data.push();
+  return res.status(201).json({ book: newItem });
 });
 
 router.delete("/:id", (req, res) => {
-  const foundBook = findById(bookData, req);
+  const foundItem = findById(data, req);
 
-  bookData.splice(bookData.indexOf(foundBook), 1);
-  return res.json({ book: foundBook });
+  data.splice(data.indexOf(foundItem), 1);
+  return res.json({ book: foundItem });
 });
 
 router.put("/:id", (req, res) => {
-  const foundBook = findById(bookData, req);
+  const foundItem = findById(data, req);
 
-  foundBook.title = req.body.title;
-  foundBook.type = req.body.type;
-  foundBook.author = req.body.author;
+  foundItem.title = req.body.title;
+  foundItem.type = req.body.type;
+  foundItem.author = req.body.author;
 
-  return res.json({ book: foundBook });
+  return res.json({ book: foundItem });
 });
 
 module.exports = router;

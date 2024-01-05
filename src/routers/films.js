@@ -3,40 +3,40 @@ const router = express.Router();
 
 const { findById, findNextId } = require("../utilities.js");
 
-const { films: filmData } = require("../../data/index.js");
-let nextId = findNextId(filmData);
+const { films: data } = require("../../data/index.js");
+let nextId = findNextId(data);
 
 router.get("/", (req, res) => {
-  return res.json({ films: filmData });
+  return res.json({ films: data });
 });
 
 router.get("/:id", (req, res) => {
-  const foundFilm = findById(filmData, req);
+  const foundItem = findById(data, req);
 
-  return res.json({ film: foundFilm });
+  return res.json({ film: foundItem });
 });
 
 router.post("/", (req, res) => {
   const { title, director } = req.body;
-  const newFilm = { id: nextId++, title, director };
+  const newItem = { id: nextId++, title, director };
 
-  filmData.push(newFilm);
-  return res.status(201).json({ film: newFilm });
+  data.push(newItem);
+  return res.status(201).json({ film: newItem });
 });
 
 router.delete("/:id", (req, res) => {
-  const foundFilm = findById(filmData, req);
+  const foundItem = findById(data, req);
 
-  filmData.splice(filmData.indexOf(foundFilm), 1);
-  return res.json({ film: foundFilm });
+  data.splice(data.indexOf(foundItem), 1);
+  return res.json({ film: foundItem });
 });
 
 router.put("/:id", (req, res) => {
-  const foundFilm = findById(filmData, req);
+  const foundItem = findById(data, req);
 
-  foundFilm.title = req.body.title;
-  foundFilm.director = req.body.director;
-  return res.json({ film: foundFilm });
+  foundItem.title = req.body.title;
+  foundItem.director = req.body.director;
+  return res.json({ film: foundItem });
 });
 
 module.exports = router;

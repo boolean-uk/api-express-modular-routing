@@ -3,39 +3,39 @@ const router = express.Router();
 
 const { findById, findNextId } = require("../utilities.js");
 
-const { users: userData } = require("../../data/index.js");
-let nextId = findNextId(userData);
+const { users: data } = require("../../data/index.js");
+let nextId = findNextId(data);
 
 router.get("/", (req, res) => {
-  return res.json({ users: userData });
+  return res.json({ users: data });
 });
 
 router.get("/:id", (req, res) => {
-  const foundUser = findById(userData, req);
+  const foundItem = findById(data, req);
 
-  return res.json({ user: foundUser });
+  return res.json({ user: foundItem });
 });
 
 router.post("/", (req, res) => {
   const { email } = req.body;
-  const newUser = { id: nextId++, email };
+  const newItem = { id: nextId++, email };
 
-  userData.push(newUser);
-  return res.status(201).json({ user: newUser });
+  data.push(newItem);
+  return res.status(201).json({ user: newItem });
 });
 
 router.delete("/:id", (req, res) => {
-  const foundUser = findById(userData, req);
+  const foundItem = findById(data, req);
 
-  userData.splice(userData.indexOf(foundUser), 1);
-  return res.json({ user: foundUser });
+  data.splice(data.indexOf(foundItem), 1);
+  return res.json({ user: foundItem });
 });
 
 router.put("/:id", (req, res) => {
-  const foundUser = findById(userData, req);
+  const foundItem = findById(data, req);
 
-  foundUser.email = req.body.email;
-  return res.json({ user: foundUser });
+  foundItem.email = req.body.email;
+  return res.json({ user: foundItem });
 });
 
 module.exports = router;
