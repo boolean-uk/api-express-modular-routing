@@ -19,6 +19,8 @@ const findBook = (req, res) => {
     return foundBook;
   };
 
+  let currentId = 4
+
 // Write routes here...
 router.get('/', (req, res) => {
     return res.json({books: data.books})
@@ -29,5 +31,20 @@ router.get('/:id', (req, res) => {
 
     return res.json({book})
 })
+
+router.post('/', (req, res) => {
+    const body = book1
+
+    const newBook = {
+        id: ++currentId,
+        ...body
+    }
+
+    data.books.push(newBook)
+
+    return res.status(201).json({book: newBook})
+})
+
+
 
 module.exports = router
