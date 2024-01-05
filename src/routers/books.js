@@ -1,3 +1,9 @@
-// Import data here...
+const express = require("express");
+const router = express.Router();
 
-// Write routes here...
+const { findById, findNextId } = require("../utilities.js");
+
+const { books: bookData } = require("../../data/index.js");
+let nextId = findNextId(bookData);
+
+module.exports = router
