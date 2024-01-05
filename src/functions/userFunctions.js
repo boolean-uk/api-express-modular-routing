@@ -1,5 +1,9 @@
-const getEmail = (req) => {
-    return  req.body.email
+const getEmail = (req, res, data) => {
+    const { email } = req.body
+    if (!email) return res.status(400).json({"error": "Missing fields in request body"})
+    const isEmailExisting = data.find(user => user.email === email)
+    if (isEmailExisting) return res.status(409).json({"error":"A user with the provided email already exists"})
+    return email
 }
 
 const createUser = (email, currentUserId, data) => {

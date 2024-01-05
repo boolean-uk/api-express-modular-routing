@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 
 // CREATE USER
 router.post("/", (req, res) => {
-    const userEmail = getEmail(req)
+    const userEmail = getEmail(req, res, users)
     const newUser = createUser(userEmail, currentUserId, users)
     return res.status(201).json(formatUser(newUser))
 })
@@ -31,7 +31,7 @@ router.delete("/:id", (req, res) => {
 
 // UPDATE USER BY ID
 router.put("/:id", (req, res) => {
-    const newEmail = getEmail(req)
+    const newEmail = getEmail(req, res)
     const user = findUser(req, res, users)
     user.email = newEmail
     return res.status(200).json(formatUser(user))
