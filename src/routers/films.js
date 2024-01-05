@@ -13,6 +13,7 @@ router.get("/", (req, res) => {
 // CREATE A FILM
 router.post("/", (req, res) => {
     const details = getNewFilmDetails(req, res, films)
+    if (!details.title || !details.director) return res.status(400).json({"error": "Missing fields in request body"})
     const newFilm = createFilm(details, currentFilmId, films)
     return res.status(201).json(formatFilm(newFilm))
 })
@@ -32,8 +33,8 @@ router.delete("/:id", (req, res) => {
 
 // UPDATE FILM BY ID
 router.put("/:id", (req, res) => {
-    const details = getNewFilmDetails(req, res, films)
     const filmToUpdate = findfilm(req, res, films)
+    const details = getNewFilmDetails(req, res, films)
     filmToUpdate.title = details.title
     filmToUpdate.director = details.director
     return res.status(200).json(formatFilm(filmToUpdate))
