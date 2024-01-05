@@ -1,9 +1,9 @@
-const { films } = require('../../data/index.js')
+const { films } = require("../../data/index.js");
 
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-let filmCounter = 4
+let filmCounter = 4;
 
 function filmMatch(filmTitle) {
     const foundFilm = films.find((film) => film.title === filmTitle.title);
@@ -22,7 +22,29 @@ function findFilmByID(req, res) {
     return foundFilm;
 }
 
+function findFilmsByDirector(req, res) {
+    const filmDirector = req.query.director;
+
+    const foundFilmsByDirector = films.filter(
+        (film) => film.director === filmDirector
+    );
+
+    console.log(foundFilmsByDirector)
+
+    if (!foundFilmsByDirector || foundFilmsByDirector.length === 0) {
+        return res.status(404).json({
+            error: `No films with director: ${filmDirector}`,
+        });
+    }
+    return foundFilmsByDirector;
+}
+
 router.get("/", (req, res) => {
+    if (req.query.director) {
+        const foundFilms = findFilmsByDirector(req, res);
+        return res.status(200).json({ films: foundFilms });
+    }
+
     return res.status(200).json({ films: films });
 });
 
@@ -78,13 +100,13 @@ router.put("/:id", (req, res) => {
             .json({ ERROR: "A user with the provided title already exists" });
     }
 
-    foundFilm.title = updateInfo.title
-    foundFilm.director = updateInfo.director
+    foundFilm.title = updateInfo.title;
+    foundFilm.director = updateInfo.director;
 
     return res.status(200).json({ film: foundFilm });
 });
 
-router.patch('/:id', (req, res) => {
+router.patch("/:id", (req, res) => {
     const foundFilm = findFilmByID(req, res);
     const { title, director } = req.body;
 
@@ -100,31 +122,10 @@ router.patch('/:id', (req, res) => {
             .json({ ERROR: "A user with the provided title already exists" });
     }
 
-    foundFilm.title = title?title:foundFilm.title
-    foundFilm.director = director?director:foundFilm.director
+    foundFilm.title = title ? title : foundFilm.title;
+    foundFilm.director = director ? director : foundFilm.director;
 
     return res.status(200).json({ film: foundFilm });
-})
+});
 
-function findFilmsByDirector(req, res) {
-    const filmDirector = req.query.director
-    console.log(filmDirector)
-    const foundFilmsDirector = films.filter(
-        (film) => film.director === filmDirector
-    );
-
-    if (!foundFilmsDirector) {
-        res.status(404).json({
-            error: `No films with director: ${filmId}`,
-        });
-    }
-    return foundFilmsDirector;
-}
-
-router.get('/', (req, res) => {
-    const foundFilms = findFilmsByDirector(req, res)
-    return res.status(200).json({films: foundFilms})
-})
-
-
-module.exports = router
+module.exports = router;
