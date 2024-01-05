@@ -23,4 +23,16 @@ router.get('/:id', (req, res) => {
   res.status(200).json({film: foundFilm})
 })
 
+router.post('/', (req, res) => {
+    const body = req.body
+    const newFilm = {
+        id: films.length + 1,
+        title: body.title,
+        director: body.director
+    }
+    films.push(newFilm)
+    res.status(201).json({ film: newFilm })
+}
+)
+
 module.exports = router
