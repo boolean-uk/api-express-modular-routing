@@ -1,12 +1,9 @@
-// books.js
-
 const express = require("express");
 const router = express.Router();
 const { books } = require("../../data/index");
 
 // Define routes for /users here
 router.get("/", (req, res) => {
-  // Send the array of users as a response
   res.json({ books: books });
 });
 
@@ -28,6 +25,13 @@ router.put("/:id", (req, res) => {
   const bookIndex = books.findIndex((b) => b.id === id);
   books[bookIndex] = { ...books[bookIndex], ...req.body, id: id };
   res.json({ book: books[bookIndex] });
+});
+
+router.delete("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const bookIndex = books.findIndex((b) => b.id === id);
+  const book = books.splice(bookIndex, 1)[0];
+  res.json({ book });
 });
 
 module.exports = router;

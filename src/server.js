@@ -18,11 +18,4 @@ app.use('/users', usersRouter)
 app.use('/films', filmsRouter)
 app.use('/books', booksRouter)
 
-const users = usersRouter
-let films = filmsRouter
-let books = booksRouter
-
-// ADD ROUTERS TO APP
-
-
 module.exports = app;
