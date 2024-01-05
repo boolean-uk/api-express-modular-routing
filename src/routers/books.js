@@ -13,6 +13,17 @@ function bookMatch(newBook) {
     return false;
 }
 
+function findBookByID(req, res) {
+    const bookID = Number(req.params.id);
+    const foundBook = books.find((user) => user.id === bookID);
+
+    if (!foundBook)
+        return res
+            .status(404)
+            .json({ ERROR: `A book with ID:${bookID} does not exist` });
+    return foundBook;
+}
+
 router.get("/", (req, res) => {
     return res.status(200).json({ books: books });
 });
@@ -36,6 +47,12 @@ router.post("/", (req, res) => {
     books.push(newBook);
 
     return res.status(201).json({ book: newBook });
+});
+
+router.get("/:id", (req, res) => {
+    const foundBook = findBookByID(req, res);
+
+    return res.status(200).json({ book: foundBook });
 });
 
 
