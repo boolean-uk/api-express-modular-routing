@@ -84,5 +84,27 @@ router.put("/:id", (req, res) => {
     return res.status(200).json({ film: foundFilm });
 });
 
+router.patch('/:id', (req, res) => {
+    const foundFilm = findFilmByID(req, res);
+    const { title, director } = req.body;
+
+    if (title === "" || director === "" || !req.body) {
+        return res
+            .status(400)
+            .json({ ERROR: "Missing fields in request body" });
+    }
+
+    if (filmMatch(req.body)) {
+        return res
+            .status(409)
+            .json({ ERROR: "A user with the provided title already exists" });
+    }
+
+    foundFilm.title = title?title:foundFilm.title
+    foundFilm.director = director?director:foundFilm.director
+
+    return res.status(200).json({ film: foundFilm });
+})
+
 
 module.exports = router
