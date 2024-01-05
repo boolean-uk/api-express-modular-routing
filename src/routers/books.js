@@ -21,6 +21,14 @@ const hasAllFields = (body, res) => {
       .json({ error: "Missing fields in request body" });
   }
 };
+const findById = (id, res) => {
+    const idNum = parseInt(id)
+    const foundBook = books.find((book) => book.id === idNum)
+    if (!foundBook) {
+        return res.status(404).json("A book with the provided ID does not exist")
+    }
+    return foundBook
+}
 
 router.get("/", (req, res) => res.json({ books: books }));
 
@@ -36,5 +44,11 @@ router.post("/", (req, res) => {
 
   return res.status(201).json({ book: newBook });
 });
+
+router.get('/:id', (req, res) => {
+    const {id} = req.params
+    const foundBook = findById(id, res)
+    return res.json({"book": foundBook})
+} )
 
 module.exports = router;
