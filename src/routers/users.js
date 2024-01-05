@@ -12,7 +12,7 @@ function findUserByID(req, res) {
     if (!foundUser)
         return res
             .status(404)
-            .json({ ERROR: `A user with ID: ${req.body.id} does not exist` });
+            .json({ ERROR: `A user with ID:${userID} does not exist` });
     return foundUser;
 }
 
