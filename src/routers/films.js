@@ -57,11 +57,12 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const foundFilm = findFilmBy(id, res);
-  const newFilm = req.body;
-  const { title, director } = newFilm;
-  
-  doesTitleExist( title, res);
+  const updatedFilm = req.body;
+  const { title, director } = updatedFilm;
 
+  doesTitleExist(title, res);
+
+  // not in the requirements
   if (!title || title.length === 0 || !director || director.length === 0) {
     return res.status(400).json({ error: "Missing fields in request body" });
   }
@@ -71,5 +72,25 @@ router.put("/:id", (req, res) => {
 
   return res.json({ film: foundFilm });
 });
+
+router.patch("/:id", (req, res) => {
+  const id = req.params.id;
+  const foundFilm = findFilmBy(id, res);
+  const updatedFilm = req.body;
+  const { title, director } = updatedFilm;
+
+  doesTitleExist(title, res);
+
+  if (title) {
+    foundFilm.title = title;
+  }
+  if (director) {
+    foundFilm.director = director;
+  }
+
+  return res.json({ film: foundFilm });
+});
+
+router;
 
 module.exports = router;
