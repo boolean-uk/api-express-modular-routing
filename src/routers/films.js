@@ -18,7 +18,7 @@ function findFilmByID(req, res) {
     if (!foundFilm)
         return res
             .status(404)
-            .json({ ERROR: `A film with ID:${filmID} does not exist` });
+            .json({ error: `A film with provided ID does not exist` });
     return foundFilm;
 }
 
@@ -54,13 +54,13 @@ router.post("/", (req, res) => {
     if (!newFilm || !newFilm.title || !newFilm.director) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (filmMatch(newFilm)) {
         return res
             .status(409)
-            .json({ ERROR: "A film with the provided title already exists" });
+            .json({ error: "A film with the provided title already exists" });
     }
 
     newFilm = { id: ++filmCounter, ...newFilm };
@@ -91,13 +91,13 @@ router.put("/:id", (req, res) => {
     if (!updateInfo || !updateInfo.title) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (filmMatch(updateInfo)) {
         return res
             .status(409)
-            .json({ ERROR: "A user with the provided title already exists" });
+            .json({ error: "A film with the provided title already exists" });
     }
 
     foundFilm.title = updateInfo.title;
@@ -113,13 +113,13 @@ router.patch("/:id", (req, res) => {
     if (title === "" || director === "" || !req.body) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (filmMatch(req.body)) {
         return res
             .status(409)
-            .json({ ERROR: "A user with the provided title already exists" });
+            .json({ error: "A film with the provided title already exists" });
     }
 
     foundFilm.title = title ? title : foundFilm.title;

@@ -12,7 +12,7 @@ function findUserByID(req, res) {
     if (!foundUser)
         return res
             .status(404)
-            .json({ ERROR: `A user with ID:${userID} does not exist` });
+            .json({ error: `A user with the provided ID does not exist` });
     return foundUser;
 }
 
@@ -32,13 +32,13 @@ router.post("/", (req, res) => {
     if (!newUser.email) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (emailMatch(newUser)) {
         return res
             .status(409)
-            .json({ ERROR: "A user with the provided email already exists" });
+            .json({ error: "A user with the provided email already exists" });
     }
 
     newUser = { id: ++userCounter, ...newUser };
@@ -69,13 +69,13 @@ router.put("/:id", (req, res) => {
     if (!updateInfo || !updateInfo.email) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (emailMatch(updateInfo)) {
         return res
             .status(409)
-            .json({ ERROR: "A user with the provided email already exists" });
+            .json({ error: "A user with the provided email already exists" });
     }
 
     foundUser.email = updateInfo.email;

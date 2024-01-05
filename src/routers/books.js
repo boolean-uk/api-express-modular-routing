@@ -20,7 +20,7 @@ function findBookByID(req, res) {
     if (!foundBook)
         return res
             .status(404)
-            .json({ ERROR: `A book with ID:${bookID} does not exist` });
+            .json({ error: 'A book the provided ID does not exist' });
     return foundBook;
 }
 
@@ -34,13 +34,13 @@ router.post("/", (req, res) => {
     if (!newBook.title || !newBook || !newBook.author || !newBook.type) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (bookMatch(newBook)) {
         return res
             .status(409)
-            .json({ ERROR: "A book with the provided title already exists" });
+            .json({ error: "A book with the provided title already exists" });
     }
 
     newBook = { id: ++bookCounter, ...newBook };
@@ -71,13 +71,13 @@ router.put("/:id", (req, res) => {
     if (!updateInfo || !updateInfo.title || !updateInfo.type || !updateInfo.author) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (bookMatch(updateInfo)) {
         return res
             .status(409)
-            .json({ ERROR: "A user with the provided title already exists" });
+            .json({ error: "A book with the provided title already exists" });
     }
 
     foundBook.title = updateInfo.title;
@@ -95,13 +95,13 @@ router.patch("/:id", (req, res) => {
     if (title === "" || type === "" || author === "" || !req.body) {
         return res
             .status(400)
-            .json({ ERROR: "Missing fields in request body" });
+            .json({ error: "Missing fields in request body" });
     }
 
     if (bookMatch(req.body)) {
         return res
             .status(409)
-            .json({ ERROR: "A book with the provided title already exists" });
+            .json({ error: "A book with the provided title already exists" });
     }
 
     foundBook.title = title ? title : foundBook.title;
