@@ -65,7 +65,7 @@ router.delete('/:id', (req, res) => {
 })
 
 router.put("/:id", (req, res) => {
-    const foundBook = findBookByID(req, res);
+   
     const updateInfo = req.body;
 
     if (!updateInfo || !updateInfo.title || !updateInfo.type || !updateInfo.author) {
@@ -73,6 +73,8 @@ router.put("/:id", (req, res) => {
             .status(400)
             .json({ error: "Missing fields in request body" });
     }
+
+    const foundBook = findBookByID(req, res);
 
     if (bookMatch(updateInfo)) {
         return res
