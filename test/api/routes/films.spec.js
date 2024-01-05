@@ -35,7 +35,7 @@ describe("Films Endpoint", () => {
       expect(response.body.film).not.toEqual(undefined)
       expect(response.body.film.id).toEqual(5)
 
-      for (prop in film1) {
+      for (const prop in film1) {
         expect(response.body.film[prop]).toEqual(film1[prop])
       }
     })

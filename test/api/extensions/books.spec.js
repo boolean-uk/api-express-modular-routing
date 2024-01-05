@@ -11,7 +11,7 @@ describe("Books Extension Endpoint", () => {
         const response = await supertest(app).get("/books/999")
 
         expect(response.status).toEqual(404)
-        expect(response.body.error).toEqual('A book the provided ID does not exist')
+        expect(response.body.error).toEqual('A book with the provided ID does not exist')
     })
   })
 
@@ -54,7 +54,7 @@ describe("Books Extension Endpoint", () => {
           })
 
         expect(response.status).toEqual(404)
-        expect(response.body.error).toEqual('A book the provided ID does not exist')
+        expect(response.body.error).toEqual('A book with the provided ID does not exist')
     })
     it("will return 409 when updating a book with title that already exists", async () => {
         const response = await supertest(app).put("/books/1").send({
@@ -77,7 +77,7 @@ describe("Books Extension Endpoint", () => {
           })
 
         expect(response.status).toEqual(404)
-        expect(response.body.error).toEqual('A book the provided ID does not exist')
+        expect(response.body.error).toEqual('A book with the provided ID does not exist')
     })
     it("will return 409 when updating a book with title that already exists", async () => {
         const response = await supertest(app).put("/books/1").send({
@@ -96,7 +96,7 @@ describe("Books Extension Endpoint", () => {
         const response = await supertest(app).delete("/books/999")
 
         expect(response.status).toEqual(404)
-        expect(response.body.error).toEqual('A book the provided ID does not exist')
+        expect(response.body.error).toEqual('A book with the provided ID does not exist')
     })
   })
 })
