@@ -31,4 +31,11 @@ router.delete("/:id", (req, res) => {
   return res.json({ user: foundUser });
 });
 
+router.put("/:id", (req, res) => {
+  const foundUser = findById(userData, req);
+
+  foundUser.email = req.body.email;
+  return res.json({ user: foundUser });
+});
+
 module.exports = router;
