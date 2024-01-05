@@ -31,4 +31,12 @@ router.delete("/:id", (req, res) => {
   return res.json({ film: foundFilm });
 });
 
+router.put("/:id", (req, res) => {
+  const foundFilm = findById(filmData, req);
+
+  foundFilm.title = req.body.title;
+  foundFilm.director = req.body.director;
+  return res.json({ film: foundFilm });
+});
+
 module.exports = router;
