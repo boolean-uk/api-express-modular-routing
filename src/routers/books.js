@@ -14,6 +14,7 @@ router.get("/", (req, res) => {
 // CREATE A BOOK
 router.post("/", (req, res) => {
     const details = getNewBookDetails(req, res, books)
+    const newBook = createBook(details, currentBookId, books)
     return res.status(201).json(formatBook(newBook))
 })
 
