@@ -27,9 +27,7 @@ router.post("/", (req, res) => {
   const { title, type, author } = req.body;
 
   if (!title || !type || !author) {
-    return res
-      .status(400)
-      .send({ error: "Please provide a title and director" });
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
   const titleExists = books.some((book) => book.title === title);

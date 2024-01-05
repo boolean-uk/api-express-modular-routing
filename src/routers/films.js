@@ -11,7 +11,9 @@ const findFilmById = (req, res) => {
   const foundFilm = films.find((film) => film.id === filmId);
 
   if (!foundFilm) {
-    res.status(404).send({ error: `No film found with ID: ${filmId}` });
+    res
+      .status(404)
+      .send({ error: `A film with the provided ID does not exist` });
   }
 
   return foundFilm;
@@ -22,9 +24,7 @@ router.get("/", (req, res) => {
 
   if (director) {
     const foundFilms = films.filter(
-      (film) =>
-        film.director.replace(/\s+/g, "").toLowerCase() ===
-        director.toLowerCase()
+      (film) => film.director.toLowerCase() === director.toLowerCase()
     );
 
     if (!foundFilms) {
@@ -43,15 +43,15 @@ router.post("/", (req, res) => {
   const { title, director } = req.body;
 
   if (!title || !director) {
-    return res
-      .status(400)
-      .send({ error: "Please provide a title and director" });
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
   const titleExists = films.some((film) => film.title === title);
 
   if (titleExists) {
-    return res.status(409).send({ error: "Title already exists" });
+    return res
+      .status(409)
+      .send({ error: "A film with the provided title already exists" });
   }
 
   const newFilm = {
@@ -93,16 +93,12 @@ router.put("/:id", (req, res) => {
   const foundFilm = findFilmById(req, res);
   const { title, director } = req.body;
 
-  if (!title || !director) {
-    return res
-      .status(400)
-      .send({ error: "Please provide a title and director" });
-  }
-
   const titleExists = films.some((film) => film.title === title);
 
   if (titleExists) {
-    return res.status(409).send({ error: "Title already exists" });
+    return res
+      .status(409)
+      .send({ error: "A film with the provided title already exists" });
   }
 
   if (foundFilm) {
@@ -124,18 +120,18 @@ router.put("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const foundFilm = findFilmById(req, res);
-  const body = req.body;
+  const { title, director } = req.body;
 
-  if (!body.title && !body.director) {
-    return res
-      .status(400)
-      .send({ error: "Please provide a title or director" });
+  if (!title && !body.director) {
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
-  const titleExists = films.some((film) => film.title === body.title);
+  const titleExists = films.some((film) => film.title === title);
 
   if (titleExists) {
-    return res.status(409).send({ error: "Title already exists" });
+    return res
+      .status(409)
+      .send({ error: "A film with the provided title already exists" });
   }
 
   if (foundFilm) {
@@ -143,7 +139,7 @@ router.patch("/:id", (req, res) => {
 
     const updatedFilm = {
       ...foundFilm,
-      ...body,
+      ...req.body,
       id: foundFilm.id,
     };
 

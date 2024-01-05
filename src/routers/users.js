@@ -11,7 +11,9 @@ const findUserById = (req, res) => {
   const foundUser = users.find((user) => user.id === userId);
 
   if (!foundUser) {
-    res.status(404).send({ error: `No user found with ID: ${userId}` });
+    res
+      .status(404)
+      .send({ error: "A user with the provided ID does not exist" });
   }
 
   return foundUser;
@@ -25,13 +27,15 @@ router.post("/", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).send({ error: "Please provide an email" });
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
   const emailExists = users.some((user) => user.email === email);
 
   if (emailExists) {
-    return res.status(409).send({ error: "Email already exists" });
+    return res
+      .status(409)
+      .send({ error: "A user with the provided email already exists" });
   }
 
   const newUser = {
@@ -73,13 +77,15 @@ router.put("/:id", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).send({ error: "please provide an email" });
+    return res.status(400).send({ error: "Missing fields in request body" });
   }
 
   const emailExists = users.some((user) => user.email === email);
 
   if (emailExists) {
-    return res.status(409).send({ error: "Email already exists" });
+    return res
+      .status(409)
+      .send({ error: "A user with the provided email already exists" });
   }
 
   if (foundUser) {
