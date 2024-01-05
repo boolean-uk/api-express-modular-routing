@@ -42,4 +42,10 @@ router.get("/:id", (req, res) => {
   return res.json({ user: foundUser });
 });
 
+router.delete("/:id", (req, res) => {
+  const foundUser = findUserBy(req.params.id, res);
+  const index = users.indexOf(foundUser);
+  users.splice(index, 1);
+  return res.json({ user: foundUser });
+});
 module.exports = router;
