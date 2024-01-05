@@ -30,7 +30,13 @@ router.post("/", (req, res) => {
   const hasAllFields = checkForAllFields(expectedFields, req, res);
   if (!hasAllFields) return;
 
-  const hasUniqueFields = checkForExistingFields(uniqueField, req, res, data, itemType);
+  const hasUniqueFields = checkForExistingFields(
+    uniqueField,
+    req,
+    res,
+    data,
+    itemType,
+  );
   if (!hasUniqueFields) return;
 
   const { email } = req.body;
@@ -52,7 +58,13 @@ router.put("/:id", (req, res) => {
   const foundItem = findById(data, req, res, itemType);
   if (!foundItem) return;
 
-  const hasUniqueFields = checkForExistingFields(uniqueField, req, res, data, itemType);
+  const hasUniqueFields = checkForExistingFields(
+    uniqueField,
+    req,
+    res,
+    data,
+    itemType,
+  );
   if (!hasUniqueFields) return;
 
   foundItem.email = req.body.email;

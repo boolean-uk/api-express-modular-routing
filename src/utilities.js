@@ -8,7 +8,7 @@ function checkForAllFields(expectedFields, req, res) {
   const inputFields = Object.keys(req.body);
 
   const allFields = expectedFields.every((/** @type {string} */ field) =>
-    inputFields.includes(field)
+    inputFields.includes(field),
   );
 
   if (!allFields) {
@@ -28,7 +28,7 @@ function checkForAllFields(expectedFields, req, res) {
  */
 function checkForExistingFields(uniqueField, req, res, data, itemType) {
   const hasMatchingField = data.some(
-    (item) => item[uniqueField] === req.body[uniqueField]
+    (item) => item[uniqueField] === req.body[uniqueField],
   );
 
   if (hasMatchingField) {
