@@ -40,6 +40,20 @@ router.put("/:id", (req, res) => {
     return res.status(200).json({user: foundUser})
     })
     
+    // Delete request to delete user
+router.delete("/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const foundUserId = users.findIndex(user => user.id === id);
 
+    if (foundUserId === -1) {
+        return res.status(404).json({ error: "No such user with this id" });
+    }
+
+    const deleteUser = users.splice(foundUserId, 1)[0];
+
+    return res.status(200).json({ user: deleteUser });
+});
+
+        
 // Write routes here...
 module.exports = router
