@@ -4,7 +4,6 @@ const router = express.Router();
 
 const data = require("../../data/index.js");
 const { book1, book2, book3 } = require("../../test/fixtures/bookData.js");
-const { route } = require("./users");
 
 const findBook = (req, res) => {
   const bookId = Number(req.params.id);
@@ -34,11 +33,13 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const body = book1;
+  const { title, type, author } = req.body;
 
   const newBook = {
     id: ++currentId,
-    ...body,
+    title: title,
+    type: type,
+    author: author,
   };
 
   data.books.push(newBook);
@@ -48,10 +49,11 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const book = findBook(req, res);
+  const { title, type, author } = req.body;
 
-  book.title = book3.title;
-  book.type = book3.type;
-  book.author = book3.author;
+  book.title = title;
+  book.type = type;
+  book.author = author;
 
   return res.json({ book });
 });

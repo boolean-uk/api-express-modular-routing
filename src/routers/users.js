@@ -65,29 +65,24 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const user = findUser(req, res);
+  const foundUser = findUser(req, res);
+  const { email } = req.body;
 
-  user.email = user2.email;
+  foundUser.email = email;
 
-  if (user.email.length === 0) {
+  if (!email) {
     res.status(400).json({ error: "Missing fields in request body" });
   }
 
-//   if (!user) {
-//     res
-//       .status(404)
-//       .json({ error: "A user with the provided ID does not exist" });
-//   }
+  const isEmailExisting = data.users.find((user) => user.email === email);
 
-  //   for (let i = 0; i < data.users.length; i++) {
-  //     if (user.email === data.users[i].email) {
-  //       return res
-  //         .status(409)
-  //         .json({ error: "A user with the provided email already exists" });
-  //     }
-  //   }
+  if (isEmailExisting && isEmailExisting.id !== foundUser.id) {
+    return res
+      .status(409)
+      .json({ error: "A user with the provided email already exists" });
+  }
 
-  return res.status(200).json({ user });
+  return res.status(200).json({user: foundUser});
 });
 
 module.exports = router;
