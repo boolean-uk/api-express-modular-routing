@@ -5,7 +5,7 @@ const router = express.Router();
 
 const id = users.length + 1;
 
-const findUserBy = (id) => (users.find((user) => user.id === id))
+const findUserBy = (id) => {(users.find((user) => user.id === id))}
 
 router.get("/", (req, res) => {
   return res.json({ users: users });
@@ -28,5 +28,10 @@ router.post("/", (req, res) => {
 
   return res.status(201).json({ user: newUser });
 });
+
+router.get('/:id', (req, res) => {
+    const foundUser = findUserBy(req.params.id)
+    return res.json({"user": foundUser} )
+})
 
 module.exports = router;
