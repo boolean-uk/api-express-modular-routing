@@ -14,9 +14,9 @@ const usersRouter = require("./routers/users.js");
 const booksRouter = require("./routers/books.js")
 const filmsRouter = require("./routers/films.js")
 // ADD ROUTERS TO APP
-app.router("/users", usersRouter)
-app.router("/books", booksRouter)
-app.router("/films", filmsRouter)
+app.use("/users", usersRouter)
+app.use("/books", booksRouter)
+app.use("/films", filmsRouter)
 
 
 
