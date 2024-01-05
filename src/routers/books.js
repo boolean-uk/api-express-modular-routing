@@ -31,4 +31,14 @@ router.delete("/:id", (req, res) => {
   return res.json({ book: foundBook });
 });
 
+router.put("/:id", (req, res) => {
+  const foundBook = findById(bookData, req);
+
+  foundBook.title = req.body.title;
+  foundBook.type = req.body.type;
+  foundBook.author = req.body.author;
+  
+  return res.json({ book: foundBook });
+});
+
 module.exports = router;
