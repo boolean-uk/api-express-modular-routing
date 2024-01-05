@@ -39,6 +39,20 @@ router.put("/:id", (req, res) => {
     
     return res.status(200).json({book: foundBook})
     })
+
+    // Delete request to delete book
+router.delete("/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const foundBookId = books.findIndex(book => book.id === id)
+
+    if(foundBookId === -1){
+        return res.status(404).json({error: "No such book with this id"})
+    }
+
+    const deleteBook = books.splice(foundBookId, 1)[0];
+
+    return res.status(200).json({book: deleteBook})
+})
     
 // Write routes here...
 module.exports = router
