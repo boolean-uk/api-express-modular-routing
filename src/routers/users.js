@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
     res.status(400).json( { "error": "Missing fields in request body"})
   }
 
-  if (duplicate) {
+  if (duplicate(email)) {
     res.status(409).json({ "error": "A user with the provded email already exists" })
   }
 
