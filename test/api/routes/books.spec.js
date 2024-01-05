@@ -36,7 +36,7 @@ describe("Books Endpoint", () => {
       expect(response.body.book.type).toEqual(book1.type)
       expect(response.body.book.author).toEqual(book1.author)
 
-      for (prop in book1) {
+      for (const prop in book1) {
         expect(response.body.book[prop]).toEqual(book1[prop])
       }
     })
@@ -49,7 +49,7 @@ describe("Books Endpoint", () => {
       expect(response.status).toEqual(200)
       expect(response.body.book).not.toEqual(undefined)
       expect(response.body.book.id).toEqual(1)
-      for (prop in book3) {
+      for (const prop in book3) {
         expect(response.body.book[prop]).toEqual(book3[prop])
       }
     })
