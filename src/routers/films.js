@@ -1,44 +1,83 @@
 const express = require("express");
 const router = express.Router();
 
-const { findById, findNextId } = require("../utilities.js");
+const {
+  findById,
+  findNextId,
+  checkForAllFields,
+  checkForExistingFields,
+} = require("../utilities.js");
 
 const { films: data } = require("../../data/index.js");
 let nextId = findNextId(data);
 
+const itemType = "film";
 const expectedFields = ["title", "director"];
+const uniqueField = "title";
 
 router.get("/", (req, res) => {
-  return res.json({ films: data });
+  return res.json({ users: data });
 });
 
 router.get("/:id", (req, res) => {
-  const foundItem = findById(data, req);
+  const foundItem = findById(data, req, res, itemType);
+  if (!foundItem) return;
 
-  return res.json({ film: foundItem });
+  res.json({ user: foundItem });
 });
 
 router.post("/", (req, res) => {
-  const { title, director } = req.body;
-  const newItem = { id: nextId++, title, director };
+  const hasAllFields = checkForAllFields(expectedFields, req, res);
+  if (!hasAllFields) return;
+
+  const hasUniqueFields = checkForExistingFields(
+    uniqueField,
+    req,
+    res,
+    data,
+    itemType
+  );
+  if (!hasUniqueFields) return;
+
+  /**
+   * @type {Object} newItem
+   */
+  const newItem = {};
+  expectedFields.forEach((field) => {
+    newItem[field] = req.body[field];
+  });
+  newItem.id = nextId++;
 
   data.push(newItem);
-  return res.status(201).json({ film: newItem });
+  res.status(201).json({ user: newItem });
 });
 
 router.delete("/:id", (req, res) => {
-  const foundItem = findById(data, req);
+  const foundItem = findById(data, req, res, itemType);
+  if (!foundItem) return;
 
   data.splice(data.indexOf(foundItem), 1);
-  return res.json({ film: foundItem });
+  return res.json({ user: foundItem });
 });
 
 router.put("/:id", (req, res) => {
-  const foundItem = findById(data, req);
+  const foundItem = findById(data, req, res, itemType);
+  if (!foundItem) return;
 
-  foundItem.title = req.body.title;
-  foundItem.director = req.body.director;
-  return res.json({ film: foundItem });
+  const hasUniqueFields = checkForExistingFields(
+    uniqueField,
+    req,
+    res,
+    data,
+    itemType
+  );
+  if (!hasUniqueFields) return;
+
+  expectedFields.forEach((field) => {
+    foundItem[field] = req.body[field];
+  });
+
+  return res.json({ user: foundItem });
 });
 
 module.exports = router;
