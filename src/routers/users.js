@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { findById, findNextId } = require("../utilities.js");
+const { findById, findNextId, checkForAllFields } = require("../utilities.js");
 
 const { users: data } = require("../../data/index.js");
 let nextId = findNextId(data);
@@ -19,11 +19,15 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { email } = req.body;
-  const newItem = { id: nextId++, email };
+  const hasAllFields = checkForAllFields(expectedFields, req, res);
 
-  data.push(newItem);
-  return res.status(201).json({ user: newItem });
+  if (hasAllFields) {
+    const { email } = req.body;
+    const newItem = { id: nextId++, email };
+
+    data.push(newItem);
+    return res.status(201).json({ user: newItem });
+  }
 });
 
 router.delete("/:id", (req, res) => {
