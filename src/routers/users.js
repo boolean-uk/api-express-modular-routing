@@ -26,16 +26,16 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const hasAllFields = checkForAllFields(expectedFields, req, res);
+  if (!hasAllFields) return;
 
   const hasUniqueFields = checkForExistingFields(uniqueFields, req, res, data);
+  if (!hasUniqueFields) return;
 
-  if (hasAllFields && hasUniqueFields) {
     const { email } = req.body;
     const newItem = { id: nextId++, email };
 
     data.push(newItem);
-    return res.status(201).json({ user: newItem });
-  }
+  res.status(201).json({ user: newItem });
 });
 
 router.delete("/:id", (req, res) => {
