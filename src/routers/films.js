@@ -16,7 +16,14 @@ const expectedFields = ["title", "director"];
 const uniqueField = "title";
 
 router.get("/", (req, res) => {
-  return res.json({ films: data });
+  const directorQuery = req.query.director
+  let returnData = data
+  
+  if (directorQuery) {
+    returnData = data.filter(film => film.director === directorQuery)
+  }
+  
+  res.json({ films: returnData });
 });
 
 router.get("/:id", (req, res) => {
