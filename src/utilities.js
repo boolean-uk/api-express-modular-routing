@@ -33,7 +33,7 @@ function checkForExistingFields(uniqueField, req, res, data, itemType) {
 
   if (hasMatchingField) {
     res.status(409).json({
-      error: `A ${itemType} with the provided email already exists`,
+      error: `A ${itemType} with the provided ${uniqueField} already exists`,
     });
   }
 
