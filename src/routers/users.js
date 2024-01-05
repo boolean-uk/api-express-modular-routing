@@ -1,10 +1,7 @@
-// users.js
-
 const express = require("express");
 const router = express.Router();
 const { users } = require("../../data/index");
 
-// Define routes for /users here
 router.get("/", (req, res) => {
   res.json({ users: users });
 });
@@ -30,10 +27,10 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const userIndex = users.findIndex((u) => u.id === id);
-    const user = users.splice(userIndex, 1)[0];
-    res.json({ user });
-  });
+  const id = parseInt(req.params.id);
+  const userIndex = users.findIndex((u) => u.id === id);
+  const user = users.splice(userIndex, 1)[0];
+  res.json({ user });
+});
 
 module.exports = router;

@@ -1,10 +1,7 @@
-// films.js
-
 const express = require("express");
 const router = express.Router();
 const { films } = require("../../data/index");
 
-// Define routes for /users here
 router.get("/", (req, res) => {
   res.json({ films: films });
 });

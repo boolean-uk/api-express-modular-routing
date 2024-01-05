@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { books } = require("../../data/index");
 
-// Define routes for /users here
 router.get("/", (req, res) => {
   res.json({ books: books });
 });
