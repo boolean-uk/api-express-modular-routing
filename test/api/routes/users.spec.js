@@ -2,14 +2,14 @@ const supertest = require("supertest")
 let app
 const { user1, user2 } = require("../../fixtures/userData.js")
 
-describe("Users Endpoint", () => {
+fdescribe("Users Endpoint", () => {
   beforeEach(() => {
     app = require("../../../src/server.js")
   })
+
   describe("GET /users", () => {
     it("will list all users", async () => {
       const response = await supertest(app).get("/users")
-
       expect(response.status).toEqual(200)
       expect(response.body.users).not.toEqual(undefined)
       expect(response.body.users.length).toEqual(3)
@@ -26,7 +26,6 @@ describe("Users Endpoint", () => {
   })
 
   describe("POST /users", () => {
-
     it("will create a new user", async () => {
       const response = await supertest(app).post("/users").send(user1)
 
