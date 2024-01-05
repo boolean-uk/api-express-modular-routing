@@ -27,4 +27,9 @@ const findUser = (req, res, data) => {
     return foundUser
 }
 
-module.exports = { getEmail, createUser, formatUser, findUser }
+const deleteUser = (user, data) => {
+    userIndex = data.indexOf(user)
+    data.splice(userIndex, 1)
+}
+
+module.exports = { getEmail, createUser, formatUser, findUser, deleteUser }

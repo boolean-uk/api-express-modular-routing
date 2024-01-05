@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { users } = require("../../data/index.js")
-const { getEmail, createUser, formatUser, findUser } = require("../functions/userFunctions.js")
+const { getEmail, createUser, formatUser, findUser, deleteUser } = require("../functions/userFunctions.js")
 
 let currentUserId = 3
 // ALL USERS
@@ -19,6 +19,13 @@ router.post("/", (req, res) => {
 // GET USER BY ID
 router.get("/:id", (req, res) => {
     const user = findUser(req, res, users)
+    return res.status(200).json(formatUser(user))
+})
+
+// DELETE USER BY ID
+router.delete("/:id", (req, res) => {
+    const user = findUser(req, res, users)
+    deleteUser(user, users)
     return res.status(200).json(formatUser(user))
 })
 
