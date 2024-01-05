@@ -17,6 +17,28 @@ function checkForAllFields(expectedFields, req, res) {
 
   return allFields;
 }
+
+/**
+ * @param {string[]} uniqueFields
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {Object[]} data
+ * @returns {boolean}
+ */
+function checkForExistingFields(uniqueFields, req, res, data) {
+  const hasMatchingFields = uniqueFields.every((field) =>
+    data.some((item) => item[field] === req.body[field])
+  );
+
+  if (hasMatchingFields) {
+    res
+      .status(409)
+      .json({ error: "A user with the provided email already exists" });
+  }
+
+  return hasMatchingFields;
+}
+
 /**
  *
  * @param { Object[] } dataArray
@@ -38,6 +60,7 @@ function findNextId(dataArray) {
 
 module.exports = {
   checkForAllFields,
+  checkForExistingFields,
   findById,
   findNextId,
 };
