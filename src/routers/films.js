@@ -62,5 +62,27 @@ router.delete("/:id", (req, res) => {
     return res.status(200).json({ film: foundFilm });
 });
 
+router.put("/:id", (req, res) => {
+    const foundFilm = findFilmByID(req, res);
+    const updateInfo = req.body;
+
+    if (!updateInfo || !updateInfo.title) {
+        return res
+            .status(400)
+            .json({ ERROR: "Missing fields in request body" });
+    }
+
+    if (filmMatch(updateInfo)) {
+        return res
+            .status(409)
+            .json({ ERROR: "A user with the provided title already exists" });
+    }
+
+    foundFilm.title = updateInfo.title
+    foundFilm.director = updateInfo.director
+
+    return res.status(200).json({ film: foundFilm });
+});
+
 
 module.exports = router
