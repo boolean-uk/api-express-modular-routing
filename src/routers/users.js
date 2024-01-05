@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
   const newUser = { id: nextId++, email };
 
   userData.push(newUser);
-  res.status(201).json({ user: newUser });
+  return res.status(201).json({ user: newUser });
 });
 
 module.exports = router;
