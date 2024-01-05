@@ -20,5 +20,10 @@ router.get('/', (req, res) => {
     res.status(200).json({ books });
 });
 
+router.get('/:id', (req, res) => {
+    const foundBook = findBook(req, res);
+    res.status(200).json({ book: foundBook });
+});
+
 
 module.exports = router;
