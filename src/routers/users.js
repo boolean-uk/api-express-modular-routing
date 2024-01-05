@@ -20,8 +20,14 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const foundItem = findById(data, req);
+  if (!foundItem) {
+    res
+      .status(404)
+      .json({ error: "A user with the provided ID does not exist" });
+    return;
+  }
 
-  return res.json({ user: foundItem });
+  res.json({ user: foundItem });
 });
 
 router.post("/", (req, res) => {
@@ -31,15 +37,21 @@ router.post("/", (req, res) => {
   const hasUniqueFields = checkForExistingFields(uniqueFields, req, res, data);
   if (!hasUniqueFields) return;
 
-    const { email } = req.body;
-    const newItem = { id: nextId++, email };
+  const { email } = req.body;
+  const newItem = { id: nextId++, email };
 
-    data.push(newItem);
+  data.push(newItem);
   res.status(201).json({ user: newItem });
 });
 
 router.delete("/:id", (req, res) => {
   const foundItem = findById(data, req);
+  if (!foundItem) {
+    res
+      .status(404)
+      .json({ error: "A user with the provided ID does not exist" });
+    return;
+  }
 
   data.splice(data.indexOf(foundItem), 1);
   return res.json({ user: foundItem });
@@ -47,6 +59,12 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const foundItem = findById(data, req);
+  if (!foundItem) {
+    res
+      .status(404)
+      .json({ error: "A user with the provided ID does not exist" });
+    return;
+  }
 
   foundItem.email = req.body.email;
   return res.json({ user: foundItem });
