@@ -16,6 +16,7 @@ const getNewUserId = () => ++userId
 
 const duplicate = (email) => !!users.find((user) => user.email === email)
 const findUserById = (id) => users.find((user) => user.id === id)
+const findUserIndexById = (id) => users.find((user) => user.id === id)
 
 class User {
   constructor(email){
@@ -50,8 +51,21 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params
   const user = findUserById(Number(id))
-  console.log(user, id)
+
   if (user) {
+    res.json({ user })
+  } else {
+    res.status(404).json({ "error": "A user with the provided ID does not exist" })
+  }
+})
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params
+  const user = findUserById(Number(id))
+  const index = findUserIndexById(Number(id))
+
+  if (user) {
+    users.splice(index, 1)
     res.json({ user })
   } else {
     res.status(404).json({ "error": "A user with the provided ID does not exist" })
