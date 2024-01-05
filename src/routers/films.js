@@ -1,12 +1,13 @@
 // Import data here...
 const express = require('express')
-const importData = require("../../data/index")
+const {films} = require("../../data/index")
 const router = express.Router()
 
 
-let films = importData
-
-
+// Get request for all films 
+router.get("/", (req, res) => {
+res.status(200).json({films: films})
+})
 
 // Write routes here...
 module.exports = router
