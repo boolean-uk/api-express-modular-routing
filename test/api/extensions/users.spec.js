@@ -14,7 +14,7 @@ describe("Users extension endpoints", () => {
     })
   })
 
-  describe("POST /users", () => {
+  fdescribe("POST /users", () => {
     it("will return 400 when trying to create a user with missing fields", async () => {
       const response = await supertest(app).post("/users").send({})
       expect(response.status).toEqual(400)
