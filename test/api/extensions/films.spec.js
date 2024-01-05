@@ -47,7 +47,7 @@ describe("Films extension endpoints", () => {
     })
   })
 
-  xdescribe("PATCH /films", () => {
+  describe("PATCH /films", () => {
     it("will return 404 when trying to update a film that does not exist", async () => {
       const response = await supertest(app).patch("/films/999").send(film1)
       expect(response.status).toEqual(404)
@@ -72,7 +72,7 @@ describe("Films extension endpoints", () => {
     })
   })
 
-  xdescribe("GET /films?director=", () => {
+  describe("GET /films?director=", () => {
     it('will get films by a specific director', async () => {
       const response = await supertest(app).get("/films?director=Arthur%20Penn")
       expect(response.status).toEqual(200)
