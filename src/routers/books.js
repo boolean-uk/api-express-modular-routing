@@ -29,5 +29,16 @@ router.post("/", (req, res) => {
     return res.status(201).json({book: newBook})
 })
 
+// Put request to update books
+router.put("/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const foundBook = books.find(book => book.id === id)
+    
+    const updates = req.body;
+    Object.assign(foundBook, updates)
+    
+    return res.status(200).json({book: foundBook})
+    })
+    
 // Write routes here...
 module.exports = router
