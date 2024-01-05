@@ -20,8 +20,8 @@ function findUserByID(req, res) {
     return foundUser;
 }
 
-function emailMatch(newUser) {
-    const foundEmail = users.find((email) => email.email === newUser.email);
+function emailMatch(user) {
+    const foundEmail = users.find((email) => email.email === user.email);
     if (foundEmail) return true;
     return false;
 }
@@ -64,7 +64,21 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const foundUser = findUserByID(req, res)
-    foundUser.email = req.body.email
+    const updateInfo = req.body
+
+    if (!updateInfo || !updateInfo.email) {
+        return res
+            .status(400)
+            .json({ ERROR: "Missing fields in request body" });
+    }
+
+    if (emailMatch(updateInfo)) {
+        return res
+            .status(409)
+            .json({ ERROR: "A user with the provided email already exists" });
+    }
+
+    foundUser.email = updateInfo.email
 
     return res.status(200).json({user: foundUser})
 })
