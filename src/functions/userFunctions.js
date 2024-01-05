@@ -2,15 +2,29 @@ const getEmail = (req) => {
     return  req.body.email
 }
 
-const formatUser = (email, currentUserId, data) => {
+const createUser = (email, currentUserId, data) => {
     const newUser = {
-        "user": {
             id: ++currentUserId,
             email: email
-        }
     }
     data.push(newUser)
     return newUser
 }
 
-module.exports = { getEmail, formatUser }
+const formatUser = (userToFormat) => {
+    const user = {
+        "user": userToFormat
+    }
+    return user
+}
+
+const findUser = (req, res, data) => {
+    const userId = Number(req.params.id)
+    const foundUser = data.find(user => user.id === userId)
+    if (!foundUser) {
+        return res.status(404).json(`User with ID: ${userId} does not exist`)
+    }
+    return foundUser
+}
+
+module.exports = { getEmail, createUser, formatUser, findUser }
