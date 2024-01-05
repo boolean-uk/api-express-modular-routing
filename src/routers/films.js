@@ -40,6 +40,19 @@ Object.assign(foundFilm, updates)
 return res.status(200).json({film: foundFilm})
 })
 
+// Delete request to delete film
+router.delete("/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const foundFilmId = films.findIndex(film => film.id === id)
+
+    if(foundFilmId === -1){
+        return res.status(404).json({error: "No such film with this id"})
+    }
+
+    const deleteFilm = films.splice(foundFilmId, 1)[0];
+
+    return res.status(200).json({film: deleteFilm})
+})
 
 // Write routes here...
 module.exports = router
