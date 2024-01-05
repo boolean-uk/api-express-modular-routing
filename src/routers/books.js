@@ -27,11 +27,13 @@ const findById = (id, res) => {
   const idNum = parseInt(id);
   const foundBook = books.find((book) => book.id === idNum);
   if (!foundBook) {
-    return res
-      .status(404)
-       // the string in the API spec is "A book WITH the provided ID does not exist",
-       // but the test expects it without 'with'
-      .json({ error: "A book the provided ID does not exist" });
+    return (
+      res
+        .status(404)
+        // the string in the API spec is "A book WITH the provided ID does not exist",
+        // but the test expects it without 'with'
+        .json({ error: "A book the provided ID does not exist" })
+    );
   }
   return foundBook;
 };
@@ -64,4 +66,21 @@ router.delete("/:id", (req, res) => {
   books.splice(index, 1);
   return res.json({ book: foundBook });
 });
+
+router.put("/:id", (req, res) => {
+  const id = req.params.id;
+  const foundBook = findById(id, res);
+  const updatedBook = req.body;
+  const { title, type, author } = updatedBook;
+  
+  doesTitleExist(title, res);
+  hasAllFields(updatedBook, res);
+
+  foundBook.title = title;
+  foundBook.type = type;
+  foundBook.author = author;
+
+  return res.json({ book: foundBook });
+});
+
 module.exports = router;
