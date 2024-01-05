@@ -14,7 +14,11 @@ initBookId()
 
 const getNewBookId = () => ++bookId
 
-const duplicate = (title) => !!books.find((book) => book.title === title)
+const duplicate = (title, author, type) => !!books.find((book) => {
+  book.title === title
+  book.author === author
+  book.type === type
+})
 const findBookById = (id) => books.find((book) => book.id === id)
 const findBookIndexById = (id) => books.find((book) => book.id === id)
 
@@ -37,17 +41,17 @@ router.get('/', (req, res) =>
 )
 
 router.post('/', (req, res) => {
-  const { title } = req.body
+  const { title, author, type } = req.body
 
-  if (!title) {
+  if (!title || !author || !type) {
     res.status(400).json( { "error": "Missing fields in request body"})
   }
 
-  if (duplicate(title)) {
-    res.status(409).json({ "error": "A user with the provded email already exists" })
+  if (duplicate(title, author, type)) {
+    res.status(409).json({ "error": "A book with the provided title, author and type already exists" })
   }
 
-  const book = new book(email)
+  const book = new Book(title, author, type)
   if (book) {
     books.push(book)
     res.status(201).json({ book })

@@ -14,7 +14,10 @@ initFilmId()
 
 const getNewFilmId = () => ++filmId
 
-const duplicate = (title) => !!films.find((film) => film.title === title)
+const duplicate = (title, director) => !!films.find((film) => {
+  film.title.toLowerCase() === title.toLowerCase() &&
+  film.director.toLowerCase() === director.toLowerCase()
+})
 const findFilmById = (id) => films.find((film) => film.id === id)
 const findFilmIndexById = (id) => films.find((film) => film.id === id)
 
@@ -34,17 +37,18 @@ router.get('/', (req, res) =>
 )
 
 router.post('/', (req, res) => {
-  const { title } = req.body
+  const { title, director } = req.body
 
-  if (!title) {
+  if (!title || !director) {
     res.status(400).json( { "error": "Missing fields in request body"})
   }
 
-  if (duplicate(title)) {
-    res.status(409).json({ "error": "A user with the provded email already exists" })
+  if (duplicate(title, director)) {
+    console.log(title, director)
+    res.status(409).json({ "error": "A film with the provided title and director already exists" })
   }
 
-  const film = new film(email)
+  const film = new Film(title, director)
   if (film) {
     films.push(film)
     res.status(201).json({ film })
@@ -59,6 +63,30 @@ router.get('/:id', (req, res) => {
     res.json({ film })
   } else {
     res.status(404).json({ "error": "A film with the provided ID does not exist" })
+  }
+})
+
+router.put('/:id', (req, res) => {
+  const  { id } = req.params
+  let film = findFilmById(Number(id))
+
+  if (!film) {
+    res.status(404).json({ "error": "A film with the provided ID does not exist" })
+  }
+
+  const { title, director } = req.body
+
+  if (!title || !director) {
+    res.status(400).json({ "error": "Missing fields in the request body" })
+  }
+
+  if (duplicate(title)) {
+    res.status(409).json({ "error": "A film with the provided title and director already exists" })
+  }
+
+  if (film) {
+    film = { ...film, title, director }
+    res.json( { film })
   }
 })
 
