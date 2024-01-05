@@ -5,12 +5,8 @@ const router = express.Router();
 
 let userCounter = 3;
 
-router.get("/", (req, res) => {
-    return res.status(200).json({ users: users });
-});
-
 function findUserByID(req, res) {
-    const userID = Number(req.params.id)
+    const userID = Number(req.params.id);
     const foundUser = users.find((user) => user.id === userID);
 
     if (!foundUser)
@@ -25,6 +21,10 @@ function emailMatch(user) {
     if (foundEmail) return true;
     return false;
 }
+
+router.get("/", (req, res) => {
+    return res.status(200).json({ users: users });
+});
 
 router.post("/", (req, res) => {
     let newUser = req.body;
@@ -47,24 +47,24 @@ router.post("/", (req, res) => {
     return res.status(201).json({ user: newUser });
 });
 
-router.get('/:id', (req, res) => {
-   const foundUser = findUserByID(req, res)
+router.get("/:id", (req, res) => {
+    const foundUser = findUserByID(req, res);
 
-    return res.status(200).json({user: foundUser})
-})
+    return res.status(200).json({ user: foundUser });
+});
 
-router.delete('/:id', (req, res) => {
-    const foundUser = findUserByID(req, res)
-    const foundUserindex = users.indexOf(foundUser)
+router.delete("/:id", (req, res) => {
+    const foundUser = findUserByID(req, res);
+    const foundUserindex = users.indexOf(foundUser);
 
-    users.splice(foundUserindex, 1)
+    users.splice(foundUserindex, 1);
 
-    return res.status(200).json({user: foundUser})
-})
+    return res.status(200).json({ user: foundUser });
+});
 
-router.put('/:id', (req, res) => {
-    const foundUser = findUserByID(req, res)
-    const updateInfo = req.body
+router.put("/:id", (req, res) => {
+    const foundUser = findUserByID(req, res);
+    const updateInfo = req.body;
 
     if (!updateInfo || !updateInfo.email) {
         return res
@@ -78,9 +78,9 @@ router.put('/:id', (req, res) => {
             .json({ ERROR: "A user with the provided email already exists" });
     }
 
-    foundUser.email = updateInfo.email
+    foundUser.email = updateInfo.email;
 
-    return res.status(200).json({user: foundUser})
-})
+    return res.status(200).json({ user: foundUser });
+});
 
 module.exports = router;
