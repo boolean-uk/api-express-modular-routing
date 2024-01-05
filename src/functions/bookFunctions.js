@@ -25,7 +25,7 @@ const findBook = (req, res, data) => {
     const bookId = Number(req.params.id)
     const foundBook = data.find(book => book.id === bookId)
     if (!foundBook) {
-        return res.status(404).json(`Book with ID: ${bookId} does not exist`)
+        return res.status(404).json({"error": "A book the provided ID does not exist"})
     }
     return foundBook
 }
