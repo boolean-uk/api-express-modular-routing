@@ -51,7 +51,24 @@ router.post("/", (req, res) => {
     }
   }
 
-  res.status(201).json({ user: newUser });
+  return res.status(201).json({ user: newUser });
+});
+
+router.delete("/:id", (req, res) => {
+  const user = findUser(req, res);
+
+  const userIndex = data.users.indexOf(user);
+
+  data.users.splice(userIndex, 1);
+
+  return res.status(200).json({ user });
+});
+
+router.put("/:id", (req, res) => {
+  const user = findUser(req, res);
+
+  user.email = user2.email;
+  return res.status(200).json({ user });
 });
 
 module.exports = router;
