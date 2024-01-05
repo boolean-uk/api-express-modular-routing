@@ -2,7 +2,7 @@ const supertest = require("supertest")
 let app
 const { film1 } = require("../../fixtures/filmData.js")
 
-xdescribe("Films extension endpoints", () => {
+describe("Films extension endpoints", () => {
   beforeEach(() => {
     app = require("../../../src/server.js")
   })
