@@ -73,7 +73,10 @@ router.put("/:id", (req, res) => {
   );
   if (!hasUniqueFields) return;
 
-  foundItem.email = req.body.email;
+  expectedFields.forEach((field) => {
+    foundItem[field] = req.body[field];
+  });
+
   return res.json({ user: foundItem });
 });
 
