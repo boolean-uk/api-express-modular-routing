@@ -64,6 +64,29 @@ router.delete('/:id', (req, res) => {
     return res.status(200).json({book: foundBook})
 })
 
+router.put("/:id", (req, res) => {
+    const foundBook = findBookByID(req, res);
+    const updateInfo = req.body;
+
+    if (!updateInfo || !updateInfo.title || !updateInfo.type || !updateInfo.author) {
+        return res
+            .status(400)
+            .json({ ERROR: "Missing fields in request body" });
+    }
+
+    if (bookMatch(updateInfo)) {
+        return res
+            .status(409)
+            .json({ ERROR: "A user with the provided title already exists" });
+    }
+
+    foundBook.title = updateInfo.title;
+    foundBook.type = updateInfo.type;
+    foundBook.author = updateInfo.author
+    foundBook.pages = updateInfo.pages
+
+    return res.status(200).json({ book: foundBook });
+});
 
 
 module.exports = router
