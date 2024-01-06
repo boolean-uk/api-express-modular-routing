@@ -44,4 +44,16 @@ router.get('/:id', (req, res, next) => {
   res.status(200).json({ book: foundBook })
 })
 
+// Delete a book by ID
+router.delete('/:id', (req, res, next) => {
+  const foundBook = findBookById(req.params.id)
+
+  books.splice(
+    books.findIndex((book) => book.id === foundBook.id),
+    1
+  )
+
+  res.status(200).json({ book: foundBook })
+})
+
 module.exports = router
