@@ -52,4 +52,13 @@ router.delete('/:id', (req, res, next) => {
   res.status(200).json({ user: foundUser })
 })
 
+// Update a user by ID
+router.put('/:id', (req, res, next) => {
+  const foundUser = findUserById(req.params.id)
+
+  foundUser.email = req.body.email
+
+  res.status(200).json({ user: foundUser })
+})
+
 module.exports = router
