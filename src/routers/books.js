@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 
 const data = require("../../data/index.js");
-const { book1, book2, book3 } = require("../../test/fixtures/bookData.js");
 
 const findBook = (req, res) => {
   const bookId = Number(req.params.id);
@@ -29,11 +28,29 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const book = findBook(req, res);
 
+  if (!book) {
+    return res
+      .status(404)
+      .json({ error: "A book with the provided ID does not exist" });
+  }
+
   return res.json({ book });
 });
 
 router.post("/", (req, res) => {
   const { title, type, author } = req.body;
+
+  if (!title || !type || !author) {
+    return res.status(400).json({ error: "Missing fields in request body" });
+  }
+
+  const isTitleExisting = data.books.find((book) => book.title === title);
+
+  if (isTitleExisting) {
+    return res
+      .status(409)
+      .json({ error: "A book with the provided title already exists" });
+  }
 
   const newBook = {
     id: ++currentId,
@@ -47,19 +64,63 @@ router.post("/", (req, res) => {
   return res.status(201).json({ book: newBook });
 });
 
+// router.put("/:id", (req, res) => {
+//   const book = findBook(req, res);
+//   const { title, type, author } = req.body;
+
+//   book.title = title;
+//   book.type = type;
+//   book.author = author;
+
+//   return res.json({ book });
+// });
+
 router.put("/:id", (req, res) => {
-  const book = findBook(req, res);
-  const { title, type, author } = req.body;
+  const bookId = parseInt(req.params.id);
+  const updatedBookData = req.body;
 
-  book.title = title;
-  book.type = type;
-  book.author = author;
+  const existingBook = data.books.find((book) => book.id === bookId);
 
-  return res.json({ book });
+  if (!existingBook) {
+    return res
+      .status(404)
+      .json({ error: "A book with the provided ID does not exist" });
+  }
+
+  if (
+    !updatedBookData.title ||
+    !updatedBookData.type ||
+    !updatedBookData.author
+  ) {
+    return res.status(400).json({ error: "Missing fields in request body" });
+  }
+
+  const isTitleExisting = data.books.some(
+    (book) => book.title === updatedBookData.title && book.id !== bookId
+  );
+
+  
+  if (isTitleExisting) {
+    return res
+      .status(409)
+      .json({ error: "A book with the provided title already exists" });
+  }
+
+  existingBook.title = updatedBookData.title;
+  existingBook.type = updatedBookData.type;
+  existingBook.author = updatedBookData.author;
+
+  return res.json({ book: existingBook });
 });
 
 router.delete("/:id", (req, res) => {
   const book = findBook(req, res);
+
+  if (!book) {
+    return res
+      .status(404)
+      .json({ error: "A book with the provided ID does not exist" });
+  }
 
   const bookIndex = data.books.indexOf(book);
 

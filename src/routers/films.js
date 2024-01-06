@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const data = require("../../data/index.js");
-const { film1, film2, film3 } = require("../../test/fixtures/filmData.js");
+
 
 const findFilm = (req, res) => {
   const filmId = Number(req.params.id);
@@ -18,48 +18,123 @@ const findFilm = (req, res) => {
   return foundFilm;
 };
 
-let currentId = 4
+let currentId = 4;
 
 router.get("/", (req, res) => {
   return res.json({ films: data.films });
 });
 
 router.get("/:id", (req, res) => {
-  const film = findFilm(req, res);
+  const foundFilm = findFilm(req, res);
 
-  return res.status(200).json({ film });
+  const isFilmExisting = data.films.find((film) => film.id === foundFilm.id);
+
+  if (!isFilmExisting)
+    return res
+      .status(404)
+      .json({ error: "A film with the provided ID does not exist" });
+
+  return res.status(200).json({ film: foundFilm });
 });
 
-router.post('/', (req, res) => {
-    const body = film1
+router.post("/", (req, res) => {
+  const { title, director } = req.body;
 
-    const newFilm = {
-        id: ++currentId,
-        ...body
-    }
+  if (!title && !director) {
+    return res.status(400).json({ error: "Missing fields in request body" });
+  }
 
-    data.films.push(newFilm)
+  const isFilmExisting = data.films.find((film) => film.title === title);
 
-    return res.status(201).json({film: newFilm})
-})
+  if (isFilmExisting) {
+    return res
+      .status(409)
+      .json({ error: "A film with the provided title already exists" });
+  }
 
-router.delete('/:id', (req, res) => {
-    const film = findFilm(req, res)
+  const newFilm = {
+    id: ++currentId,
+    title: title,
+    director: director,
+  };
 
-    const filmIndex = data.films.indexOf(film)
+  data.films.push(newFilm);
 
-    data.films.splice(filmIndex, 1)
+  return res.status(201).json({ film: newFilm });
+});
 
-    return res.status(200).json({film})
-})
+router.delete("/:id", (req, res) => {
+  const foundFilm = findFilm(req, res);
 
-router.put('/:id', (req, res) => {
-    const film = findFilm(req, res)
+  const isFilmExisting = data.films.find((film) => film.id === foundFilm.id);
 
-    film.title = film2.title
-    film.director = film2.director
+  if (!isFilmExisting) {
+    return res
+      .status(409)
+      .json({ error: "A film with the provided tID does not exist" });
+  }
 
-    return res.json({film})
-})
+  const filmIndex = data.films.indexOf(foundFilm);
+
+  data.films.splice(filmIndex, 1);
+
+  return res.status(200).json({ film: foundFilm });
+});
+
+router.put("/:id", (req, res) => {
+  const foundFilm = findFilm(req, res);
+  const { title, director } = req.body;
+
+  const isIdExisting = data.films.find((film) => film.id === foundFilm.id);
+
+  const isTitleExisting = data.films.find((film) => film.title === title);
+
+  if (isTitleExisting) {
+    return res
+      .status(409)
+      .json({ error: "A film with the provided title already exists" });
+  }
+
+  if (!isIdExisting) {
+    return res
+      .status(409)
+      .json({ error: "A film with the provided ID does not exist" });
+  }
+
+  foundFilm.title = title;
+  foundFilm.director = director;
+
+  return res.json({ film: foundFilm });
+});
+
+router.patch("/:id", (req, res) => {
+  const foundFilm = findFilm(req, res);
+  const { title, director } = req.body;
+
+  const isIdExisting = data.films.find((film) => film.id === foundFilm.id);
+
+  const isTitleExisting = data.films.find((film) => film.title === title);
+
+  if (isTitleExisting) {
+    return res
+      .status(409)
+      .json({ error: "A film with the provided title already exists" });
+  }
+
+  if (!isIdExisting) {
+    return res
+      .status(409)
+      .json({ error: "A film with the provided ID does not exist" });
+  }
+
+  if (!title && !director) {
+    return res.status(400).json({error: "Missing fields in request body"})
+  }
+
+  foundFilm.title = title;
+  foundFilm.director = director;
+
+  return res.json({ film: foundFilm });
+});
 
 module.exports = router;
