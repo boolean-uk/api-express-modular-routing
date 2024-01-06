@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const { books, films, users } = require('../../data/index.js')
-const { route } = require('../server.js')
+const { users } = require('../../data/index.js')
+
 
 const findUser = (req, res) => {
     const id = req.params.id
@@ -43,7 +43,6 @@ router.delete('/:id', (req, res) => {
         console.log(users)
         return res.status(200).json({user: deletedUser})
     }
-
     res.status(404).json({error: `No such user with ID: ${id}`})
 
 })
@@ -56,5 +55,6 @@ router.put('/:id', (req, res) => {
         return res.status(200).json({user: foundUser})
     }
 })
+
 
 module.exports = router
