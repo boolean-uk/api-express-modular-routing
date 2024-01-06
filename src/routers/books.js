@@ -12,4 +12,22 @@ router.get('/', (req, res, next) => {
   })
 })
 
+// Create a book
+router.post('/', (req, res, next) => {
+  const { title, type, author } = req.body
+
+  const createdBook = {
+    id: bookId++,
+    title,
+    type,
+    author
+  }
+
+  books.push(createdBook)
+
+  res.status(201).json({
+    book: createdBook
+  })
+})
+
 module.exports = router
