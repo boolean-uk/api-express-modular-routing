@@ -51,6 +51,12 @@ router.put('/:id', (req, res)=>{
 
     const userId = Number(req.params.id)
     const editUser = users.find((user)=> user.id === userId)
+
+    if(editUser){
+        const {email} = req.body
+
+        editUser.email = email 
+    }
    
     res.status(200).json(editUser)
 
