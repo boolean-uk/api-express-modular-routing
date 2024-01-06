@@ -24,4 +24,13 @@ router.post('/', (req, res, next) => {
   res.status(201).json({ user: createdUser })
 })
 
+// Get a user by ID
+router.get('/:id', (req, res, next) => {
+  const foundUser = users.find((user) => user.id === Number(req.params.id))
+
+  res.status(200).json({
+    user: foundUser
+  })
+})
+
 module.exports = router
