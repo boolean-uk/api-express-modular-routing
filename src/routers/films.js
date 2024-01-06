@@ -45,4 +45,16 @@ router.get('/:id', (req, res, next) => {
   })
 })
 
+// Delete a film by ID
+router.delete('/:id', (req, res, next) => {
+  const foundFilm = findFilmById(req.params.id)
+
+  films.splice(
+    films.findIndex((film) => film.id === foundFilm.id),
+    1
+  )
+
+  res.status(200).json({ film: foundFilm })
+})
+
 module.exports = router
