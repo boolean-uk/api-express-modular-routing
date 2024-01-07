@@ -18,4 +18,5 @@ const filmsRouter = require("./routers/films");
 
 app.use("/books", booksRouter);
 app.use("/films", filmsRouter);
+app.use("/users", usersRouter);
 module.exports = app;
