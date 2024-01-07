@@ -40,7 +40,7 @@ router.delete("/:id",(req, res) => {
     const deletedUser = users[userIndex];
     users.splice(userIndex, 1)
   
-    return res.status(200).json({ user: deletedUser, message: 'Successfully deleted contact' });
+    return res.status(200).json({ user: deletedUser, message: 'Successfully deleted user' });
   }
 })
 router.put('/:id', (req, res) => {

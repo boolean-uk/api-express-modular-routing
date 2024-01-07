@@ -33,4 +33,27 @@ router.get("/:id", (req, res) => {
     res.status(200).json({ film: film });
   }
 });
+router.delete("/:id",(req, res) => {
+    const film = findFilm(req, res)
+
+  if (film) {
+    const filmIndex = films.indexOf(film)
+    const deletedFilm = films[filmIndex];
+    films.splice(filmIndex, 1)
+  
+    return res.status(200).json({ film: deletedFilm, message: 'Successfully deleted film' });
+  }
+})
+router.put('/:id', (req, res) => {
+    const film = findFilm(req, res)
+  
+    if (film) {
+      const { title, director } = req.body
+      film.title = title
+      film.director = director
+      
+    
+      return res.json({film: film})
+    }
+  })
 module.exports = router;
