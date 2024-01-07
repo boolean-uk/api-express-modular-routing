@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../../data/index.js");
-const currentBookId = 4;
+const currentBookId = 5;
 const books = data.books;
 module.exports = router;
 const findBook = (req, res) => {
@@ -20,13 +20,16 @@ const findBook = (req, res) => {
     res.status(200).json({ books: books });
   });
   router.post("/", (req, res) => {
-    const { email } = req.body;
-    const newUser = {
-      id: currentUserId,
-      email,
+    const { title, type, author, pages } = req.body;
+    const newBook = {
+      id: currentBookId,
+      title,
+      type,
+      author,
+      pages,
     };
-    users.push(newUser);
-    res.status(201).json({ user: newUser });
+    books.push(newBook);
+    res.status(201).json({ book: newBook });
   });
   router.get("/:id", (req, res) => {
     const user = findUser(req, res);
