@@ -32,31 +32,37 @@ const findBook = (req, res) => {
     res.status(201).json({ book: newBook });
   });
   router.get("/:id", (req, res) => {
-    const user = findUser(req, res);
-    if (user) {
-      res.status(200).json({ user: user });
+    const book = findBook(req, res);
+    if (book) {
+      res.status(200).json({ book: book });
     }
   });
   router.delete("/:id",(req, res) => {
-      const user = findUser(req, res)
+      const book = findBook(req, res)
   
-    if (user) {
-      const userIndex = users.indexOf(user)
-      const deletedUser = users[userIndex];
-      users.splice(userIndex, 1)
+    if (book) {
+      const bookIndex = books.indexOf(book)
+      const deletedBook = books[bookIndex];
+      books.splice(bookIndex, 1)
     
-      return res.status(200).json({ user: deletedUser, message: 'Successfully deleted user' });
+      return res.status(200).json({ book: deletedBook, message: 'Successfully deleted book' });
     }
   })
   router.put('/:id', (req, res) => {
-      const user = findUser(req, res)
+      const book = findBook(req, res)
     
-      if (user) {
-        const { email } = req.body
-        user.email = email
+      if (book) {
+        const {title,
+            type,
+            author,
+            pages,} = req.body
+        book.title = title
+        book.type = type
+        book.author = author
+        book.pages= pages
         
       
-        return res.json({user: user})
+        return res.json({book: book})
       }
     })
 // Write routes here...
