@@ -30,6 +30,16 @@ const titleErrorHandling = (title) => {
 
 // Retrieve a list of films
 router.get('/', (req, res, next) => {
+  const { director } = req.query
+
+  if (director) {
+    const filmsByDirector = films.filter((film) =>
+      film.director.includes(director)
+    )
+
+    return res.status(200).json({ films: filmsByDirector })
+  }
+
   res.status(200).json({
     films: films
   })
