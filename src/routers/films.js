@@ -10,6 +10,10 @@ let filmId = films.length + 1
 const findFilmById = (id) => {
   const foundFilm = films.find((film) => film.id === Number(id))
 
+  if (!foundFilm) {
+    throw ErrorConstructor('A film with provided ID does not exist', 404)
+  }
+
   return foundFilm
 }
 
@@ -67,11 +71,15 @@ router.post('/', (req, res, next) => {
 
 // Get a film by ID
 router.get('/:id', (req, res, next) => {
-  const foundFilm = findFilmById(req.params.id)
+  try {
+    const foundFilm = findFilmById(req.params.id)
 
-  res.status(200).json({
-    film: foundFilm
-  })
+    res.status(200).json({
+      film: foundFilm
+    })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 // Delete a film by ID
