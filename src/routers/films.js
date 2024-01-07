@@ -19,5 +19,16 @@ router.get("/:id", (req, res) => {
     res.status(404).json({ error: `No film found with id ${id}` });
   }
 });
+// Post request to create new film
+router.post("/", (req, res) => {
+  const newFilm = {
+    ...req.body,
+    id: films.length + 1,
+  };
+
+  films.push(newFilm);
+
+  res.status(201).json({ film: newFilm });
+});
 
 module.exports = router;
