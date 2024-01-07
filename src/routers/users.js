@@ -5,11 +5,11 @@ const router = express.Router()
 const data = require('../../data/index.js')
 const users = data.users
 
-let lastUsersId = users.length
+let lastUsersId = 3
 
 
 router.get('/', (req, res)=>{
-    res.status(200).json(users)
+    return res.status(200).json({users})
 })
 
 router.post('/', (req, res)=>{
@@ -22,7 +22,7 @@ router.post('/', (req, res)=>{
 
     users.push(newUser)
 
-    res.status(200).json(newUser)
+    res.status(201).json(newUser)
 
 })
 
@@ -39,15 +39,15 @@ router.delete('/:id', (req, res)=>{
     const userId = Number(req.params.id)
     const deleteUser = users.find((user)=> user.id === userId)
 
-    const deleteUserIndex = users.indexOf()
+    const deleteUserIndex = users.indexOf(deleteUser)
 
     users.splice(deleteUserIndex, 1)
 
-    res.status(200).json(deleteUser)
+    res.status(200).json({deleteUser})
 
 })
 
-router.put('/:id', (req, res)=>{
+router.put('/:id', (req, res)=>{ 
 
     const userId = Number(req.params.id)
     const editUser = users.find((user)=> user.id === userId)
@@ -63,3 +63,6 @@ router.put('/:id', (req, res)=>{
 })
 
 module.exports = router
+
+
+

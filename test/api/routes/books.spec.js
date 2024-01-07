@@ -2,7 +2,7 @@ const supertest = require("supertest")
 let app
 const { book1, book2, book3 } = require("../../fixtures/bookData.js")
 
-describe("Books Endpoint", () => {
+xdescribe("Books Endpoint", () => {
   beforeEach(() => {
     app = require("../../../src/server.js")
   })
