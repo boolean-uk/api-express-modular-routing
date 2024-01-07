@@ -19,8 +19,8 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    findBookById()
-    return res.status(200).json(findBookById)
+    const foundBook = findBookById(req, res)
+    return res.status(200).json({foundBook})
  
 })
 
