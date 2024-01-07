@@ -43,4 +43,15 @@ router.delete("/:id",(req, res) => {
     return res.status(200).json({ user: deletedUser, message: 'Successfully deleted contact' });
   }
 })
+router.put('/:id', (req, res) => {
+    const user = findUser(req, res)
+  
+    if (user) {
+      const { email } = req.body
+      user.email = email
+      
+    
+      return res.json({user: user})
+    }
+  })
 module.exports = router;
