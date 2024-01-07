@@ -19,5 +19,17 @@ router.get("/:id", (req, res) => {
   }
 });
 
+// Post request to create new book
+router.post("/", (req, res) => {
+  const newBook = {
+    ...req.body,
+    id: books.length + 1,
+  };
+
+  books.push(newBook);
+
+  res.status(201).json({ book: newBook });
+});
+
 // Write routes here...
 module.exports = router;
