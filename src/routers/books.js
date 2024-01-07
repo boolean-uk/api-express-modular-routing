@@ -14,11 +14,7 @@ initBookId()
 
 const getNewBookId = () => ++bookId
 
-const duplicate = (title, author, type) => !!books.find((book) => {
-  book.title === title
-  book.author === author
-  book.type === type
-})
+const duplicate = (title) => !!books.find((book) => book.title === title)
 const findBookById = (id) => books.find((book) => book.id === id)
 const findBookIndexById = (id) => books.find((book) => book.id === id)
 
@@ -47,8 +43,8 @@ router.post('/', (req, res) => {
     res.status(400).json( { "error": "Missing fields in request body"})
   }
 
-  if (duplicate(title, author, type)) {
-    res.status(409).json({ "error": "A book with the provided title, author and type already exists" })
+  if (duplicate(title)) {
+    res.status(409).json({ "error": "A book with the provided title already exists" })
   }
 
   const book = new Book(title, author, type)
@@ -65,26 +61,26 @@ router.get('/:id', (req, res) => {
   if (book) {
     res.json({ book })
   } else {
-    res.status(404).json({ "error": "A book with the provided ID does not exist" })
+    res.status(404).json({ "error": "A book the provided ID does not exist" })
   }
 })
 
 router.put('/:id', (req, res) => {
+  const { title, author, type } = req.body
+  
+  if (!title || !author || !type) {
+    res.status(400).json({ "error": "Missing fields in request body" })
+  }
+
   const  { id } = req.params
   let book = findBookById(Number(id))
 
   if (!book) {
-    res.status(404).json({ "error": "A book with the provided ID does not exist" })
+    res.status(404).json({ "error": "A book the provided ID does not exist" })
   }
 
-  const { title, author, type } = req.body
-
-  if (!title || !author || !type) {
-    res.status(400).json({ "error": "Missing fields in the request body" })
-  }
-
-  if (duplicate(title, author, type)) {
-    res.status(409).json({ "error": "A book with the provided title, author and type already exists" })
+  if (duplicate(title)) {
+    res.status(409).json({ "error": "A book with the provided title already exists" })
   }
 
   if (book) {
@@ -102,7 +98,7 @@ router.delete('/:id', (req, res) => {
     books.splice(index, 1)
     res.json({ book })
   } else {
-    res.status(404).json({ "error": "A book with the provided ID does not exist" })
+    res.status(404).json({ "error": "A book the provided ID does not exist" })
   }
 })
 

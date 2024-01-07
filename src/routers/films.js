@@ -14,10 +14,7 @@ initFilmId()
 
 const getNewFilmId = () => ++filmId
 
-const duplicate = (title, director) => !!films.find((film) => {
-  film.title.toLowerCase() === title.toLowerCase() &&
-  film.director.toLowerCase() === director.toLowerCase()
-})
+const duplicate = (title) => !!films.find((film) => film.title.toLowerCase() === title.toLowerCase())
 const filterByDirector = (director) => films.filter((film) => film.director.toLowerCase() === director.toLowerCase())
 const findFilmById = (id) => films.find((film) => film.id === id)
 const findFilmIndexById = (id) => films.find((film) => film.id === id)
@@ -35,12 +32,11 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
   const { director } = req.query
-
   if (director) {
     const films = filterByDirector(director)
     res.json( { films })
   }
-  
+
   res.json({ films })
 })
 
@@ -51,8 +47,8 @@ router.post('/', (req, res) => {
     res.status(400).json( { "error": "Missing fields in request body"})
   }
 
-  if (duplicate(title, director)) {
-    res.status(409).json({ "error": "A film with the provided title and director already exists" })
+  if (duplicate(title)) {
+    res.status(409).json({ "error": "A film with provided title already exists" })
   }
 
   const film = new Film(title, director)
@@ -87,8 +83,8 @@ router.put('/:id', (req, res) => {
     res.status(400).json({ "error": "Missing fields in the request body" })
   }
 
-  if (duplicate(title, director)) {
-    res.status(409).json({ "error": "A film with provided title and director already exists" })
+  if (duplicate(title)) {
+    res.status(409).json({ "error": "A film with the provided title already exists" })
   }
 
   if (film) {
