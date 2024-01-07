@@ -6,9 +6,24 @@ const films = data.films
 
 let lastfilmId = 4
 
+const findFilm = (req, res) => {
+
+    const filmId = Number(req.params.id);
+  
+    const foundfilm = films.find((film) => film.id === filmId);
+  
+    if (!foundfilm) {
+      res.status(404).json({ error: `The film with ID: ${userId} does not exist`});
+    }
+  
+    return foundfilm;
+};
 router.get('/', (req, res) =>{
-    res.status(200).json(films)
+    res.status(200).json({films})
 })
+
+
+
 
 router.post('/', (req, res) =>{
     const body = req.body
@@ -20,42 +35,33 @@ router.post('/', (req, res) =>{
     }
     films.push(newFilm)
 
-    res.status(201).json(newFilm)
+    res.status(201).json({film: newFilm})
 })
 
-router.get('/:id', (req, res)=>{
-    const filmId = Number(req.params.id)
-    
-    const foundFilm = films.find((film)=> film.id === filmId)
+router.get('/:id', (req, res)=>{    
+    const foundFilm = findFilm(req, res) 
 
-    if(!foundFilm){
-        res.status(400).json({"error": "film not found"})
+    if(foundFilm){
+        return res.status(200).json({film: foundFilm})
     }
 
-    return res.status(200).json(foundFilm)
 })
 
 router.delete('/:id', (req, res) =>{
-    const filmId = Number(req.params.id)
-    const filmToBeDeleted = films.find((film)=> film.id === filmId)
 
-    if(!filmToBeDeleted){
-       return  res.status(404).json({"error": "Film with the provided id doesnt exist"})
+    const filmToBeDeleted = findFilm(req, res)
+
+    if(filmToBeDeleted){
+        const filmToBeDeletedIndex= films.indexOf(filmToBeDeleted)
+        films.splice(filmToBeDeletedIndex, 1)
+    
+        return res.status(200).json({film: filmToBeDeleted})
     }
-    const filmToBeDeletedIndex= films.indexOf(filmToBeDeleted)
-    films.splice(filmToBeDeletedIndex, 1)
-
-    return res.status(200).json(filmToBeDeleted)
-
 })
 
 router.put('/:id', (req, res) =>{
-    const filmId = Number(req.params.id)
-    const filmToBeEdited = films.find((film)=> film.id === filmId)
 
-    if(!filmToBeEdited){
-        return  res.status(404).json({"error": "A film with the provided ID does not exist"})
-    }
+    const filmToBeEdited = findFilm(req, res)
 
     const {title, director} = req.body
 
@@ -66,6 +72,6 @@ router.put('/:id', (req, res) =>{
 
     filmToBeEdited.title = title
     filmToBeEdited.director = director
-    return res.status(200).json(filmToBeEdited)
+    return res.status(200).json({film: filmToBeEdited})
 })
 module.exports = router

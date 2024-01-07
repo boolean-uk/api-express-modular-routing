@@ -73,4 +73,3 @@ describe("Users Endpoint", () => {
 })
 
 
-console.log(user1)

@@ -7,6 +7,18 @@ const users = data.users
 
 let lastUsersId = 3
 
+const findUser = (req, res) => {
+    const userId = Number(req.params.id);
+  
+    const foundUser = users.find((user) => user.id === userId);
+  
+    if (!foundUser) {
+      res.status(404).json({ error: `No such post with ID: ${userId} `});
+    }
+  
+    return foundUser;
+};
+
 
 router.get('/', (req, res)=>{
     return res.status(200).json({users})
@@ -22,47 +34,53 @@ router.post('/', (req, res)=>{
 
     users.push(newUser)
 
-    res.status(201).json(newUser)
+    res.status(201).json({user: newUser})
 
 })
 
-router.get('/:id', (req, res)=>{
+  router.get('/:id', (req, res)=>{
     const userId = Number(req.params.id)
-    
-    const foundUser = users.find((user)=> user.id === userId)
 
-    res.status(200).json(foundUser)
+    const foundUser = findUser(req, res)
+    if(foundUser){
+        res.status(200).json({user:foundUser})
 
-})
+    }
+
+}) 
+
+
 
 router.delete('/:id', (req, res)=>{
     const userId = Number(req.params.id)
-    const deleteUser = users.find((user)=> user.id === userId)
+
+    const deleteUser = findUser(req, res)
 
     const deleteUserIndex = users.indexOf(deleteUser)
 
     users.splice(deleteUserIndex, 1)
 
-    res.status(200).json({deleteUser})
+    res.status(200).json({user: deleteUser})
 
 })
 
 router.put('/:id', (req, res)=>{ 
 
     const userId = Number(req.params.id)
-    const editUser = users.find((user)=> user.id === userId)
-
+    const editUser = findUser(req, res)
+    
     if(editUser){
         const {email} = req.body
 
         editUser.email = email 
     }
    
-    res.status(200).json(editUser)
+    res.status(200).json({user: editUser})
 
 })
 
 module.exports = router
+
 
 
 

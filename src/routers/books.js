@@ -10,8 +10,20 @@ let lastBookId = 4
 //const { books } = require('../../data/index');
 
 // Write routes here...
+
+const findBook = (req, res) => {
+    const bookId = Number(req.params.id);
+  
+    const foundBook = books.find((book) => book.id === bookId);
+  
+    if (!foundBook) {
+      res.status(404).json({ error: `A book with ID: ${userId} does not exist`});
+    }
+  
+    return foundBook;
+};
 router.get('/', (req, res) =>{
-    res.status(200).json(books)
+    res.status(200).json({books})
 })
 
 router.post('/', (req, res) =>{
@@ -22,15 +34,15 @@ router.post('/', (req, res) =>{
     }
     books.push(newBook)
 
-    res.status(201).json(newBook)
+    res.status(201).json({book: newBook})
 })
 
 router.get('/:id', (req, res) =>{
     const bookId = Number(req.params.id)
 
-    const foundBook = books.find((book)=> book.id === bookId )
+    const foundBook = findBook(req, res)
 
-    res.status(200).json(foundBook)
+    res.status(200).json({book:foundBook})
 })
 
 router.delete('/:id', (req, res) =>{
@@ -38,11 +50,11 @@ router.delete('/:id', (req, res) =>{
 
     const bookIndex = books.indexOf((book) => book.id === bookIndex)
 
-    const bookToBeDeleted = books.find((book)=> book.id === bookId )
+    const bookToBeDeleted = findBook(req, res)
 
     books.splice(bookIndex, 1)
 
-    res.status(200).json(bookToBeDeleted)
+    res.status(200).json({book: bookToBeDeleted})
 
 
 
@@ -51,7 +63,7 @@ router.delete('/:id', (req, res) =>{
 router.put('/:id', (req, res) =>{
     const bookId = Number(req.params.id)
     
-    const editBook = books.find((book)=> book.id === bookId)
+    const editBook = findBook(req, res)
 
     if(editBook){
         const {title, type, author, pages} = req.body
@@ -62,17 +74,13 @@ router.put('/:id', (req, res) =>{
         editBook.pages = pages
     }
 
-    res.status(200).json(editBook)
+    res.status(200).json({book:editBook})
 })
 
 router.patch('/:id', (req, res) => {
     const bookId = Number(req.params.id);
-    const bookToPatch = books.find((book) => book.id === bookId);
-
-    if (!bookToPatch) {
-        return res.status(404).json({ "error": "Book doesn't exist" });
-    }
-
+    const bookToPatch = findBook(req, res);
+    
     const { title } = req.body;
 
     if (bookToPatch.title === title) {
@@ -81,7 +89,7 @@ router.patch('/:id', (req, res) => {
 
     bookToPatch.title = title;
 
-    res.status(200).json(bookToPatch);
+    res.status(200).json({book: bookToPatch});
 });
 
 module.exports = router
