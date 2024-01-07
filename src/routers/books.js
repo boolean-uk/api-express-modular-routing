@@ -90,15 +90,22 @@ router.delete('/:id', (req, res, next) => {
 
 // Update a book by ID
 router.put('/:id', (req, res, next) => {
-  const { title, type, author } = req.body
+  try {
+    const { title, type, author } = req.body
 
-  const foundBook = findBookById(req.params.id)
+    // Errors handlings
+    FieldsErrorHandler([title, type, author])
 
-  foundBook.title = title
-  foundBook.type = type
-  foundBook.author = author
+    const foundBook = findBookById(req.params.id)
 
-  res.status(200).json({ book: foundBook })
+    foundBook.title = title
+    foundBook.type = type
+    foundBook.author = author
+
+    res.status(200).json({ book: foundBook })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 module.exports = router
