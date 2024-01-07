@@ -103,7 +103,9 @@ router.put('/:id', (req, res, next) => {
   try {
     const { title, director } = req.body
 
+    // Error handlings
     fieldsErrorHandling([title, director])
+    titleErrorHandling(title)
 
     const foundFilm = findFilmById(req.params.id)
 
