@@ -31,4 +31,19 @@ router.post("/", (req, res) => {
   res.status(201).json({ film: newFilm });
 });
 
+// Put request to update film
+router.put("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const foundFilm = films.find((film) => film.id === id);
+
+  if (!foundFilm) {
+    return res.status(404).json({ error: `No film found with id ${id}` });
+  }
+
+  const updates = req.body;
+  Object.assign(foundFilm, updates);
+
+  res.status(200).json({ film: foundFilm });
+});
+
 module.exports = router;
