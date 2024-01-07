@@ -11,8 +11,12 @@ app.use(morgan("dev"));
 
 // REQUIRE ROUTERS
 const usersRouter = require("./routers/users");
+const booksRouter = require("./routers/books");
+const filmsRouter = require("./routers/films");
 
 // ADD ROUTERS TO APP
 
-
-module.exports = app
+app.use("/books", booksRouter);
+app.use("/films", filmsRouter);
+app.use("/users", usersRouter);
+module.exports = app;
