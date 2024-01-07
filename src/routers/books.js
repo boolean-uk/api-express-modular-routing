@@ -74,14 +74,18 @@ router.get('/:id', (req, res, next) => {
 
 // Delete a book by ID
 router.delete('/:id', (req, res, next) => {
-  const foundBook = findBookById(req.params.id)
+  try {
+    const foundBook = findBookById(req.params.id)
 
-  books.splice(
-    books.findIndex((book) => book.id === foundBook.id),
-    1
-  )
+    books.splice(
+      books.findIndex((book) => book.id === foundBook.id),
+      1
+    )
 
-  res.status(200).json({ book: foundBook })
+    res.status(200).json({ book: foundBook })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 // Update a book by ID
