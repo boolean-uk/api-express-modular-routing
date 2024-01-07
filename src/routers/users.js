@@ -12,6 +12,12 @@ const findUserById = (id) => {
   return foundUser
 }
 
+const findUserByEmail = (email) => {
+  const foundUser = users.find((user) => user.email === email)
+
+  return foundUser
+}
+
 // Retrieve a list of users
 router.get('/', (req, res, next) => {
   res.status(200).json({
@@ -25,6 +31,14 @@ router.post('/', (req, res, next) => {
 
   if (!email) {
     return res.status(400).json({ error: 'Missing fields in request body' })
+  }
+
+  const foundUser = findUserByEmail(email)
+
+  if (foundUser) {
+    return res
+      .status(409)
+      .json({ error: 'A user with the provided email already exists' })
   }
 
   const createdUser = {
