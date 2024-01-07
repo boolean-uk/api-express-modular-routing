@@ -72,14 +72,18 @@ router.get('/:id', (req, res, next) => {
 
 // Delete a user by ID
 router.delete('/:id', (req, res, next) => {
-  const foundUser = findUserById(req.params.id)
+  try {
+    const foundUser = findUserById(req.params.id)
 
-  users.splice(
-    users.findIndex((user) => user.id === foundUser.id),
-    1
-  )
+    users.splice(
+      users.findIndex((user) => user.id === foundUser.id),
+      1
+    )
 
-  res.status(200).json({ user: foundUser })
+    res.status(200).json({ user: foundUser })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 // Update a user by ID
