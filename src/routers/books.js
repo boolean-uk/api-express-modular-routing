@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { books } = require('../../data/index')
+const FieldsErrorHandler = require('../helpers/FieldsErrorHandler')
 
 // Global variables
 let bookId = books.length + 1
@@ -21,20 +22,27 @@ router.get('/', (req, res, next) => {
 
 // Create a book
 router.post('/', (req, res, next) => {
-  const { title, type, author } = req.body
+  try {
+    const { title, type, author } = req.body
 
-  const createdBook = {
-    id: bookId++,
-    title,
-    type,
-    author
+    // Error handlers
+    FieldsErrorHandler([title, type, author])
+
+    const createdBook = {
+      id: bookId++,
+      title,
+      type,
+      author
+    }
+
+    books.push(createdBook)
+
+    res.status(201).json({
+      book: createdBook
+    })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
   }
-
-  books.push(createdBook)
-
-  res.status(201).json({
-    book: createdBook
-  })
 })
 
 // Get a book by ID
