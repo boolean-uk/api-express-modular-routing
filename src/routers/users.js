@@ -21,9 +21,15 @@ router.get('/', (req, res, next) => {
 
 // Create a user
 router.post('/', (req, res, next) => {
+  const { email } = req.body
+
+  if (!email) {
+    return res.status(400).json({ error: 'Missing fields in request body' })
+  }
+
   const createdUser = {
     id: userId++,
-    email: req.body.email
+    email: email
   }
 
   users.push(createdUser)
