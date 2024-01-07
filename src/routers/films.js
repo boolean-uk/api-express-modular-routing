@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
   }
 
   if (duplicate(title)) {
-    res.status(409).json({ "error": "A film with provided title already exists" })
+    res.status(409).json({ "error": "A film with the provided title already exists" })
   }
 
   const film = new Film(title, director)
