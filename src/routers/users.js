@@ -9,7 +9,7 @@ const findUser = (req, res) => {
     const foundUser = users.find((user) => user.id === Number(id))
 
     if(!foundUser) {
-        res.status(404).json({error: `No such user with ID: ${id}`})
+       return res.status(404).json({error: "A user with the provided ID does not exist"})
     }
     return foundUser
 }
@@ -23,6 +23,26 @@ router.post('/', (req, res) => {
     const newUser = req.body
     const id = users.length + 1
     newUser.id = id
+
+    const bodyValues = Object.values(req.body)
+
+    const requiredField = ['email']
+    const missingField = requiredField.filter((field) => (field in newUser))
+
+
+    if(missingField.length === 0) {
+        return res.status(400).json({error: "Missing fields in request body"})
+    }
+
+    if(bodyValues.some(value => !value)) {
+        return res.status(400).json({ error: 'Missing fields in request body'})
+    }
+
+    const doesUserExist = users.find((user) => user.email === newUser.email)
+    if(doesUserExist) {
+        return res.status(409).json({ error: "A user with the provided email already exists"})
+    }
+
     users.push(newUser)
     return res.status(201).json({user: newUser})
 })
@@ -43,17 +63,24 @@ router.delete('/:id', (req, res) => {
         console.log(users)
         return res.status(200).json({user: deletedUser})
     }
-    res.status(404).json({error: `No such user with ID: ${id}`})
+    
+    res.status(404).json({error: "A user with the provided ID does not exist"})
 
 })
 
 
 router.put('/:id', (req, res) => {
     const foundUser = findUser(req, res)
+    const existingUser = users.find(user => user.email === req.body.email && user.id !== parseInt(req.params.id))
+
+    if(existingUser) {
+        return res.status(409).json({ error: "A user with the provided email already exists"})
+    }
+    
     if(foundUser) {
         Object.assign(foundUser, req.body)
         return res.status(200).json({user: foundUser})
-    }
+    } 
 })
 
 

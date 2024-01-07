@@ -9,7 +9,7 @@ const findBook = (req, res) => {
     const foundBook = books.find((user) => user.id === Number(id))
 
     if(!foundBook) {
-        res.status(404).json({error: `No such user with ID: ${id}`})
+        res.status(404).json({error: "A book the provided ID does not exist"})
     }
     return foundBook
 }
@@ -22,8 +22,18 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const newBook = req.body
-    const id = books.length + 1
-    newBook.id = id
+    newBook.id = books.length + 1
+    const bodyValues = Object.values(req.body)
+
+    if(bodyValues) {
+        return res.status(400).json({ error: "Missing fields in request body"})
+    }
+
+    const doesBookExist = books.find((book) => book.title === newBook.title)
+
+    if(doesBookExist) {
+        return res.status(409).json({ error: "A book with the provided title already exists"})
+    }
     books.push(newBook)
     return res.status(201).json({book: newBook})
 })
@@ -54,13 +64,17 @@ router.put('/:id', (req, res) => {
     const bodyValues = Object.values(req.body);
 
     if (bodyValues.some(value => !value)) {
-      return res.json({ error: 'All values are required!' });
+      return res.json({ error: "Missing fields in request body"});
     }
 
-    if(foundBook) {
-        Object.assign(foundBook, req.body)
-        return res.status(200).json({book: foundBook})
+    const doesBookExist = books.find((book) => book.title === foundBook.title)
+    if(doesBookExist) {
+        return res.status(409).json({error: "A book with the provided title already exists"})
     }
+
+    Object.assign(foundBook, req.body)
+    return res.status(200).json({book: foundBook})
+
     
 })
 

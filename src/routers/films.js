@@ -1,14 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const { films } = require('../../data/index.js')
+// const { films } = require('../../data/index.js')
+const { film } = require('../../data/index.js')
 
 const findfilm = (req, res) => {
     const id = req.params.id
     const foundfilm = films.find((user) => user.id === Number(id))
 
     if(!foundfilm) {
-        res.status(404).json({error: `No such user with ID: ${id}`})
+       return res.status(404).json({error: "A film with provided ID does not exist"})
     }
     return foundfilm
 }
@@ -21,8 +22,27 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const newfilm = req.body
-    const id = films.length + 1
-    newfilm.id = id
+    newfilm.id = films.length + 1
+    const bodyValues = Object.values(req.body)
+
+    if(bodyValues.some(value => !value)) {
+        return res.status(400).json({ error: "Missing fields in request body"})
+    }
+
+    const requiredField = ['title', 'director']
+    const missingField = requiredField.filter((field) => (field in newfilm))
+
+
+    if(missingField.length === 0) {
+        return res.status(400).json({error: "Missing fields in request body"})
+    }
+
+    const doesfilmExist = films.find((film) => film.title === newfilm.title || film.director === newfilm.director)
+
+    if(doesfilmExist) {
+        return res.status(409).json({ error: "A film with the provided title already exists"})
+    }
+
     films.push(newfilm)
     return res.status(201).json({film: newfilm})
 })
@@ -30,6 +50,7 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const filmFound = findfilm(req, res)
+    
     if(filmFound) {
         res.status(200).json({ film: filmFound})
     }
@@ -57,10 +78,17 @@ router.put('/:id', (req, res) => {
       return res.json({ error: 'All values are required!' });
     }
 
+    const doesFilmAlreadyExist = films.find((film) => film.title === req.body.title )
+
+    if(doesFilmAlreadyExist) {
+        return res.status(409).json({error: "A film with the provided title already exists"})
+    }
+
     if(foundfilm) {
         Object.assign(foundfilm, req.body)
         return res.status(200).json({film: foundfilm})
     }
+
 })
 
 
