@@ -109,4 +109,37 @@ router.put('/:id', (req, res, next) => {
   }
 })
 
+// Update a book by ID using patch
+router.patch('/:id', (req, res, next) => {
+  try {
+    const { title, type, author } = req.body
+
+    if (!title && !type && !author) {
+      return res
+        .status(400)
+        .json({ error: 'Missing fields in the request body' })
+    }
+
+    const foundBook = findBookById(req.params.id)
+
+    if (title) {
+      titleErrorHandler(title)
+
+      foundBook.title = title
+    }
+
+    if (type) {
+      foundBook.type = type
+    }
+
+    if (author) {
+      foundBook.author = author
+    }
+
+    res.status(200).json({ book: foundBook })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
+})
+
 module.exports = router
