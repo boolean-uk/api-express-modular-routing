@@ -1,10 +1,10 @@
 {
   "name": "express-router-with-in-memory-data-store",
   "version": "1.0.0",
-  "description": "",
+  "description": "In this exercise, you are going to extend the REST APIs you have been building to handle DELETE and PUT requests. You will also learn how to make your route handling more modular in express using express.Router.",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon src/index.js",
+    "start": "npx nodemon ./src/index.js",
     "test": "npx jest -i test/api/routes --forceExit --runInBand",
     "test-extensions": "npx jest -i test/api/extensions  --forceExit"
   },
@@ -18,5 +18,11 @@
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3"
   },
-  "keywords": []
+  "keywords": [],
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
 }
