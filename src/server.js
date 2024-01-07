@@ -15,5 +15,5 @@ const booksRouter = require("./routers/books");
 
 // ADD ROUTERS TO APP
 
-app.use("./books", booksRouter);
+app.use("/books", booksRouter);
 module.exports = app;
