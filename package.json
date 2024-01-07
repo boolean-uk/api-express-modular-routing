@@ -1,10 +1,10 @@
 {
   "name": "express-router-with-in-memory-data-store",
   "version": "1.0.0",
-  "description": "",
+  "description": "Let's enhance the REST APIs we've been working on! We'll now add the ability to delete and update data. Additionally, we'll make our code more organized and modular using something called express.Router. It's a step toward making our web application even better!",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon src/index.js",
+    "start": "npx nodemon ./src/index.js",
     "test": "npx jest -i test/api/routes --forceExit --runInBand",
     "test-extensions": "npx jest -i test/api/extensions  --forceExit"
   },
@@ -18,5 +18,11 @@
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3"
   },
-  "keywords": []
+  "keywords": [],
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
 }
