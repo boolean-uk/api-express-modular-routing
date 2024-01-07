@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { users } = require('../../data/index')
 const ErrorConstructor = require('../helpers/ErrorConstructor')
+const FieldsErrorHandler = require('../helpers/FieldsErrorHandler')
 
 // Global variables
 let userId = users.length + 1
@@ -15,14 +16,6 @@ const findUserById = (id) => {
   }
 
   return foundUser
-}
-
-const fieldsErrorHandling = (field) => {
-  if (!field) {
-    throw ErrorConstructor('Missing fields in request body', 400)
-  }
-
-  return field
 }
 
 const emailErrorHandling = (email) => {
@@ -48,7 +41,7 @@ router.post('/', (req, res, next) => {
     const { email } = req.body
 
     // Errors handlings
-    fieldsErrorHandling(email)
+    FieldsErrorHandler([email])
     emailErrorHandling(email)
 
     const createdUser = {
@@ -99,7 +92,7 @@ router.put('/:id', (req, res, next) => {
     const { email } = req.body
 
     // Error handlings
-    fieldsErrorHandling(email)
+    FieldsErrorHandler([email])
     emailErrorHandling(email)
 
     const foundUser = findUserById(req.params.id)
