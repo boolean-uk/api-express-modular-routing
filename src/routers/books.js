@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { books } = require('../../data/index')
 const FieldsErrorHandler = require('../helpers/FieldsErrorHandler')
+const ErrorConstructor = require('../helpers/ErrorConstructor')
 
 // Global variables
 let bookId = books.length + 1
@@ -11,6 +12,16 @@ const findBookById = (id) => {
   const foundBook = books.find((book) => book.id === Number(id))
 
   return foundBook
+}
+
+const titleErrorHandler = (title) => {
+  const foundTitle = books.find((book) => book.title === title)
+
+  if (foundTitle) {
+    throw ErrorConstructor('A book with the provided title already exists', 409)
+  }
+
+  return
 }
 
 // Retrieve a list of books
@@ -27,6 +38,7 @@ router.post('/', (req, res, next) => {
 
     // Error handlers
     FieldsErrorHandler([title, type, author])
+    titleErrorHandler(title)
 
     const createdBook = {
       id: bookId++,
