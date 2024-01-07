@@ -95,6 +95,7 @@ router.put('/:id', (req, res, next) => {
 
     // Errors handlings
     FieldsErrorHandler([title, type, author])
+    titleErrorHandler(title)
 
     const foundBook = findBookById(req.params.id)
 
