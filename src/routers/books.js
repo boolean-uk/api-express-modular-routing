@@ -101,4 +101,43 @@ router.put("/:id", (req, res) => {
             .json({ error: "A book with the provided title already exists" });
     }
 
+     // Update the book with the new information
+     foundBook.title = updateInfo.title;
+     foundBook.type = updateInfo.type;
+     foundBook.author = updateInfo.author
+     foundBook.pages = updateInfo.pages
+ 
+     // Return the updated book
+     return res.status(200).json({ book: foundBook });
+ });
+ 
+ // Handle PATCH request to partially update a book by ID
+ router.patch("/:id", (req, res) => {
+     // Find the book by ID using a helper function
+     const foundBook = findBookByID(req, res);
+     const { title, type, author, pages } = req.body;
+ 
+     // Check if required fields are missing in the request body
+     if (title === "" || type === "" || author === "" || !req.body) {
+         return res
+             .status(400)
+             .json({ error: "Missing fields in request body" });
+     }
+ 
+     // Check if a book with the provided title already exists
+     if (bookMatch(req.body)) {
+         return res
+             .status(409)
+             .json({ error: "A book with the provided title already exists" });
+     }
+ 
+     // Update the book with the provided information
+     foundBook.title = title ? title : foundBook.title;
+     foundBook.type = type ? type : foundBook.type;
+     foundBook.author = author ? author : foundBook.author;
+     foundBook.pages = pages ? pages : foundBook.pages;
+ 
+     // Return the updated book
+     return res.status(200).json({ book: foundBook });
+ });
 module.exports = router;
