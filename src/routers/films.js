@@ -93,6 +93,30 @@ router.put('/:id', (req, res) => {
   }
 })
 
+router.patch('/:id', (req, res) => {
+  const  { id } = req.params
+  let film = findFilmById(Number(id))
+
+  if (!film) {
+    res.status(404).json({ "error": "A film with provided ID does not exist" })
+  }
+
+  const { title, director } = req.body
+  
+  if (duplicate(title)) {
+    res.status(409).json({ "error": "A film with the provided title already exists" })
+  }
+
+  if (!title || !director) {
+    res.status(400).json({ "error": "Missing fields in the request body" })
+  }
+
+  if (film) {
+    film = { ...film, title, director }
+    res.json( { film })
+  }
+})
+
 router.delete('/:id', (req, res) => {
   const { id } = req.params
   const film = findFilmById(Number(id))
