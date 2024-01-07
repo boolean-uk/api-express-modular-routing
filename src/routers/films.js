@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { films } = require('../../data/index')
+const ErrorConstructor = require('../helpers/ErrorConstructor')
 
 // Global variables
 let filmId = films.length + 1
@@ -12,6 +13,16 @@ const findFilmById = (id) => {
   return foundFilm
 }
 
+const fieldsErrorHandling = (fields) => {
+  fields.forEach((field) => {
+    if (!field) {
+      throw ErrorConstructor('Missing fields in request body', 400)
+    }
+  })
+
+  return fields
+}
+
 // Retrieve a list of films
 router.get('/', (req, res, next) => {
   res.status(200).json({
@@ -21,19 +32,25 @@ router.get('/', (req, res, next) => {
 
 // Create a film
 router.post('/', (req, res, next) => {
-  const { title, director } = req.body
+  try {
+    const { title, director } = req.body
 
-  const createdFilm = {
-    id: filmId++,
-    title,
-    director
+    fieldsErrorHandling([title, director])
+
+    const createdFilm = {
+      id: filmId++,
+      title,
+      director
+    }
+
+    films.push(createdFilm)
+
+    res.status(201).json({
+      film: createdFilm
+    })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
   }
-
-  films.push(createdFilm)
-
-  res.status(201).json({
-    film: createdFilm
-  })
 })
 
 // Get a film by ID
