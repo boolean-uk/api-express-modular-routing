@@ -17,3 +17,14 @@ router.get("/:id", (req, res) => {
     res.status(404).json({ error: `No user found with id ${id}` });
   }
 });
+// Post request to create new user
+router.post("/", (req, res) => {
+  const newUser = {
+    ...req.body,
+    id: users.length + 1,
+  };
+
+  users.push(newUser);
+
+  res.status(201).json({ user: newUser });
+});
