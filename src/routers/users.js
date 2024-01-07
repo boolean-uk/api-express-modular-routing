@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { users } = require('../../data/index')
+const ErrorConstructor = require('../helpers/ErrorConstructor')
 
 // Global variables
 let userId = users.length + 1
@@ -10,9 +11,7 @@ const findUserById = (id) => {
   const foundUser = users.find((user) => user.id === Number(id))
 
   if (!foundUser) {
-    const error = new Error('A user with the provided ID does not exist')
-    error.status = 404
-    throw error
+    throw ErrorConstructor('A user with the provided ID does not exist', 404)
   }
 
   return foundUser
@@ -20,9 +19,7 @@ const findUserById = (id) => {
 
 const fieldsErrorHandling = (field) => {
   if (!field) {
-    const error = new Error('Missing fields in request body')
-    error.status = 400
-    throw error
+    throw ErrorConstructor('Missing fields in request body', 400)
   }
 
   return field
@@ -32,9 +29,7 @@ const emailErrorHandling = (email) => {
   const foundUser = users.find((user) => user.email === email)
 
   if (foundUser) {
-    const error = new Error('A user with the provided email already exists')
-    error.status = 409
-    throw error
+    throw ErrorConstructor('A user with the provided email already exists', 409)
   }
 
   return
