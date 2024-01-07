@@ -18,12 +18,6 @@ const findUserById = (id) => {
   return foundUser
 }
 
-const findUserByEmail = (email) => {
-  const foundUser = users.find((user) => user.email === email)
-
-  return foundUser
-}
-
 const fieldsErrorHandling = (field) => {
   if (!field) {
     const error = new Error('Missing fields in request body')
@@ -32,6 +26,18 @@ const fieldsErrorHandling = (field) => {
   }
 
   return field
+}
+
+const emailErrorHandling = (email) => {
+  const foundUser = users.find((user) => user.email === email)
+
+  if (foundUser) {
+    const error = new Error('A user with the provided email already exists')
+    error.status = 409
+    throw error
+  }
+
+  return
 }
 
 // Retrieve a list of users
@@ -46,15 +52,9 @@ router.post('/', (req, res, next) => {
   try {
     const { email } = req.body
 
+    // Errors handlings
     fieldsErrorHandling(email)
-
-    const foundUser = findUserByEmail(email)
-
-    if (foundUser) {
-      return res
-        .status(409)
-        .json({ error: 'A user with the provided email already exists' })
-    }
+    emailErrorHandling(email)
 
     const createdUser = {
       id: userId++,
@@ -103,7 +103,9 @@ router.put('/:id', (req, res, next) => {
   try {
     const { email } = req.body
 
+    // Error handlings
     fieldsErrorHandling(email)
+    emailErrorHandling(email)
 
     const foundUser = findUserById(req.params.id)
 
