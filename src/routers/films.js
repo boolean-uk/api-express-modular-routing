@@ -100,16 +100,22 @@ router.delete('/:id', (req, res, next) => {
 
 // Update a film by ID
 router.put('/:id', (req, res, next) => {
-  const { title, director } = req.body
+  try {
+    const { title, director } = req.body
 
-  const foundFilm = findFilmById(req.params.id)
+    fieldsErrorHandling([title, director])
 
-  foundFilm.title = title
-  foundFilm.director = director
+    const foundFilm = findFilmById(req.params.id)
 
-  res.status(200).json({
-    film: foundFilm
-  })
+    foundFilm.title = title
+    foundFilm.director = director
+
+    res.status(200).json({
+      film: foundFilm
+    })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 module.exports = router
