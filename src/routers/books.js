@@ -13,6 +13,15 @@ function bookMatch(newBook) {
     if (foundBook) return true;
     return false;
 }
+// Defining a function to find a book by ID
+function findBookByID(req, res) {
+    const bookID = Number(req.params.id);
+    const foundBook = books.find((user) => user.id === bookID);
 
-
+    if (!foundBook)
+        return res
+            .status(404)
+            .json({ error: 'A book the provided ID does not exist' });
+    return foundBook;
+}
 module.exports = router
