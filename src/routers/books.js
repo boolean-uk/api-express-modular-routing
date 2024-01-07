@@ -11,6 +11,10 @@ let bookId = books.length + 1
 const findBookById = (id) => {
   const foundBook = books.find((book) => book.id === Number(id))
 
+  if (!foundBook) {
+    throw ErrorConstructor('A book the provided ID does not exist', 404)
+  }
+
   return foundBook
 }
 
@@ -59,9 +63,13 @@ router.post('/', (req, res, next) => {
 
 // Get a book by ID
 router.get('/:id', (req, res, next) => {
-  const foundBook = findBookById(req.params.id)
+  try {
+    const foundBook = findBookById(req.params.id)
 
-  res.status(200).json({ book: foundBook })
+    res.status(200).json({ book: foundBook })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 // Delete a book by ID
