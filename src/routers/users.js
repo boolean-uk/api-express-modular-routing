@@ -9,6 +9,12 @@ let userId = users.length + 1
 const findUserById = (id) => {
   const foundUser = users.find((user) => user.id === Number(id))
 
+  if (!foundUser) {
+    const err = new Error('A user with the provided ID does not exist')
+    err.status = 404
+    throw err
+  }
+
   return foundUser
 }
 
@@ -53,11 +59,15 @@ router.post('/', (req, res, next) => {
 
 // Get a user by ID
 router.get('/:id', (req, res, next) => {
-  const foundUser = findUserById(req.params.id)
+  try {
+    const foundUser = findUserById(req.params.id)
 
-  res.status(200).json({
-    user: foundUser
-  })
+    res.status(200).json({
+      user: foundUser
+    })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
 })
 
 // Delete a user by ID
