@@ -23,6 +23,16 @@ const fieldsErrorHandling = (fields) => {
   return fields
 }
 
+const titleErrorHandling = (title) => {
+  const foundTitle = films.find((film) => film.title === title)
+
+  if (foundTitle) {
+    throw ErrorConstructor('A film with the provided title already exists', 409)
+  }
+
+  return
+}
+
 // Retrieve a list of films
 router.get('/', (req, res, next) => {
   res.status(200).json({
@@ -35,7 +45,9 @@ router.post('/', (req, res, next) => {
   try {
     const { title, director } = req.body
 
+    // Errors handlings
     fieldsErrorHandling([title, director])
+    titleErrorHandling(title)
 
     const createdFilm = {
       id: filmId++,
