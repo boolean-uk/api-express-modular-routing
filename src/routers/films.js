@@ -111,4 +111,36 @@ router.put('/:id', (req, res, next) => {
   }
 })
 
+// Update a film by id using patch
+router.patch('/:id', (req, res, next) => {
+  try {
+    const { title, director } = req.body
+
+    // Error handlings
+    if (!title && !director) {
+      return res
+        .status(400)
+        .json({ error: 'Missing fields in the request body' })
+    }
+
+    titleErrorHandling(title)
+
+    const foundFilm = findFilmById(req.params.id)
+
+    if (title) {
+      foundFilm.title = title
+    }
+
+    if (director) {
+      foundFilm.director = director
+    }
+
+    res.status(200).json({
+      film: foundFilm
+    })
+  } catch (error) {
+    res.status(error.status).json({ error: error.message })
+  }
+})
+
 module.exports = router
