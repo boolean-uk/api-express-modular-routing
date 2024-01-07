@@ -31,29 +31,53 @@ router.post("/", (req, res) => {
     email,
   };
 
-
   users.push(newUser);
 
   res.status(201).json({ user: newUser });
 });
 
+// Route to handle common logic for getting a user by ID
+
+router.use("/:id", (req, res, next) => {
+  const user = findUser(req, res);
+
+  if (user) {
+    req.foundUser = user;
+    next();
+  }
+});
+
 // Route to get a user by ID
 router.get("/:id", (req, res) => {
-  const user = findUser(req, res);
+  const user = req.foundUser;
 
   if (user) {
     res.status(200).json({ user: user });
   }
 });
-router.delete("/:id",(req, res) => {
+
+// Route to delete a user by ID
+router.delete("/:id", (req, res) => {
+  const user = req.foundUser;
+
+  if (user) {
+    const userIndex = users.indexOf(user);
+    const deletedUser = users.splice(userIndex, 1)[0];
+
+    res.status(200).json({ user: deletedUser, message: 'User deleted successfully' });
+  }
+});
+
+router.put('/:id', (req, res) => {
   const user = findUser(req, res)
 
-if (user) {
-  const userIndex = users.indexOf(user)
-  const deletedUser = users[userIndex];
-  users.splice(userIndex, 1)
+  if (user) {
+    const { email } = req.body
+    user.email = email
 
-  return res.status(200).json({ user: deletedUser, message: 'Delete the contact' });
-}
+
+    return res.json({user: user})
+  }
 })
+
 module.exports = router;
