@@ -17,7 +17,7 @@ const findBook = (req, res) => {
     const foundBook = books.find((book) => book.id === bookId);
   
     if (!foundBook) {
-      res.status(404).json({ error: `A book with ID: ${userId} does not exist`});
+      res.status(404).json({ error: `A book with ID: ${bookId} does not exist`});
     }
   
     return foundBook;

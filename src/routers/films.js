@@ -10,13 +10,13 @@ const findFilm = (req, res) => {
 
     const filmId = Number(req.params.id);
   
-    const foundfilm = films.find((film) => film.id === filmId);
+    const foundFilm = films.find((film) => film.id === filmId);
   
-    if (!foundfilm) {
-      res.status(404).json({ error: `The film with ID: ${userId} does not exist`});
+    if (!foundFilm) {
+      res.status(404).json({ error: `The film with ID: ${filmId} does not exist`});
     }
   
-    return foundfilm;
+    return foundFilm;
 };
 router.get('/', (req, res) =>{
     res.status(200).json({films})
@@ -28,6 +28,7 @@ router.get('/', (req, res) =>{
 router.post('/', (req, res) =>{
     const body = req.body
 
+    
     const newFilm = {
         ...body,
        id:  ++lastfilmId
@@ -73,5 +74,19 @@ router.put('/:id', (req, res) =>{
     filmToBeEdited.title = title
     filmToBeEdited.director = director
     return res.status(200).json({film: filmToBeEdited})
+})
+
+router.patch('/:id', (req, res)=>{
+    
+    const filmToBeEdited = findFilm(req, res)
+    const {title, director} = req.body
+
+    if(filmToBeEdited.title === title){
+        return res.status(409).json({ "error": "Film with provided ID already exits" });
+    }
+    
+    filmToBeEdited.title = title
+    res.status(200).json({film: filmToBeEdited});
+
 })
 module.exports = router
