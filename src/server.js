@@ -1,18 +1,18 @@
 const express = require("express");
 const app = express();
 
-const cors = require("cors");
 const morgan = require("morgan");
+const cors = require("cors");
 
-// SETUP MIDDLEWARE
+
+const usersRouter = require("./routers/users");
+const filmsRouter = require("./routers/films");
+const booksRouter = require("./routers/books");
+
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
-app.use(morgan("dev"));
 
-// REQUIRE ROUTERS
-const usersRouter = require("./routers/users");
-
-// ADD ROUTERS TO APP
-
-
-module.exports = app
+app.use("/users", usersRouter);
+app.use("/films", filmsRouter);
+app.use("/books", booksRouter);
