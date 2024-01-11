@@ -39,4 +39,11 @@ router.get("/:id", (req, res) => {
   res.status(200).json({ userFound });
 });
 
+router.delete("/:id", (req, res) => {
+  const userDelete = findUser(req, res);
+
+  users.splice(users.indexOf(userDelete), 1);
+  console.log(userDelete);
+  res.status(200).json({ user: userDelete });
+});
 module.exports = router;
