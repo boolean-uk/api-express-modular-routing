@@ -1,30 +1,42 @@
 const express = require("express");
 
-const router = express.Router()
+const router = express.Router();
 
-const data = require('../../data/index.js')
+const data = require("../../data/index.js");
 
+const users = data.users;
 
-const users = data.users
+const findUser = (req, res) => {
+  const userId = Number(req.params.id);
 
-router.get('/',(req,res)=>{
+  const foundUser = users.find((user) => user.id === userId);
 
-    return res.status(200).json({users})
-})
+  if (!foundUser) {
+    res
+      .status(404)
+      .json({ message: `user with the id ${userId} doesn't exist` });
+  }
+  return foundUser;
+};
 
-router.post('/',(req,res)=>{
-    const body =  req.body
-    
+router.get("/", (req, res) => {
+  return res.status(200).json({ users });
+});
 
-    const newUser = {
-        id: users.length + 1,
-        email: body.email
-    }
-    console.log(newUser)
-    users.push(newUser)
-    res.status(201).json({user : newUser})
+router.post("/", (req, res) => {
+  const body = req.body;
 
-})
+  const newUser = {
+    id: users.length + 1,
+    email: body.email,
+  };
+  users.push(newUser);
+  res.status(201).json({ user: newUser });
+});
 
+router.get("/:id", (req, res) => {
+  const userFound = findUser(req, res);
+  res.status(200).json({ userFound });
+});
 
 module.exports = router;
