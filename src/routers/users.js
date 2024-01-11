@@ -13,9 +13,18 @@ router.get('/',(req,res)=>{
 })
 
 router.post('/',(req,res)=>{
+    const body =  req.body
     
+
+    const newUser = {
+        id: users.length + 1,
+        email: body.email
+    }
+    console.log(newUser)
+    users.push(newUser)
+    res.status(201).json({user : newUser})
+
 })
 
-console.log(users)
 
 module.exports = router;
