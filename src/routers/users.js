@@ -46,4 +46,12 @@ router.delete("/:id", (req, res) => {
   console.log(userDelete);
   res.status(200).json({ user: userDelete });
 });
+
+router.put("/:id", (req, res) => {
+  const userUpdate = findUser(req, res);
+
+  userUpdate.email = req.body.email;
+
+  res.status(200).json({ updatedUser: userUpdate });
+});
 module.exports = router;
