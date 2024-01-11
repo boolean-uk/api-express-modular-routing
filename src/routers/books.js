@@ -6,43 +6,51 @@ const data = require('../../data/index.js')
 const books = data.books
 
 
-const booksCounter = books.length
-
 function findBookById(req, res) {
     const bookId = Number(req.params.id)
+    const foundBook = books.find((book) => book.id === bookId)
 
-    const foundBook = books.find((book) => {book.id === bookId})
+    if(!foundBook) {
+        res
+          .status(404)
+          .json({message: `Book with the ID ${bookId} does not exist!`})
+    }
+    return foundBook
 }
 
 router.get('/', (req, res) => {
-    return res.status(200).json({books})
+    return res.status(200).json({books: books})
 })
 
 router.get('/:id', (req, res) => {
     const foundBook = findBookById(req, res)
-    return res.status(200).json({foundBook})
+    return res.status(200).json({book: foundBook})
  
 })
 
-router.post('/books', (req, res) => {
-    let newBook = req.body
 
-    newBook = {id: booksCounter, ...newBook}
-    books.push(newBook)
-    return res.status(201).json({newBook})
-})
+router.post('/', (req, res) => {
+    const body = req.body;
+    const newBook = {
+        id: books.length + 1,
+        title: body.title,        
+        type: body.type,
+        author: body.author,
+        pages: body.pages,
+    };
+    books.push(newBook);
+    res.status(201).json({ book: newBook });
+});
+
 
 router.put('/:id', (req, res) => {
-    const updateBookInfo = req.body
-
-    const book = findBookById(req, res)
-
-    book.title = updateBookInfo.title
-    book.type = updateBookInfo.type
-    book.author = updateBookInfo.author
-    book.pages = updateBookInfo.pages
-
-    return res.status(200).json({book})
+    const bookUpdate = findBookById(req, res);
+    const body = req.body;
+    bookUpdate.title = body.title;
+    bookUpdate.type = body.type;
+    bookUpdate.author = body.author;
+    bookUpdate.pages = body.pages;
+    res.status(200).json({ book: bookUpdate });
 })
 
 router.patch('/:id',(req,res) => {
@@ -54,8 +62,15 @@ router.patch('/:id',(req,res) => {
     foundBook.pages = pages ? pages : foundBook.pages;
 
     return res.status(200).json({ foundBook });
-
 })
+
+router.delete('/:id', (req, res) => {
+    const bookDelete = findBookById(req, res);
+    books.splice(books.indexOf(bookDelete), 1);
+    res.status(200).json({ book: bookDelete });
+})
+
+
 
 module.exports = router
 

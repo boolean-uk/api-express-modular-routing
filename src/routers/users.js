@@ -3,46 +3,59 @@ const router = express.Router()
 
 const data = require ('../../data/index.js')
 const users = data.users
-const userCounter = users.length
+
 
 function findUserById(req, res) {
     const userId = Number(req.params.id)
-    const foundUser = users.find((user) => {user.id === userId })
+    const foundUser = users.find((user) => user.id === userId )
+ 
+
+    if (!foundUser) {
+        res
+          .status(404)
+          .json({ message: `User with the ID ${userId} does not exist!` });
+      }
+    return foundUser
 }
 
 router.get('/', (req, res) => {
-    return res.status(200).json({users})
+     res.status(200).json({users: users})
 })
 
 router.get('/:id', (req, res) => {
     const foundUser = findUserById(req,res)
-    return res.status(200).json({foundUser})
+    res.status(200).json({user: foundUser})
 })
 
 router.post('/', (req, res) => {
-    let newUser = req.body
+    const body = req.body
 
-    newUser = ({id: ++userCounter, ...newUser})
-    return res.status(200).json({newUser})
+    const newUser = {
+        id: users.length + 1,
+        email: body.email,
+    }
+    users.push(newUser)
+    res.status(201).json({user: newUser})
 })
 
 router.put('/:id', (req,res) => {
-    const updateUserInfo = req.body
     const foundUser = findUserById(req,res)
+    foundUser.email = req.body.email
 
-    foundUser.email = updateUserInfo.email
-
-    return res.status(200).json({foundUser})
+    res.status(200).json({user: foundUser})
 })
 
 router.delete('/:id', (req, res) => {
     const foundUser = findUserById(req, res)
 
-    const userIndex = users.indexOf()
+    users.splice(users.indexOf(foundUser), 1)
 
-    users.splice(userIndex, 1)
-
-    return res.status(200).json(foundUser)
+    res.status(200).json({user: foundUser})
 })
 
+
+
 module.exports = router
+
+
+
