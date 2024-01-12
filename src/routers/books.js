@@ -15,7 +15,7 @@ const findBook = (req, res) => {
 
   if (!foundBook) {
     res
-      .status(400)
+      .status(404)
       .json({ message: `Book with such Id ${bookId} doesn't exist ` });
   }
   return foundBook;
@@ -51,7 +51,7 @@ router.get("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const foundBook = findBook(req, res);
   books.splice(books.indexOf(foundBook), 1);
-  res.status(201).json({ foundBook });
+  res.status(200).json({ foundBook });
 });
 
 router.put("/:id", (req, res) => {
@@ -62,7 +62,7 @@ router.put("/:id", (req, res) => {
   updateBook.type = req.body.type;
   updateBook.pages = req.body.pages;
 
-  res.status(201).json({ updateBook });
+  res.status(200).json({ updateBook });
 });
 
 module.exports = router;

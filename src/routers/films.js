@@ -54,7 +54,7 @@ router.put("/:id", (req, res) => {
   updateFilm.title = req.body.title;
   updateFilm.director = req.body.director;
 
-  res.status(201).json({ updateFilm });
+  res.status(200).json({ updateFilm });
 });
 
 module.exports = router;
