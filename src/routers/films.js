@@ -40,4 +40,12 @@ router.get("/:id", (req, res) => {
   res.status(200).json({ foundFilm });
 });
 
+router.delete("/:id", (req, res) => {
+  const deleteFilm = findFilm(req, res);
+
+  films.splice(films.indexOf(deleteFilm), 1);
+
+  res.status(200).json({ deleteFilm });
+});
+
 module.exports = router;
