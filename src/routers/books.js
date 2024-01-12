@@ -54,4 +54,15 @@ router.delete("/:id", (req, res) => {
   res.status(201).json({ foundBook });
 });
 
+router.put("/:id", (req, res) => {
+  const updateBook = findBook(req, res);
+
+  updateBook.author = req.body.author;
+  updateBook.title = req.body.title;
+  updateBook.type = req.body.type;
+  updateBook.pages = req.body.pages;
+
+  res.status(201).json({ updateBook });
+});
+
 module.exports = router;
