@@ -48,4 +48,13 @@ router.delete("/:id", (req, res) => {
   res.status(200).json({ deleteFilm });
 });
 
+router.put("/:id", (req, res) => {
+  const updateFilm = findFilm(req, res);
+
+  updateFilm.title = req.body.title;
+  updateFilm.director = req.body.director;
+
+  res.status(201).json({ updateFilm });
+});
+
 module.exports = router;
