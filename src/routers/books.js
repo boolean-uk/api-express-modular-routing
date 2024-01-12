@@ -48,4 +48,10 @@ router.get("/:id", (req, res) => {
   res.status(200).json({ book: foundBook });
 });
 
+router.delete("/:id", (req, res) => {
+  const foundBook = findBook(req, res);
+  books.splice(books.indexOf(foundBook), 1);
+  res.status(201).json({ foundBook });
+});
+
 module.exports = router;
