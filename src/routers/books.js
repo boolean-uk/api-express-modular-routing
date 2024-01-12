@@ -7,6 +7,20 @@ const data = require("../../data/index.js");
 
 const books = data.books;
 
+const findBook = (req, res) => {
+  const bookId = Number(req.params.id);
+
+  const foundBook = books.find((book) => book.id === bookId);
+  console.log(foundBook);
+
+  if (!foundBook) {
+    res
+      .status(400)
+      .json({ message: `Book with such Id ${bookId} doesn't exist ` });
+  }
+  return foundBook;
+};
+
 // Write routes here...
 router.get("/", (req, res) => {
   res.status(200).json({ books: books });
@@ -26,6 +40,12 @@ router.post("/", (req, res) => {
   books.push(newBook);
 
   res.status(201).json({ newBook: newBook });
+});
+
+router.get("/:id", (req, res) => {
+  const foundBook = findBook(req, res);
+
+  res.status(200).json({ book: foundBook });
 });
 
 module.exports = router;
