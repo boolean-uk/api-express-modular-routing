@@ -3,9 +3,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const data = require("../../data/index.js");
-
-const films = data.films;
+const { films } = require("../../data/index.js");
 
 const findFilm = (req, res) => {
   const filmId = Number(req.params.id);
@@ -18,7 +16,7 @@ const findFilm = (req, res) => {
 };
 // Write routes here...
 router.get("/", (req, res) => {
-  res.status(200).json({ films: films });
+  res.status(200).json({ films });
 });
 
 router.post("/", (req, res) => {
@@ -31,13 +29,13 @@ router.post("/", (req, res) => {
   };
 
   films.push(newFilm);
-  res.status(201).json({ newFilm });
+  res.status(201).json({ film: newFilm });
 });
 
 router.get("/:id", (req, res) => {
   const foundFilm = findFilm(req, res);
 
-  res.status(200).json({ foundFilm });
+  res.status(200).json({ film: foundFilm });
 });
 
 router.delete("/:id", (req, res) => {
@@ -45,7 +43,7 @@ router.delete("/:id", (req, res) => {
 
   films.splice(films.indexOf(deleteFilm), 1);
 
-  res.status(200).json({ deleteFilm });
+  res.status(200).json({ film: deleteFilm });
 });
 
 router.put("/:id", (req, res) => {
@@ -54,7 +52,7 @@ router.put("/:id", (req, res) => {
   updateFilm.title = req.body.title;
   updateFilm.director = req.body.director;
 
-  res.status(200).json({ updateFilm });
+  res.status(200).json({ film: updateFilm });
 });
 
 module.exports = router;

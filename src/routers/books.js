@@ -3,9 +3,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const data = require("../../data/index.js");
-
-const books = data.books;
+const { books } = require("../../data/index.js");
 
 const findBook = (req, res) => {
   const bookId = Number(req.params.id);
@@ -16,14 +14,14 @@ const findBook = (req, res) => {
   if (!foundBook) {
     res
       .status(404)
-      .json({ message: `Book with such Id ${bookId} doesn't exist ` });
+      .json({ message: `Book with the ID ${bookId} does not exist!` });
   }
   return foundBook;
 };
 
 // Write routes here...
 router.get("/", (req, res) => {
-  res.status(200).json({ books: books });
+  res.status(200).json({ books });
 });
 
 router.post("/", (req, res) => {
@@ -39,7 +37,7 @@ router.post("/", (req, res) => {
 
   books.push(newBook);
 
-  res.status(201).json({ newBook: newBook });
+  res.status(201).json({ book: newBook });
 });
 
 router.get("/:id", (req, res) => {
@@ -51,18 +49,19 @@ router.get("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const foundBook = findBook(req, res);
   books.splice(books.indexOf(foundBook), 1);
-  res.status(200).json({ foundBook });
+  res.status(200).json({ book: foundBook });
 });
 
 router.put("/:id", (req, res) => {
   const updateBook = findBook(req, res);
 
-  updateBook.author = req.body.author;
-  updateBook.title = req.body.title;
-  updateBook.type = req.body.type;
-  updateBook.pages = req.body.pages;
+  const body = req.body;
+  updateBook.author = body.author;
+  updateBook.title = body.title;
+  updateBook.type = body.type;
+  updateBook.pages = body.pages;
 
-  res.status(200).json({ updateBook });
+  res.status(200).json({ book: updateBook });
 });
 
 module.exports = router;

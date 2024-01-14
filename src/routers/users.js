@@ -36,7 +36,7 @@ router.post("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const userFound = findUser(req, res);
-  res.status(200).json({ userFound });
+  res.status(200).json({ user: userFound });
 });
 
 router.delete("/:id", (req, res) => {
@@ -52,6 +52,6 @@ router.put("/:id", (req, res) => {
 
   userUpdate.email = req.body.email;
 
-  res.status(200).json({ updatedUser: userUpdate });
+  res.status(200).json({ user: userUpdate });
 });
 module.exports = router;
