@@ -1,4 +1,10 @@
-// Import data here...
+const { books } = require('../../data/index.js')
 
+const express = require('express')
+const router = express.Router()
 
-// Write routes here...
+router.get('/', (req, res) => {
+    res.json({ books })
+})
+
+module.exports = router;
