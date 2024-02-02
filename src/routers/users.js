@@ -46,3 +46,5 @@ router.put('/:id', (req, res) => {
         res.status(404).json({ error: 'user not found' })
     }
 })
+
+module.exports = router;
