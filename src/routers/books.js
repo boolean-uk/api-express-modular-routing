@@ -39,8 +39,7 @@ router.put('/:id', (req, res) => {
     const id = req.params.id
     const book = books.find(book => book.id === parseInt(id))
     if (book) {
-        const body = req.body
-        Object.assign(book, body)
+        Object.assign(book, req.body)
         res.json({ book })
     } else {
         res.status(404).json({ error: 'Book not found' })
