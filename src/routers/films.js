@@ -17,3 +17,12 @@ router.post('/', (req, res) => {
     films.push(newFilm)
     res.status(201).json({ user: newFilm })
 })
+
+router.get('/:id', (req, res) => {
+    const user = findFilm(req.params.id)
+    if (user) {
+        res.json({ user })
+    } else {
+        res.status(404).json({ error: 'user not found' })
+    }
+})
