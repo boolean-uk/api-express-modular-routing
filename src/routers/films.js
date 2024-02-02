@@ -26,3 +26,13 @@ router.get('/:id', (req, res) => {
         res.status(404).json({ error: 'user not found' })
     }
 })
+
+router.delete('/:id', (req, res) => {
+    const user = findFilm(req.params.id)
+    if (user) {
+        films.splice(films.indexOf(user), 1)
+        res.json({ user })
+    } else {
+        res.status(404).json({ error: 'user not found' })
+    }
+})
