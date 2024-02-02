@@ -3,6 +3,10 @@ const { books } = require('../../data/index.js')
 const express = require('express')
 const router = express.Router()
 
+const findBook = (id) => {
+    return books.find(book => book.id === parseInt(id))
+}
+
 router.get('/', (req, res) => {
     res.json({ books })
 })
@@ -15,8 +19,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    const id = req.params.id
-    const book = books.find(book => book.id === parseInt(id))
+    const book = findBook(req.params.id)
     if (book) {
         res.json({ book })
     } else {
@@ -25,8 +28,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-    const id = req.params.id
-    const book = books.find(book => book.id === parseInt(id))
+    const book = findBook(req.params.id)
     if (book) {
         books.splice(books.indexOf(book), 1)
         res.json({ book })
@@ -36,8 +38,7 @@ router.delete('/:id', (req, res) => {
 })
 
 router.put('/:id', (req, res) => {
-    const id = req.params.id
-    const book = books.find(book => book.id === parseInt(id))
+    const book = findBook(req.params.id)
     if (book) {
         Object.assign(book, req.body)
         res.json({ book })
