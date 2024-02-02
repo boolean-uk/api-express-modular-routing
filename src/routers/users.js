@@ -10,3 +10,10 @@ const findUser = (id) => {
 router.get('/', (req, res) => {
     res.json({ users })
 })
+
+router.post('/', (req, res) => {
+    const body = req.body
+    const newUser = { id: users.length + 1, ...body }
+    users.push(newUser)
+    res.status(201).json({ user: newUser })
+})
