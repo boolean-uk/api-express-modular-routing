@@ -24,4 +24,15 @@ router.get('/:id', (req, res) => {
     }
 })
 
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+    const book = books.find(book => book.id === parseInt(id))
+    if (book) {
+        books.splice(books.indexOf(book), 1)
+        res.json({ book })
+    } else {
+        res.status(404).json({ error: 'Book not found' })
+    }
+})
+
 module.exports = router;
