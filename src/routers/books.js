@@ -14,4 +14,14 @@ router.post('/', (req, res) => {
     res.status(201).json({ book: newBook })
 })
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+    const book = books.find(book => book.id === parseInt(id))
+    if (book) {
+        res.json({ book })
+    } else {
+        res.status(404).json({ error: 'Book not found' })
+    }
+})
+
 module.exports = router;
