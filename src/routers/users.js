@@ -17,3 +17,12 @@ router.post('/', (req, res) => {
     users.push(newUser)
     res.status(201).json({ user: newUser })
 })
+
+router.get('/:id', (req, res) => {
+    const user = findUser(req.params.id)
+    if (user) {
+        res.json({ user })
+    } else {
+        res.status(404).json({ error: 'user not found' })
+    }
+})
