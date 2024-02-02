@@ -36,3 +36,13 @@ router.delete('/:id', (req, res) => {
         res.status(404).json({ error: 'user not found' })
     }
 })
+
+router.put('/:id', (req, res) => {
+    const user = findUser(req.params.id)
+    if (user) {
+        Object.assign(user, req.body)
+        res.json({ user })
+    } else {
+        res.status(404).json({ error: 'user not found' })
+    }
+})
